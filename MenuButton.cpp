@@ -34,7 +34,7 @@ MenuButton MenuButton::operator=(const MenuButton &rhs) {
 	// alloc m_items
 	// copy from rhs
 	return *this;
-}%
+}
 
 	/*----------------------------------------------------------------------------------------
 	*	Button Stuff

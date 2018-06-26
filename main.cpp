@@ -22,32 +22,52 @@ const long nScreenHeight = ::GetSystemMetrics(SM_CYSCREEN);
 MenuButton continueButton(10, (char*)"Continue", 0, continueGame);
 MenuButton newButton(10, (char*)"New", continueButton.y, newGame);
 MenuButton saveButton(10, (char*)"Save", newButton.y, saveGame);
-MenuButton loadButton(10, (char*)"Load", loadButton.y, loadGame);
-MenuButton exitButton(10, (char*)"Exit", loadButton.y, CloseWindow);
-MenuButton btnMenuList[] = { continueButton, newButton, saveButton, loadButton, exitButton };
+MenuButton loadButton(10, (char*)"Load", saveButton.y, loadGame);
+MenuButton highscoreButton(10, (char*)"Exit", loadButton.y, showHighs);
+MenuButton exitButton(10, (char*)"Exit", highscoreButton.y, CloseWindow);
+
+MenuButton btnMenuList[] = { continueButton, newButton, saveButton, loadButton, highscoreButton, exitButton };
 MyMouse theMouse(btnMenuList);
 
+/* 
+*	Start new game
+*/
 void newGame() {
 
 }
 
+/*
+*	Load last game
+*/
 void continueGame() {
 
 }
 
+/*
+*	save actual game
+*/
 void saveGame() {
 
 }
 
+/*
+*	load one of the savegames
+*/
 void loadGame() {
 
 }
 
-/*----------------------------------------------------------------------------------------
-*	Function for Exit Button
+/*
+*	show the best 10 scores
+*/
+void showHighs() {
+
+}
+
+/*
+*	Quit the game
 */
 void CloseWindow() {
-	saveGame();
 	glutDestroyWindow(glutGetWindow());
 }
 
