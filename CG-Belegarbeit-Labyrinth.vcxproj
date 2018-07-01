@@ -127,12 +127,7 @@ xcopy $(SolutionDir)Dependencies\freeglut\*.dll $(OutputPath) /y</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MenuButton.cpp" />
-    <ClCompile Include="MyMouse.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="MenuButton.h" />
-    <ClInclude Include="MyMouse.h" />
+    <ClCompile Include="Menu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Level\001.lvl" />
@@ -155,6 +150,9 @@ xcopy $(SolutionDir)Dependencies\freeglut\*.dll $(OutputPath) /y</Command>
     <None Include="Level\018.lvl" />
     <None Include="Level\019.lvl" />
     <None Include="Level\020.lvl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Menu.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
