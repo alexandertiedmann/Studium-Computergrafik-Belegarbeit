@@ -1,26 +1,49 @@
-#include "Dependencies\glew\glew.h"
-#include "Dependencies\freeglut\freeglut.h"
-#include <iostream>
- 
-void renderScene(void){
-   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-   glClearColor(1.0, 0.0, 0.0, 1.0);//clear red
-    glutSwapBuffers();
+#include "Menu.hpp"
+
+//get Screen Resolution
+const long nScreenWidth = ::GetSystemMetrics(SM_CXSCREEN);
+const long nScreenHeight = ::GetSystemMetrics(SM_CYSCREEN);
+bool menuOpen = false;
+
+/*----------------------------------------------------------------------------------------
+*	\brief	This function is called to initialise opengl.
+*/
+void Init(){
+	glEnable(GL_LIGHT0);
+}
+
+void keys(unsigned char key, int xmouse, int ymouse)
+{
+	switch (key) {
+	case 27:
+		if (menuOpen) {
+			closeMenu();
+			menuOpen = false;
+		}
+		else {
+			callMenu();
+			menuOpen = true;
+		}
+		break;
+
+	default:
+		break;
+	}
 }
  
 int main(int argc, char **argv){
-	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
-	glutInitWindowPosition(0, 0);
-	glutInitWindowSize(800, 600);
-	glutCreateWindow("OpenGL First Window");
-	 
-	glewInit();
-	
 
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_BORDERLESS | GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGB);
+
+	glutInitWindowPosition(0, 0);
+	glutInitWindowSize(nScreenWidth, nScreenHeight);
+	glutCreateWindow("OpenGL Test Window");
+	glutKeyboardFunc(keys);
+
+	glewInit();
 	glEnable(GL_DEPTH_TEST);
-	 
-	// register callbacks
+
 	glutDisplayFunc(renderScene);
 	 
 	glutMainLoop();
