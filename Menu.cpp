@@ -87,6 +87,14 @@ void Exit()
 	exit(0);
 }
 
+/*----------------------------------------------------------------------------------------
+*	Cancels the action and calls the mainmenu
+*/
+void BackToMainMenu()
+{
+	printf("Main Menu");
+}
+
 /*
 *	Calculates the width of the Button
 */
@@ -118,9 +126,7 @@ int calcY(int before) {
 }
 
 /*----------------------------------------------------------------------------------------
-*	This is the button visible in the viewport. This is a shorthand way of
-*	initialising the structure's data members. Notice that the last data
-*	member is a pointer to the above function.
+*	Buttons for the Main-Menu
 */
 Button ContinueBtn = { calcX(), calcY(0), calcW(), calcH(), 0,0, (char*)"Continue", Continue };
 Button NewBtn = { calcX(), calcY(ContinueBtn.y), calcW(), calcH(), 0,0, (char*)"New", New };
@@ -130,9 +136,30 @@ Button HighBtn = { calcX(), calcY(LoadBtn.y), calcW(), calcH(), 0,0, (char*)"Hig
 Button ExitBtn = { calcX(), calcY(HighBtn.y), calcW(), calcH(), 0,0, (char*)"Exit", Exit };
 
 /*----------------------------------------------------------------------------------------
+*	Buttons for the Save-Menu
+*/
+Button Save1 = { calcX(), calcY(0), calcW(), calcH(), 0,0, (char*)"Continue", Continue };
+Button Save2 = { calcX(), calcY(Save1.y), calcW(), calcH(), 0,0, (char*)"Continue", Continue };
+Button Save3 = { calcX(), calcY(Save2.y), calcW(), calcH(), 0,0, (char*)"Continue", Continue };
+Button CancelSave = { calcX(), calcY(0), calcW(), calcH(), 0,0, (char*)"Cancel", BackToMainMenu };
+
+/*----------------------------------------------------------------------------------------
+*	Buttons for the Load-Menu
+*/
+Button Load1 = { calcX(), calcY(0), calcW(), calcH(), 0,0, (char*)"Continue", Continue };
+Button Load2 = { calcX(), calcY(Load1.y), calcW(), calcH(), 0,0, (char*)"Continue", Continue };
+Button Load3 = { calcX(), calcY(Load2.y), calcW(), calcH(), 0,0, (char*)"Continue", Continue };
+Button CancelLoad = { calcX(), calcY(0), calcW(), calcH(), 0,0, (char*)"Cancel", BackToMainMenu };
+
+/*----------------------------------------------------------------------------------------
+*	Buttons for the Highscore-Menu
+*/
+Button CancelHighscore = { calcX(), calcY(0), calcW(), calcH(), 0,0, (char*)"Back", BackToMainMenu };
+
+
+/*----------------------------------------------------------------------------------------
 *	\brief	This function draws a text string to the screen using glut bitmap fonts.
 *	\param	font	-	the font to use. it can be one of the following :
-*
 *					GLUT_BITMAP_9_BY_15
 *					GLUT_BITMAP_8_BY_13
 *					GLUT_BITMAP_TIMES_ROMAN_10
@@ -363,13 +390,13 @@ void ButtonDraw(Button *b)
 		if (b->highlighted)
 		{
 			glColor3f(0, 0, 0);
-			Font(GLUT_BITMAP_HELVETICA_10, b->label, fontx, fonty);
+			Font(GLUT_BITMAP_HELVETICA_12, b->label, fontx, fonty);
 			fontx--;
 			fonty--;
 		}
 
 		glColor3f(1, 1, 1);
-		Font(GLUT_BITMAP_HELVETICA_10, b->label, fontx, fonty);
+		Font(GLUT_BITMAP_HELVETICA_12, b->label, fontx, fonty);
 	}
 }
 

@@ -2,10 +2,9 @@
 #include "Dependencies\freeglut\freeglut.h"
 #include <stdlib.h>
 #include <stdio.h>
-#include <iostream>
 #include <Windows.h>
-
-using namespace std;
+#include "File.h"
+#include "ActualGame.h"
 
 struct Mouse
 {
