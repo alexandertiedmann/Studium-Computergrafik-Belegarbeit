@@ -8,7 +8,15 @@
 *	rename the structure from "struct Mouse" to just "Mouse"
 */
 typedef struct Mouse Mouse;
-bool openMenu = false;
+/*
+*	\brief witch menu is open
+*	N = No Menu
+*	M = Main Menu
+*	L = Load-Menu
+*	S = Save-Menu
+*	H = Highscore
+*/
+char loadedMenu = 'N';
 
 /*
 *	Create a global mouse structure to hold the mouse information.
@@ -40,48 +48,46 @@ typedef struct Button Button;
 /*----------------------------------------------------------------------------------------
 *	Calls the continue-method to load the last played game
 */
-void Continue()
-{
-	printf("Continue the game\n");
+void ContinueMainMenu(){
+	printf("Continue the last played game\n");
 }
 
 /*----------------------------------------------------------------------------------------
 *	Calls the method-to save the actual game.
 *	Do nothing if no game loaded.
 */
-void Save()
-{
-	printf("Save the game\n");
+void SaveMainMenu(){
+	callSaveMenu();
 }
 
 /*----------------------------------------------------------------------------------------
 *	Calls the method to choose a posible Save-Game and starts a new game.
 */
-void New()
+void NewMainMenu()
 {
-	printf("New game\n");
+	printf("Start a new game\n");
 }
 
 /*----------------------------------------------------------------------------------------
 *	Calls the mehtod to choose one of the Save-Games and loads it
 */
-void Load()
+void LoadMainMenu()
 {
-	printf("Load the game\n");
+	callLoadMenu();
 }
 
 /*----------------------------------------------------------------------------------------
 *	Calls the method to show the Highscores
 */
-void High()
+void HighMainMenu()
 {
-	printf("Show the Highscore\n");
+	callHighscores();
 }
 
 /*----------------------------------------------------------------------------------------
 *	Quits the Game. No save before!
 */
-void Exit()
+void ExitMainMenu()
 {
 	glutDestroyWindow(glutGetWindow());
 	exit(0);
@@ -92,7 +98,7 @@ void Exit()
 */
 void BackToMainMenu()
 {
-	printf("Main Menu");
+	callMainMenu();
 }
 
 /*
@@ -125,36 +131,94 @@ int calcY(int before) {
 	return ((winh / 100) * 10) + basehight + before;
 }
 
+/*
+*	Method for Save
+*	\param saveslot		-	number of the saveslot
+*/
+void save(int saveslot) {
+	cout << "Save in slot " << saveslot << "\n";
+}
+
+/*
+*	Calls the saveMethod for the first button
+*/
+void save1() {
+	save(1);
+}
+
+/*
+*	Calls the saveMethod for the second button
+*/
+void save2() {
+	save(2);
+}
+
+/*
+*	Calls the saveMethod for the third button
+*/
+void save3() {
+	save(3);
+}
+
+/*
+*	Method for load a game
+*	\param saveslot		-	number of the saveslot
+*/
+void load(int saveslot) {
+	cout << "Load save from slot " << saveslot << "\n";
+}
+
+/*
+*	Calls the loadMethod for the first button
+*/
+void load1() {
+	load(1);
+}
+
+/*
+*	Calls the laodMethod for the second button
+*/
+void load2() {
+	load(2);
+}
+
+/*
+*	Calls the laodMethod for the third button
+*/
+void load3() {
+	load(3);
+}
+
 /*----------------------------------------------------------------------------------------
 *	Buttons for the Main-Menu
 */
-Button ContinueBtn = { calcX(), calcY(0), calcW(), calcH(), 0,0, (char*)"Continue", Continue };
-Button NewBtn = { calcX(), calcY(ContinueBtn.y), calcW(), calcH(), 0,0, (char*)"New", New };
-Button SaveBtn = { calcX(), calcY(NewBtn.y), calcW(), calcH(), 0,0, (char*)"Save", Save };
-Button LoadBtn = { calcX(), calcY(SaveBtn.y), calcW(), calcH(), 0,0, (char*)"Load", Load };
-Button HighBtn = { calcX(), calcY(LoadBtn.y), calcW(), calcH(), 0,0, (char*)"Highscore", High };
-Button ExitBtn = { calcX(), calcY(HighBtn.y), calcW(), calcH(), 0,0, (char*)"Exit", Exit };
+Button ContinueBtn = { calcX(), calcY(0), calcW(), calcH(), 0,0, (char*)"Continue", ContinueMainMenu };
+Button NewBtn = { calcX(), calcY(ContinueBtn.y), calcW(), calcH(), 0,0, (char*)"New", NewMainMenu };
+Button SaveBtn = { calcX(), calcY(NewBtn.y), calcW(), calcH(), 0,0, (char*)"Save", SaveMainMenu };
+Button LoadBtn = { calcX(), calcY(SaveBtn.y), calcW(), calcH(), 0,0, (char*)"Load", LoadMainMenu };
+Button HighBtn = { calcX(), calcY(LoadBtn.y), calcW(), calcH(), 0,0, (char*)"Highscore", HighMainMenu };
+Button ExitBtn = { calcX(), calcY(HighBtn.y), calcW(), calcH(), 0,0, (char*)"Exit", ExitMainMenu };
 
 /*----------------------------------------------------------------------------------------
 *	Buttons for the Save-Menu
 */
-Button Save1 = { calcX(), calcY(0), calcW(), calcH(), 0,0, (char*)"Continue", Continue };
-Button Save2 = { calcX(), calcY(Save1.y), calcW(), calcH(), 0,0, (char*)"Continue", Continue };
-Button Save3 = { calcX(), calcY(Save2.y), calcW(), calcH(), 0,0, (char*)"Continue", Continue };
-Button CancelSave = { calcX(), calcY(0), calcW(), calcH(), 0,0, (char*)"Cancel", BackToMainMenu };
+Button Save1 = { (((winw / 100) * 33) + 10 + 0), (winh / 2), calcW(), calcH(), 0,0, (char*)"Save 1", save1 };
+Button Save2 = { (Save1.w + Save1.x + ((winw / 100) * 3)), (winh / 2), calcW(), calcH(), 0,0, (char*)"Save 2", save2 };
+Button Save3 = { (Save2.w + Save2.x + ((winw / 100) * 3)), (winh / 2), calcW(), calcH(), 0,0, (char*)"Save 3", save3 };
+Button CancelSave = { calcX(), (winh-((winw / 100) * 10)), calcW(), calcH(), 0,0, (char*)"Cancel", BackToMainMenu };
 
 /*----------------------------------------------------------------------------------------
 *	Buttons for the Load-Menu
 */
-Button Load1 = { calcX(), calcY(0), calcW(), calcH(), 0,0, (char*)"Continue", Continue };
-Button Load2 = { calcX(), calcY(Load1.y), calcW(), calcH(), 0,0, (char*)"Continue", Continue };
-Button Load3 = { calcX(), calcY(Load2.y), calcW(), calcH(), 0,0, (char*)"Continue", Continue };
-Button CancelLoad = { calcX(), calcY(0), calcW(), calcH(), 0,0, (char*)"Cancel", BackToMainMenu };
+Button Load1 = { (((winw / 100) * 33) + 10 + 0), (winh / 2), calcW(), calcH(), 0,0, (char*)"Load 1", load1 };
+Button Load2 = { (Load1.w + Load1.x + ((winw / 100) * 3)), (winh / 2), calcW(), calcH(), 0,0, (char*)"Load 2", load2 };
+Button Load3 = { (Load2.w + Load2.x + ((winw / 100) * 3)), (winh / 2), calcW(), calcH(), 0,0, (char*)"Load 3", load3 };
+Button CancelLoad = { calcX(), (winh - ((winw / 100) * 10)), calcW(), calcH(), 0,0, (char*)"Cancel", BackToMainMenu };
 
 /*----------------------------------------------------------------------------------------
 *	Buttons for the Highscore-Menu
 */
-Button CancelHighscore = { calcX(), calcY(0), calcW(), calcH(), 0,0, (char*)"Back", BackToMainMenu };
+Button CancelHighscore = { calcX(), (winh - ((winw / 100) * 10)), calcW(), calcH(), 0,0, (char*)"Back", BackToMainMenu };
 
 
 /*----------------------------------------------------------------------------------------
@@ -415,12 +479,31 @@ void Draw3D()
 */
 void Draw2D()
 {
-	ButtonDraw(&ContinueBtn);
-	ButtonDraw(&NewBtn);
-	ButtonDraw(&SaveBtn);
-	ButtonDraw(&LoadBtn);
-	ButtonDraw(&HighBtn);
-	ButtonDraw(&ExitBtn);
+	switch (loadedMenu) {
+		case 'M':
+			ButtonDraw(&ContinueBtn);
+			ButtonDraw(&NewBtn);
+			ButtonDraw(&SaveBtn);
+			ButtonDraw(&LoadBtn);
+			ButtonDraw(&HighBtn);
+			ButtonDraw(&ExitBtn);
+			break;
+		case 'L':
+			ButtonDraw(&Load1);
+			ButtonDraw(&Load2);
+			ButtonDraw(&Load3);
+			ButtonDraw(&CancelLoad);
+			break;
+		case 'S':
+			ButtonDraw(&Save1);
+			ButtonDraw(&Save2);
+			ButtonDraw(&Save3);
+			ButtonDraw(&CancelSave);
+			break;
+		case 'H':
+			ButtonDraw(&CancelHighscore);
+			break;
+	}
 }
 
 /*----------------------------------------------------------------------------------------
@@ -428,8 +511,7 @@ void Draw2D()
 *	The 3D scene first then calls the Draw3D() function. After that it switches to
 *	an orthographic projection and calls Draw2D().
 */
-void Draw()
-{
+void Draw(){
 	/*
 	*	Clear the background
 	*/
@@ -493,7 +575,7 @@ void Draw()
 */
 void MouseButton(int button, int state, int x, int y)
 {
-	if (openMenu) {
+	if (loadedMenu != 'N') {
 		/*
 		*	update the mouse position
 		*/
@@ -520,12 +602,31 @@ void MouseButton(int button, int state, int x, int y)
 			{
 			case GLUT_LEFT_BUTTON:
 				TheMouse.lmb = 1;
-				ButtonPress(&ContinueBtn, x, y);
-				ButtonPress(&NewBtn, x, y);
-				ButtonPress(&SaveBtn, x, y);
-				ButtonPress(&LoadBtn, x, y);
-				ButtonPress(&HighBtn, x, y);
-				ButtonPress(&ExitBtn, x, y);
+				switch(loadedMenu) {
+					case 'M':
+						ButtonPress(&ContinueBtn, x, y);
+						ButtonPress(&NewBtn, x, y);
+						ButtonPress(&SaveBtn, x, y);
+						ButtonPress(&LoadBtn, x, y);
+						ButtonPress(&HighBtn, x, y);
+						ButtonPress(&ExitBtn, x, y);
+						break;
+					case 'L':
+						ButtonPress(&Load1, x, y);
+						ButtonPress(&Load2, x, y);
+						ButtonPress(&Load3, x, y);
+						ButtonPress(&CancelLoad, x, y);
+						break;
+					case 'S':
+						ButtonPress(&Save1, x, y);
+						ButtonPress(&Save2, x, y);
+						ButtonPress(&Save3, x, y);
+						ButtonPress(&CancelSave, x, y);
+						break;
+					case 'H':
+						ButtonPress(&CancelHighscore, x, y);
+						break;
+				}
 			case GLUT_MIDDLE_BUTTON:
 				TheMouse.mmb = 1;
 				break;
@@ -543,12 +644,31 @@ void MouseButton(int button, int state, int x, int y)
 			{
 			case GLUT_LEFT_BUTTON:
 				TheMouse.lmb = 0;
-				ButtonRelease(&ContinueBtn, x, y);
-				ButtonRelease(&NewBtn, x, y);
-				ButtonRelease(&SaveBtn, x, y);
-				ButtonRelease(&LoadBtn, x, y);
-				ButtonRelease(&HighBtn, x, y);
-				ButtonRelease(&ExitBtn, x, y);
+				switch (loadedMenu) {
+					case 'M':
+						ButtonRelease(&ContinueBtn, x, y);
+						ButtonRelease(&NewBtn, x, y);
+						ButtonRelease(&SaveBtn, x, y);
+						ButtonRelease(&LoadBtn, x, y);
+						ButtonRelease(&HighBtn, x, y);
+						ButtonRelease(&ExitBtn, x, y);
+						break;
+					case 'L':
+						ButtonRelease(&Load1, x, y);
+						ButtonRelease(&Load2, x, y);
+						ButtonRelease(&Load3, x, y);
+						ButtonRelease(&CancelLoad, x, y);
+						break;
+					case 'S':
+						ButtonRelease(&Save1, x, y);
+						ButtonRelease(&Save2, x, y);
+						ButtonRelease(&Save3, x, y);
+						ButtonRelease(&CancelSave, x, y);
+						break;
+					case 'H':
+						ButtonRelease(&CancelHighscore, x, y);
+						break;
+				}
 				break;
 			case GLUT_MIDDLE_BUTTON:
 				TheMouse.mmb = 0;
@@ -574,33 +694,54 @@ void MouseButton(int button, int state, int x, int y)
 */
 void MouseMotion(int x, int y)
 {
-	/*
-	*	Calculate how much the mouse actually moved
-	*/
-	int dx = x - TheMouse.x;
-	int dy = y - TheMouse.y;
+	if (loadedMenu != 'N') {
+		/*
+		*	Calculate how much the mouse actually moved
+		*/
+		int dx = x - TheMouse.x;
+		int dy = y - TheMouse.y;
 
-	/*
-	*	update the mouse position
-	*/
-	TheMouse.x = x;
-	TheMouse.y = y;
+		/*
+		*	update the mouse position
+		*/
+		TheMouse.x = x;
+		TheMouse.y = y;
 
 
-	/*
-	*	Check MyButton to see if we should highlight it cos the mouse is over it
-	*/
-	ButtonPassive(&ContinueBtn, x, y);
-	ButtonPassive(&NewBtn, x, y);
-	ButtonPassive(&SaveBtn, x, y);
-	ButtonPassive(&LoadBtn, x, y);
-	ButtonPassive(&HighBtn, x, y);
-	ButtonPassive(&ExitBtn, x, y);
+		/*
+		*	Check MyButton to see if we should highlight it cos the mouse is over it
+		*/
+		switch (loadedMenu) {
+		case 'M':
+			ButtonPassive(&ContinueBtn, x, y);
+			ButtonPassive(&NewBtn, x, y);
+			ButtonPassive(&SaveBtn, x, y);
+			ButtonPassive(&LoadBtn, x, y);
+			ButtonPassive(&HighBtn, x, y);
+			ButtonPassive(&ExitBtn, x, y);
+			break;
+		case 'S':
+			ButtonPassive(&Save1, x, y);
+			ButtonPassive(&Save2, x, y);
+			ButtonPassive(&Save3, x, y);
+			ButtonPassive(&CancelSave, x, y);
+			break;
+		case 'L':
+			ButtonPassive(&Load1, x, y);
+			ButtonPassive(&Load2, x, y);
+			ButtonPassive(&Load3, x, y);
+			ButtonPassive(&CancelLoad, x, y);
+			break;
+		case 'H':
+			ButtonPassive(&CancelHighscore, x, y);
+			break;
+		}
 
-	/*
-	*	Force a redraw of the screen
-	*/
-	glutPostRedisplay();
+		/*
+		*	Force a redraw of the screen
+		*/
+		glutPostRedisplay();
+	}
 }
 
 /*----------------------------------------------------------------------------------------
@@ -610,34 +751,55 @@ void MouseMotion(int x, int y)
 */
 void MousePassiveMotion(int x, int y)
 {
-	/*
-	*	Calculate how much the mouse actually moved
-	*/
-	int dx = x - TheMouse.x;
-	int dy = y - TheMouse.y;
+	if (loadedMenu != 'N') {
+		/*
+		*	Calculate how much the mouse actually moved
+		*/
+		int dx = x - TheMouse.x;
+		int dy = y - TheMouse.y;
 
-	/*
-	*	update the mouse position
-	*/
-	TheMouse.x = x;
-	TheMouse.y = y;
+		/*
+		*	update the mouse position
+		*/
+		TheMouse.x = x;
+		TheMouse.y = y;
 
-	/*
-	*	Check MyButton to see if we should highlight it cos the mouse is over it
-	*/
-	ButtonPassive(&ContinueBtn, x, y);
-	ButtonPassive(&NewBtn, x, y);
-	ButtonPassive(&SaveBtn, x, y);
-	ButtonPassive(&LoadBtn, x, y);
-	ButtonPassive(&HighBtn, x, y);
-	ButtonPassive(&ExitBtn, x, y);
+		/*
+		*	Check MyButton to see if we should highlight it cos the mouse is over it
+		*/
+		switch (loadedMenu) {
+		case 'M':
+			ButtonPassive(&ContinueBtn, x, y);
+			ButtonPassive(&NewBtn, x, y);
+			ButtonPassive(&SaveBtn, x, y);
+			ButtonPassive(&LoadBtn, x, y);
+			ButtonPassive(&HighBtn, x, y);
+			ButtonPassive(&ExitBtn, x, y);
+			break;
+		case 'S':
+			ButtonPassive(&Save1, x, y);
+			ButtonPassive(&Save2, x, y);
+			ButtonPassive(&Save3, x, y);
+			ButtonPassive(&CancelSave, x, y);
+			break;
+		case 'L':
+			ButtonPassive(&Load1, x, y);
+			ButtonPassive(&Load2, x, y);
+			ButtonPassive(&Load3, x, y);
+			ButtonPassive(&CancelLoad, x, y);
+			break;
+		case 'H':
+			ButtonPassive(&CancelHighscore, x, y);
+			break;
+		}
 
-	/*
-	*	Note that I'm not using a glutPostRedisplay() call here. The passive motion function
-	*	is called at a very high frequency. We really don't want much processing to occur here.
-	*	Redrawing the screen every time the mouse moves is a bit excessive. Later on we
-	*	will look at a way to solve this problem and force a redraw only when needed.
-	*/
+		/*
+		*	Note that I'm not using a glutPostRedisplay() call here. The passive motion function
+		*	is called at a very high frequency. We really don't want much processing to occur here.
+		*	Redrawing the screen every time the mouse moves is a bit excessive. Later on we
+		*	will look at a way to solve this problem and force a redraw only when needed.
+		*/
+	}
 }
 
 /*----------------------------------------------------------------------------------------
@@ -645,29 +807,65 @@ void MousePassiveMotion(int x, int y)
 */
 void renderScene(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(1.0, 0.0, 0.0, 1.0);//clear red
+	//glClearColor(1.0, 0.0, 0.0, 1.0);//clear red
 	glutSwapBuffers();
 }
 
-void closeMenu() {
-	openMenu = false;
-	glewInit();
-	glutDisplayFunc(renderScene);
-	glutPostRedisplay();
+bool closeMainMenu() {
+	if (loadedMenu == 'M'){
+		loadedMenu = 'N';
+		glewInit();
+		glutDisplayFunc(renderScene);
+		glutPostRedisplay();
+		return false;
+	}
+	else {
+		return true;
+	}
 }
 
 void callMenu() {
-	openMenu = true;
-	glutDisplayFunc(Draw);
-	glutMouseFunc(MouseButton);
-	glutMotionFunc(MouseMotion);
-	glutPassiveMotionFunc(MousePassiveMotion);
+	if (loadedMenu != 'N') {
+		glutDisplayFunc(Draw);
+		glutMouseFunc(MouseButton);
+		glutMotionFunc(MouseMotion);
+		glutPassiveMotionFunc(MousePassiveMotion);
+		/*
+		*	Force a redraw of the screen
+		*	else the menu will shown at a mouseclick
+		*/
+		glutPostRedisplay();
+	}
 }
 
+void closeSubMenu() {
+	loadedMenu = 'M';
+	callMenu();
+}
 
+bool callMainMenu() {
+	if (loadedMenu != 'M') {
+		loadedMenu = 'M';
+		callMenu();
+		return true;
+	}
+	else {
+		return false;
+	}
+	
+}
 
+void callLoadMenu() {
+	loadedMenu = 'L';
+	callMenu();
+}
 
+void callSaveMenu() {
+	loadedMenu = 'S';
+	callMenu();
+}
 
-
-
-
+void callHighscores() {
+	loadedMenu = 'H';
+	callMenu();
+}
