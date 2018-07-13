@@ -127,6 +127,8 @@ xcopy $(SolutionDir)Dependencies\freeglut\*.dll $(OutputPath) /y</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ActualGame.cpp" />
+    <ClCompile Include="ActualLevel.cpp" />
+    <ClCompile Include="DateTime.cpp" />
     <ClCompile Include="File.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
@@ -155,10 +157,13 @@ xcopy $(SolutionDir)Dependencies\freeglut\*.dll $(OutputPath) /y</Command>
     <None Include="saves\001.sav" />
     <None Include="saves\002.sav" />
     <None Include="saves\003.sav" />
+    <None Include="saves\save.info" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ActualGame.h" />
-    <ClInclude Include="File.h" />
+    <ClInclude Include="ActualGame.hpp" />
+    <ClInclude Include="ActualLevel.hpp" />
+    <ClInclude Include="DateTime.hpp" />
+    <ClInclude Include="File.hpp" />
     <ClInclude Include="Menu.hpp" />
   </ItemGroup>
   <ItemGroup>

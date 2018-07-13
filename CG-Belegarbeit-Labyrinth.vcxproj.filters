@@ -27,6 +27,12 @@
     <ClCompile Include="File.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="ActualLevel.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="DateTime.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Level\001.lvl" />
@@ -52,15 +58,22 @@
     <None Include="saves\001.sav" />
     <None Include="saves\002.sav" />
     <None Include="saves\003.sav" />
+    <None Include="saves\save.info" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Menu.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="ActualGame.h">
+    <ClInclude Include="DateTime.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="File.h">
+    <ClInclude Include="File.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="ActualLevel.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="ActualGame.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

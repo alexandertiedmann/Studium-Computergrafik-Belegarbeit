@@ -49,7 +49,22 @@ typedef struct Button Button;
 *	Calls the continue-method to load the last played game
 */
 void ContinueMainMenu(){
-	printf("Continue the last played game\n");
+	DateTime save1date = readSavedate(1);
+	DateTime save2date = readSavedate(2);
+	DateTime save3date = readSavedate(3);
+	DateTime younger = getYoungest(save1date, save2date);
+	DateTime youngest = getYoungest(save3date, younger);
+	ActualGame game;
+	if (save1date.toString() == youngest.toString()) {
+		game = readSave(1);
+	}
+	if (save2date.toString() == youngest.toString()) {
+		game = readSave(2);
+	}
+	if (save3date.toString() == youngest.toString()) {
+		game = readSave(3);
+	}
+	cout << "Game: \n" << game.toString() << endl;
 }
 
 /*----------------------------------------------------------------------------------------
@@ -63,9 +78,9 @@ void SaveMainMenu(){
 /*----------------------------------------------------------------------------------------
 *	Calls the method to choose a posible Save-Game and starts a new game.
 */
-void NewMainMenu()
-{
-	printf("Start a new game\n");
+void NewMainMenu(){
+	ActualGame game;
+	cout << "Game: \n" << game.toString() << endl;
 }
 
 /*----------------------------------------------------------------------------------------
@@ -165,7 +180,8 @@ void save3() {
 *	\param saveslot		-	number of the saveslot
 */
 void load(int saveslot) {
-	cout << "Load save from slot " << saveslot << "\n";
+	ActualGame game = readSave(saveslot);
+	cout << "Game: \n" << game.toString() << endl;
 }
 
 /*

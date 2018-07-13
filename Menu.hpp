@@ -1,10 +1,16 @@
+#pragma once
+#ifndef Menu_Header
+#define Menu_Header
+
 #include "Dependencies\glew\glew.h"
 #include "Dependencies\freeglut\freeglut.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <Windows.h>
-#include "File.h"
-#include "ActualGame.h"
+#include "DateTime.hpp"
+#include "File.hpp"
+#include "ActualLevel.hpp"
+#include "ActualGame.hpp"
 
 struct Mouse
 {
@@ -75,3 +81,5 @@ bool callMainMenu();
 void callLoadMenu();
 void callSaveMenu();
 void callHighscores();
+
+#endif
