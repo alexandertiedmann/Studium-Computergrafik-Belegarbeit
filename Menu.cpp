@@ -54,6 +54,7 @@ void ContinueMainMenu(){
 	DateTime save3date = readSavedate(3);
 	DateTime younger = getYoungest(save1date, save2date);
 	DateTime youngest = getYoungest(save3date, younger);
+	//game
 	ActualGame game;
 	if (save1date.toString() == youngest.toString()) {
 		game = readSave(1);
@@ -65,6 +66,9 @@ void ContinueMainMenu(){
 		game = readSave(3);
 	}
 	cout << "Game: \n" << game.toString() << endl;
+	//level
+	ActualLevel level = readLevel(game.level);
+	cout << level.toString();
 }
 
 /*----------------------------------------------------------------------------------------
@@ -79,8 +83,12 @@ void SaveMainMenu(){
 *	Calls the method to choose a posible Save-Game and starts a new game.
 */
 void NewMainMenu(){
+	//game
 	ActualGame game;
 	cout << "Game: \n" << game.toString() << endl;
+	//level
+	ActualLevel level = readLevel(game.level);
+	cout << level.toString();
 }
 
 /*----------------------------------------------------------------------------------------
@@ -180,8 +188,12 @@ void save3() {
 *	\param saveslot		-	number of the saveslot
 */
 void load(int saveslot) {
+	//game
 	ActualGame game = readSave(saveslot);
 	cout << "Game: \n" << game.toString() << endl;
+	//level
+	ActualLevel level = readLevel(game.level);
+	cout << level.toString();
 }
 
 /*
