@@ -17,12 +17,10 @@ void keys(unsigned char key, int xmouse, int ymouse)
 	switch (key) {
 	case 27:
 		if (menuOpen) {
-			closeMenu();
-			menuOpen = false;
+			menuOpen = closeMainMenu();
 		}
 		else {
-			callMenu();
-			menuOpen = true;
+			menuOpen = callMainMenu();
 		}
 		break;
 
@@ -43,10 +41,11 @@ int main(int argc, char **argv){
 
 	glewInit();
 	glEnable(GL_DEPTH_TEST);
-
 	glutDisplayFunc(renderScene);
-	 
+
+	menuOpen = callMainMenu();
+
 	glutMainLoop();
-	 
+	
 	return 0;
 }

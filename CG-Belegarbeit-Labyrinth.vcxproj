@@ -126,7 +126,8 @@ xcopy $(SolutionDir)Dependencies\freeglut\*.dll $(OutputPath) /y</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Labyrinth.cpp" />
+    <ClCompile Include="ActualGame.cpp" />
+    <ClCompile Include="File.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="objects.cpp" />
@@ -152,15 +153,18 @@ xcopy $(SolutionDir)Dependencies\freeglut\*.dll $(OutputPath) /y</Command>
     <None Include="Level\018.lvl" />
     <None Include="Level\019.lvl" />
     <None Include="Level\020.lvl" />
-    <None Include="matrix_transform.inl" />
+    <None Include="saves\001.sav" />
+    <None Include="saves\002.sav" />
+    <None Include="saves\003.sav" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="core\_fixes.hpp" />
-    <ClInclude Include="glm.hpp" />
-    <ClInclude Include="Labyrinth.hpp" />
-    <ClInclude Include="matrix_transform.hpp" />
+    <ClInclude Include="ActualGame.h" />
+    <ClInclude Include="File.h" />
     <ClInclude Include="Menu.hpp" />
     <ClInclude Include="objects.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="CG-Belegarbeit-Labyrinth.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -2,10 +2,9 @@
 #include "Dependencies\freeglut\freeglut.h"
 #include <stdlib.h>
 #include <stdio.h>
-#include <iostream>
 #include <Windows.h>
-
-using namespace std;
+#include "File.h"
+#include "ActualGame.h"
 
 struct Mouse
 {
@@ -69,5 +68,10 @@ void MouseButton(int button, int state, int x, int y);
 void MouseMotion(int x, int y);
 void MousePassiveMotion(int x, int y);
 void renderScene(void);
-void closeMenu();
+bool closeMainMenu();
 void callMenu();
+void closeSubMenu();
+bool callMainMenu();
+void callLoadMenu();
+void callSaveMenu();
+void callHighscores();

@@ -27,6 +27,12 @@
     <ClCompile Include="objects.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="ActualGame.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="File.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Level\001.lvl" />
@@ -72,5 +78,24 @@
     <ClInclude Include="matrix_transform.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <None Include="saves\001.sav" />
+    <None Include="saves\002.sav" />
+    <None Include="saves\003.sav" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Menu.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="ActualGame.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="File.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="CG-Belegarbeit-Labyrinth.rc">
+      <Filter>Ressourcendateien</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
