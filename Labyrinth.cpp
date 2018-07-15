@@ -69,32 +69,23 @@ void Labyrinth::sendMVP()
 
 		for (const auto& inner : al.getLevel) {
 			for (const auto& position : inner) {
-				if (position == "X") {
-
+				if (position == "X") { // Wand zeichnen
+					Model = glm::translate(Model, glm::vec3(xpos, 0.0, zpos)); // translate Koordinaten sind abhaengig von den Koordinaten des Models, es findet eine Addition statt...
+					sendMVP();
+					drawCube();
+					//... Daher muss wieder auf das Default-Model gesetzt, damit Model wieder auf dem Ursprung sitzt
+					Model = DefaultModel;
 				}
+				if (position == "S") {
+					// Spieler platzieren
+					View = glm::lookAt(glm::vec3(xpos, 0, zpos), // Spieler steht da, wo das "S" auch ist
+						glm::vec3(xpos, 0, zpos - 1), // Blickrichtung abhängig vom Standort
+						glm::vec3(0, 1, 0));
+				}
+				xpos++;
 			}
-		}
-
-		for (int i = 0; i < sizeof(walls); i++) {
-			if (i + 1 % rootArray == 0) { 
-				zpos++;
-				xpos = 0;
-			}
-			if (walls[i] == "X") {
-				Model = glm::translate(Model, glm::vec3(xpos, 0.0, zpos)); // translate Koordinaten sind abhaengig von den Koordinaten des Models, es findet eine Addition statt...
-				sendMVP();
-				drawCube();
-				//... Daher muss wieder auf das Default-Model gesetzt, damit Model wieder auf dem Ursprung sitzt
-				Model = DefaultModel;
-			}
-			if (walls[i] == "S") {
-				// Spieler platzieren
-				View = glm::lookAt(glm::vec3(xpos, 0, zpos), // Spieler steht da, wo das "S" auch ist
-					glm::vec3(xpos,0,zpos-1), // Blickrichtung abhängig vom Standort
-					glm::vec3(0, 1, 0)); 
-			}
-			xpos++;
-			
+			zpos++;
+			xpos = 0;
 		}
 	}
 	// Leons Teil
