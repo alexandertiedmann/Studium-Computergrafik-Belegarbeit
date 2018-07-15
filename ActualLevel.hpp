@@ -16,6 +16,9 @@ private:
 public:
 	ActualLevel(vector<vector<char>> lvl);
 	string toString();
+	vector<vector<char>> getLevel();
+	int getLevelHeight();
+	int getLevelWidth();
 };
 
 #endif

@@ -12,6 +12,27 @@ ActualLevel::ActualLevel(vector<vector<char>> lvl){
 }
 
 /*
+*	\brief	returns the vector of the actual level
+*/
+vector<vector<char>> ActualLevel::getLevel() {
+	return level;
+}
+
+/*
+*	\brief	returns the height of the actual level
+*/
+int ActualLevel::getLevelHeight() {
+	return height;
+}
+
+/*
+*	\brief	returns the width of the actual level
+*/
+int ActualLevel::getLevelWidth() {
+	return width;
+}
+
+/*
 *	\brief	gives the level as a string
 */
 string ActualLevel::toString() {
