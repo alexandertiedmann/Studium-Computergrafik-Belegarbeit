@@ -5,6 +5,7 @@
 #include "Dependencies\glew\glew.h"
 #include "Dependencies\freeglut\freeglut.h"
 #include "objects.hpp"
+#include "ActualLevel.hpp"
 using namespace std;
 using namespace glm;
 
@@ -13,12 +14,14 @@ using namespace glm;
 	
 
 
-	Labyrinth::Labyrinth(string walls[]) {
+	
 
-		drawLabyrinth(walls);
-	}
+Labyrinth::Labyrinth(ActualLevel al)
+{
+	drawLabyrinth(al);
+}
 
-	void Labyrinth::sendMVP()
+void Labyrinth::sendMVP()
 	{
 		
 		glm::mat4 MVP = Projection * View * Model;
@@ -33,7 +36,7 @@ using namespace glm;
 	/*
 	Erstellt das Labyrinth abhaengig von dem uebergebenen Array
 	*/
-	void Labyrinth::drawLabyrinth(string walls[]) 
+	void Labyrinth::drawLabyrinth(ActualLevel al) 
 	{
 		Projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f); // Nicht aendern
 		View = glm::lookAt(glm::vec3(0, 0, -5), // wo der Spieler steht    
@@ -46,23 +49,31 @@ using namespace glm;
 		double xpos = 0.0;
 		double zpos = 0.0;
 		 
-		int rootArray = std::sqrt(sizeof(walls)); // Die Laenge des Arrays, da das Labyrinth quadratisch ist, Wurzel ziehen
+		
 		//Boden
 		glm::mat4 DefaultModel = Model;
 
-		if (rootArray % 2 == 0) // gerade Laenge
+		if (al.getLevelHeight % 2 == 0) // gerade Laenge
 		{
-			Model = glm::translate(Model, glm::vec3(rootArray / 2 + 0.5, -0.6, -rootArray / 2 + 0.5)); // Auf die Mitte des Labyrinths setzen und knapp drunter, y-Wert eventuell anpassen
+			Model = glm::translate(Model, glm::vec3(al.getLevelWidth / 2 + 0.5, -0.6, al.getLevelHeight / 2 + 0.5)); // Auf die Mitte des Labyrinths setzen und knapp drunter, y-Wert eventuell anpassen
 		}
-		else Model = glm::translate(Model, glm::vec3(rootArray / 2, -0.6, -rootArray / 2)); // Ungerade Laenge
+		else Model = glm::translate(Model, glm::vec3(al.getLevelWidth / 2, -0.6, al.getLevelHeight / 2)); // Ungerade Laenge
 		
-		Model = glm::scale(Model, glm::vec3(rootArray, 0.1, rootArray)); // skalieren, um genauso groﬂ wie das Labyrinth zu sein	
+		Model = glm::scale(Model, glm::vec3(al.getLevelWidth, 0.1, al.getLevelHeight)); // skalieren, um genauso groﬂ wie das Labyrinth zu sein	
 		sendMVP();
 		drawCube(); // erst sendMVP, dann drawCube
 
 		// Default zuruecksetzen
 		Model = DefaultModel;
 
+
+		for (const auto& inner : al.getLevel) {
+			for (const auto& position : inner) {
+				if (position == "X") {
+
+				}
+			}
+		}
 
 		for (int i = 0; i < sizeof(walls); i++) {
 			if (i + 1 % rootArray == 0) { 

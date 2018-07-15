@@ -7,12 +7,12 @@ private:
 
 
 public:
-	Labyrinth(string walls[]);
+	Labyrinth(ActualLevel al);
 	
 
 	void sendMVP();
 
-	void drawLabyrinth(string walls[]);
+	void drawLabyrinth(ActualLevel al);
 	
 	void movePlayer();
 

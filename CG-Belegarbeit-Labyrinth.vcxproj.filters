@@ -21,9 +21,6 @@
     <ClCompile Include="Menu.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="Labyrinth.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="objects.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
@@ -37,6 +34,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="DateTime.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Labyrinth.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
@@ -62,32 +62,29 @@
     <None Include="Level\019.lvl" />
     <None Include="Level\020.lvl" />
     <None Include="matrix_transform.inl">
-      <Filter>Ressourcendateien</Filter>
+      <Filter>Headerdateien</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Menu.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="Labyrinth.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="objects.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="glm.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="core\_fixes.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="matrix_transform.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <None Include="saves\001.sav" />
     <None Include="saves\002.sav" />
     <None Include="saves\003.sav" />
     <None Include="saves\save.info" />
+    <ClInclude Include="glm.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Labyrinth.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix_transform.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Menu.hpp">

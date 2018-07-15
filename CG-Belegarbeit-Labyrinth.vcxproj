@@ -130,6 +130,7 @@ xcopy $(SolutionDir)Dependencies\freeglut\*.dll $(OutputPath) /y</Command>
     <ClCompile Include="ActualLevel.cpp" />
     <ClCompile Include="DateTime.cpp" />
     <ClCompile Include="File.cpp" />
+    <ClCompile Include="Labyrinth.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="objects.cpp" />
@@ -155,6 +156,7 @@ xcopy $(SolutionDir)Dependencies\freeglut\*.dll $(OutputPath) /y</Command>
     <None Include="Level\018.lvl" />
     <None Include="Level\019.lvl" />
     <None Include="Level\020.lvl" />
+    <None Include="matrix_transform.inl" />
     <None Include="saves\001.sav" />
     <None Include="saves\002.sav" />
     <None Include="saves\003.sav" />
@@ -165,6 +167,9 @@ xcopy $(SolutionDir)Dependencies\freeglut\*.dll $(OutputPath) /y</Command>
     <ClInclude Include="ActualLevel.hpp" />
     <ClInclude Include="DateTime.hpp" />
     <ClInclude Include="File.hpp" />
+    <ClInclude Include="glm.hpp" />
+    <ClInclude Include="Labyrinth.hpp" />
+    <ClInclude Include="matrix_transform.hpp" />
     <ClInclude Include="Menu.hpp" />
     <ClInclude Include="objects.hpp" />
   </ItemGroup>
