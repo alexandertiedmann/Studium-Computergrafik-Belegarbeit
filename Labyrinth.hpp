@@ -17,7 +17,7 @@ public:
 
 	void drawLabyrinth(ActualLevel al);
 	
-	void movePlayer(ActualLevel al);
+	void movePlayer(ActualLevel al, char keyPressed);
 
 	
 

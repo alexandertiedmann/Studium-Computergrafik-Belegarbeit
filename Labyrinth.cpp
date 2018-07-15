@@ -92,18 +92,25 @@ void Labyrinth::sendMVP()
 		}
 	}
 	// Leons Teil
-	void Labyrinth::movePlayer(ActualLevel al) {
-		//Movement "w"
-		if (al.getLevel[ cameraFront[2] ][ cameraFront[0] ] == "0") { 
-			cameraPos = cameraPos + cameraFront;
-			View = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+	void Labyrinth::movePlayer(ActualLevel al, char keyPressed) {
+
+		// Nach vorne laufen ("w")
+		if (keyPressed == (char)"w") {
+			if (al.getLevel[cameraFront[2]][cameraFront[0]] == "0") {
+				cameraPos = cameraPos + cameraFront;
+				View = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+			}
+		}
+		
+		// Nach links drehen ("a")
+		if (keyPressed == (char)"a") {
+			//nach links drehen
 		}
 
-		//Movement "a"
-		// turn left
-
-		//Movement "d"
-		// turn right
+		// Nach rechts drehen ("d")
+		if (keyPressed == (char)"a") {
+			//nach rechts drehen
+		}
 	}
 
 	
