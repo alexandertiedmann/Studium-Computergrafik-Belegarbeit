@@ -11,6 +11,7 @@
 #include "File.hpp"
 #include "ActualLevel.hpp"
 #include "ActualGame.hpp"
+#include "Labyrinth.hpp"
 
 struct Mouse
 {

@@ -4,6 +4,8 @@
 *	Global Variables
 */
 
+Labyrinth labyrinth;
+
 /*
 *	rename the structure from "struct Mouse" to just "Mouse"
 */
@@ -65,10 +67,15 @@ void ContinueMainMenu(){
 	if (save3date.toString() == youngest.toString()) {
 		game = readSave(3);
 	}
-	cout << "Game: \n" << game.toString() << endl;
+	//cout << "Game: \n" << game.toString() << endl;
 	//level
 	ActualLevel level = readLevel(game.level);
-	cout << level.toString();
+	//cout << level.toString();
+
+	Labyrinth labby(level, game);
+	labyrinth = labby;
+
+	labyrinth.loadLabyrinth();
 }
 
 /*----------------------------------------------------------------------------------------
@@ -85,10 +92,15 @@ void SaveMainMenu(){
 void NewMainMenu(){
 	//game
 	ActualGame game;
-	cout << "Game: \n" << game.toString() << endl;
+	//cout << "Game: \n" << game.toString() << endl;
 	//level
 	ActualLevel level = readLevel(game.level);
-	cout << level.toString();
+	//cout << level.toString();
+
+	Labyrinth labby(level, game);
+	labyrinth = labby;
+
+	labyrinth.loadLabyrinth();
 }
 
 /*----------------------------------------------------------------------------------------
@@ -190,10 +202,15 @@ void save3() {
 void load(int saveslot) {
 	//game
 	ActualGame game = readSave(saveslot);
-	cout << "Game: \n" << game.toString() << endl;
+	//cout << "Game: \n" << game.toString() << endl;
 	//level
 	ActualLevel level = readLevel(game.level);
-	cout << level.toString();
+	//cout << level.toString();
+
+	Labyrinth labby(level, game);
+	labyrinth = labby;
+
+	labyrinth.loadLabyrinth();
 }
 
 /*
