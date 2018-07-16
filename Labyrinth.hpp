@@ -4,15 +4,18 @@ private:
 	glm::mat4 View; // Camera
 	glm::mat4 Projection;
 	GLuint programID;
+	ActualLevel level;
+	ActualGame game;
+	
 
 
 public:
-	Labyrinth(ActualLevel al);
+	Labyrinth(ActualLevel al, ActualGame ag);
 	
 
 	void sendMVP();
 
-	void drawLabyrinth(ActualLevel al);
+	void loadLabyrinth(ActualLevel al);
 	
 	void movePlayer();
 

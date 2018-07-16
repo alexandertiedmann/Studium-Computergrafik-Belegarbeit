@@ -6,19 +6,16 @@
 #include "Dependencies\freeglut\freeglut.h"
 #include "objects.hpp"
 #include "ActualLevel.hpp"
+#include "ActualGame.hpp"
 using namespace std;
 using namespace glm;
 
 
 
-	
-
-
-	
-
-Labyrinth::Labyrinth(ActualLevel al)
+Labyrinth::Labyrinth(ActualLevel al, ActualGame ag) : level(al), game(ag)
 {
-	drawLabyrinth(al);
+	level = al;
+	game = ag;
 }
 
 void Labyrinth::sendMVP()
@@ -36,8 +33,10 @@ void Labyrinth::sendMVP()
 	/*
 	Erstellt das Labyrinth abhaengig von dem uebergebenen Array
 	*/
-	void Labyrinth::drawLabyrinth(ActualLevel al) 
+	void Labyrinth::loadLabyrinth(ActualLevel al) 
 	{
+		
+
 		Projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f); // Nicht aendern
 		View = glm::lookAt(glm::vec3(0, 0, -5), // wo der Spieler steht    
 			glm::vec3(0, 0, 0),  // Wo der Spieler hinguckt
