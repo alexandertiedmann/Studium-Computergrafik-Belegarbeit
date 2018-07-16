@@ -3,6 +3,9 @@ private:
 	glm::mat4 Model; // Walls
 	glm::mat4 View; // Camera
 	glm::mat4 Projection;
+	glm::vec3 cameraPos; // Camera Position
+	glm::vec3 cameraFront; // Camera Direction
+	glm::vec3 cameraUp;
 	GLuint programID;
 	ActualLevel level;
 	ActualGame game;
@@ -17,7 +20,7 @@ public:
 
 	void loadLabyrinth(ActualLevel al);
 	
-	void movePlayer();
+	void movePlayer(ActualLevel al, char keyPressed);
 
 	
 

@@ -77,9 +77,12 @@ void Labyrinth::sendMVP()
 				}
 				if (position == "S") {
 					// Spieler platzieren
-					View = glm::lookAt(glm::vec3(xpos, 0, zpos), // Spieler steht da, wo das "S" auch ist
-						glm::vec3(xpos, 0, zpos - 1), // Blickrichtung abhängig vom Standort
-						glm::vec3(0, 1, 0));
+					cameraPos = glm::vec3(xpos, 0, zpos);
+					cameraFront = glm::vec3(xpos, 0, zpos - 1);
+					cameraUp = glm::vec3(0, 1, 0);
+					View = glm::lookAt(cameraPos, // Spieler steht da, wo das "S" auch ist
+						cameraFront, // Blickrichtung abhängig vom Standort
+						cameraUp);
 				}
 				xpos++;
 			}
@@ -88,8 +91,25 @@ void Labyrinth::sendMVP()
 		}
 	}
 	// Leons Teil
-	void Labyrinth::movePlayer() {
+	void Labyrinth::movePlayer(ActualLevel al, char keyPressed) {
 
+		// Nach vorne laufen ("w")
+		if (keyPressed == (char)"w") {
+			if (al.getLevel[cameraFront[2]][cameraFront[0]] == "0") {
+				cameraPos = cameraPos + cameraFront;
+				View = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+			}
+		}
+		
+		// Nach links drehen ("a")
+		if (keyPressed == (char)"a") {
+			//nach links drehen
+		}
+
+		// Nach rechts drehen ("d")
+		if (keyPressed == (char)"a") {
+			//nach rechts drehen
+		}
 	}
 
 	
