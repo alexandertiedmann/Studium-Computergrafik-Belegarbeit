@@ -18,7 +18,7 @@ public:
 
 	void sendMVP();
 
-	void loadLabyrinth(ActualLevel al);
+	void loadLabyrinth();
 	
 	void movePlayer(ActualLevel al, char keyPressed);
 

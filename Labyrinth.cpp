@@ -14,8 +14,8 @@ using namespace glm;
 
 Labyrinth::Labyrinth(ActualLevel al, ActualGame ag) : level(al), game(ag)
 {
-level = al;
-game = ag;
+	level = al;
+	game = ag;
 }
 
 void Labyrinth::sendMVP()
@@ -33,7 +33,7 @@ void Labyrinth::sendMVP()
 /*
 Erstellt das Labyrinth abhaengig von dem uebergebenen Array
 */
-void Labyrinth::loadLabyrinth(ActualLevel al)
+void Labyrinth::loadLabyrinth()
 {
 
 
@@ -52,13 +52,13 @@ void Labyrinth::loadLabyrinth(ActualLevel al)
 	//Boden
 	glm::mat4 DefaultModel = Model;
 
-	if (al.getLevelHeight % 2 == 0) // gerade Laenge
+	if (level.getLevelHeight % 2 == 0) // gerade Laenge
 	{
-		Model = glm::translate(Model, glm::vec3(al.getLevelWidth / 2 + 0.5, -0.6, al.getLevelHeight / 2 + 0.5)); // Auf die Mitte des Labyrinths setzen und knapp drunter, y-Wert eventuell anpassen
+		Model = glm::translate(Model, glm::vec3(level.getLevelWidth / 2 + 0.5, -0.6, level.getLevelHeight / 2 + 0.5)); // Auf die Mitte des Labyrinths setzen und knapp drunter, y-Wert eventuell anpassen
 	}
-	else Model = glm::translate(Model, glm::vec3(al.getLevelWidth / 2, -0.6, al.getLevelHeight / 2)); // Ungerade Laenge
+	else Model = glm::translate(Model, glm::vec3(level.getLevelWidth / 2, -0.6, level.getLevelHeight / 2)); // Ungerade Laenge
 
-	Model = glm::scale(Model, glm::vec3(al.getLevelWidth, 0.1, al.getLevelHeight)); // skalieren, um genauso groﬂ wie das Labyrinth zu sein	
+	Model = glm::scale(Model, glm::vec3(level.getLevelWidth, 0.1, level.getLevelHeight)); // skalieren, um genauso groﬂ wie das Labyrinth zu sein	
 	sendMVP();
 	drawCube(); // erst sendMVP, dann drawCube
 
@@ -66,7 +66,7 @@ void Labyrinth::loadLabyrinth(ActualLevel al)
 	Model = DefaultModel;
 
 
-	for (const auto& inner : al.getLevel) {
+	for (const auto& inner : level.getLevel) {
 		for (const auto& position : inner) {
 			if (position == "X") { // Wand zeichnen
 				Model = glm::translate(Model, glm::vec3(xpos, 0.0, zpos)); // translate Koordinaten sind abhaengig von den Koordinaten des Models, es findet eine Addition statt...
@@ -121,7 +121,7 @@ bool Labyrinth::isPlayerFinished()
 
 }
 
-	
+
 
 
 
