@@ -1,16 +1,4 @@
 #include "Labyrinth.hpp"
-#include "glm.hpp"
-#include <string>
-#include "matrix_transform.hpp"
-#include "Dependencies\glew\glew.h"
-#include "Dependencies\freeglut\freeglut.h"
-#include "objects.hpp"
-#include "ActualLevel.hpp"
-#include "ActualGame.hpp"
-using namespace std;
-using namespace glm;
-
-
 
 Labyrinth::Labyrinth(ActualLevel al, ActualGame ag) : level(al), game(ag)
 {

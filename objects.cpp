@@ -1,15 +1,4 @@
-// Include standard headers
-#include <stdio.h>
-#include <stdlib.h>
-#define _USE_MATH_DEFINES
-#include <math.h>
-#include <vector>
-#include "Dependencies\glew\glew.h"
-#include "Dependencies\freeglut\freeglut.h"
-
-// Include GLEW
-//#include <GL/glew.h>
-
+#include "objects.hpp"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////    DrahtWuerfel-Objekt
