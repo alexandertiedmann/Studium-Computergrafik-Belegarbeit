@@ -22,7 +22,7 @@ public:
 	
 	void movePlayer(ActualLevel al, char keyPressed);
 
-	
+	bool isPlayerFinished();
 
 
 };
