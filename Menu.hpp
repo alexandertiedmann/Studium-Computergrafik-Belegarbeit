@@ -77,11 +77,12 @@ void MousePassiveMotion(int x, int y);
 void renderScene(void);
 bool closeMainMenu();
 void callMenu();
-void getActualGameFromLabyrinth();
+ActualGame getActualGameFromLabyrinth();
 void closeSubMenu();
 bool callMainMenu();
 void callLoadMenu();
 void callSaveMenu();
 void callHighscores();
+void drawHighscores();
 
 #endif

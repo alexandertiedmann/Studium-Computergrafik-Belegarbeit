@@ -6,6 +6,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include "File.hpp"
 using namespace std;
 
 class ActualLevel{
