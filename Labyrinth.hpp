@@ -8,6 +8,7 @@
 #include "Dependencies\glew\glew.h"
 #include "Dependencies\freeglut\freeglut.h"
 #include "objects.hpp"
+
 #include "ActualLevel.hpp"
 #include "ActualGame.hpp"
 using namespace std;
@@ -26,8 +27,9 @@ private:
 	ActualGame game;
 
 public:
+	Labyrinth();
 	Labyrinth(ActualLevel al, ActualGame ag);
-
+	
 	void sendMVP();
 	void loadLabyrinth();
 	void movePlayer(ActualLevel al, char keyPressed);

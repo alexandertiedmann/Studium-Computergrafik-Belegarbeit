@@ -94,7 +94,7 @@ void SaveMainMenu(){
 void NewMainMenu(){
 	//game
 	ActualGame game;
-	//cout << "Game: \n" << game.toString() << endl;
+	cout << "Game: \n" << game.toString() << endl;
 	//level
 	ActualLevel level = readLevel(game.level);
 	//cout << level.toString();
