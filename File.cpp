@@ -148,3 +148,14 @@ ActualLevel readLevel(int levelnum) {
 	ActualLevel level(levelVec);
 	return level;
 }
+
+/*
+*	\brief	write the ActualGame to the save
+*	\param	levelnum	-	number of the savefile
+*	\param	game		-	The Object of the actualGame
+*/
+void writeGame(int levelnum, ActualGame game) {
+	//check if file exists --> new if not
+	//new
+	//write
+}

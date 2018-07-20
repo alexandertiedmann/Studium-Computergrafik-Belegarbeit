@@ -99,6 +99,12 @@ void Labyrinth::movePlayer(ActualLevel al, char keyPressed) {
 		//nach rechts drehen
 	}
 }
+/*
+*	\brief return the ActualGame
+*/
+ActualGame Labyrinth::getActualGame() {
+	return game;
+}
 //Experiment
 bool Labyrinth::isPlayerFinished()
 {

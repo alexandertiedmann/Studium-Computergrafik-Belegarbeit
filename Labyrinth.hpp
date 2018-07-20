@@ -32,7 +32,7 @@ public:
 	void loadLabyrinth();
 	void movePlayer(ActualLevel al, char keyPressed);
 	bool isPlayerFinished();
-	
+	ActualGame getActualGame();
 };
 
 #endif

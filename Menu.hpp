@@ -77,6 +77,7 @@ void MousePassiveMotion(int x, int y);
 void renderScene(void);
 bool closeMainMenu();
 void callMenu();
+void getActualGameFromLabyrinth();
 void closeSubMenu();
 bool callMainMenu();
 void callLoadMenu();

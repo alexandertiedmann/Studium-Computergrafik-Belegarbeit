@@ -45,7 +45,9 @@ int winh = ::GetSystemMetrics(SM_CYSCREEN);
 typedef void(*ButtonCallback)();
 typedef struct Button Button;
 
-
+void getActualGameFromLabyrinth() {
+	labyrinth.getActualGame();
+}
 
 /*----------------------------------------------------------------------------------------
 *	Calls the continue-method to load the last played game
@@ -171,6 +173,7 @@ int calcY(int before) {
 *	\param saveslot		-	number of the saveslot
 */
 void save(int saveslot) {
+
 	cout << "Save in slot " << saveslot << "\n";
 }
 
