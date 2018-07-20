@@ -6,6 +6,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include "File.hpp"
 using namespace std;
 
 class ActualLevel{
@@ -14,6 +15,7 @@ private:
 	int width;
 	int height;
 public:
+	ActualLevel();
 	ActualLevel(vector<vector<char>> lvl);
 	string toString();
 	vector<vector<char>> getLevel();

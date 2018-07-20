@@ -4,11 +4,20 @@
 *	\brief	sets the level from teh given array
 *	\param	2D Array with level
 */
+ActualLevel::ActualLevel() {
+	level = readLevel(1);
+	height = level.size();
+	width = level[0].size();
+}
+
+/*
+*	\brief	sets the level from teh given array
+*	\param	2D Array with level
+*/
 ActualLevel::ActualLevel(vector<vector<char>> lvl){
 	level = lvl;
 	height = level.size();
 	width = level[0].size();
-	//cout << height << " " << width << endl;
 }
 
 /*

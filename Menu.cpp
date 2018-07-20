@@ -45,7 +45,7 @@ int winh = ::GetSystemMetrics(SM_CYSCREEN);
 typedef void(*ButtonCallback)();
 typedef struct Button Button;
 
-void getActualGameFromLabyrinth() {
+ActualGame getActualGameFromLabyrinth() {
 	labyrinth.getActualGame();
 }
 
@@ -173,7 +173,7 @@ int calcY(int before) {
 *	\param saveslot		-	number of the saveslot
 */
 void save(int saveslot) {
-
+	writeGame(saveslot, getActualGameFromLabyrinth());
 	cout << "Save in slot " << saveslot << "\n";
 }
 
@@ -512,11 +512,54 @@ void ButtonDraw(Button *b)
 	}
 }
 
+
+/*----------------------------------------------------------------------------------------
+*	Draws the Highscores in the Highscores-Screen
+*/
+void drawHighscores() {
+	vector<const char*> scores(10);
+
+	scores = readScores(scores.size);
+
+	int fontx;
+	int fonty;
+
+	/*
+	*	draw background for the field.
+	*/
+	int x = 50;
+	int y = 500;
+	int h = 80;
+	int w = 70;
+	glBegin(GL_QUADS);
+	glVertex2i(x, y); //top left
+	glVertex2i(x, y + h); //bottom left
+	glVertex2i(x + w, y + h); //top right
+	glVertex2i(x + w, y); //bottom right
+	glEnd();
+	/*
+	*	Draw an outline around the field with width 3
+	*/
+	glLineWidth(3);
+
+	/*
+	*	Calculate the x and y coords for the text string in order to center it.
+	*/
+	for (int i = 0; i <= scores.size; i++) {
+		x = x + (i*h);
+		fontx = x + (w - glutBitmapLength(GLUT_BITMAP_HELVETICA_12, (const unsigned char *)scores[i])) / 2;
+		fonty = y + (h + 10) / 2;
+
+		glColor3f(1, 1, 1);
+		Font(GLUT_BITMAP_HELVETICA_12, (char *)scores[i], fontx, fonty);
+	}
+}
+
+
 /*----------------------------------------------------------------------------------------
 *	This function will be used to draw the 3D scene
 */
-void Draw3D()
-{
+void Draw3D(){
 	gluLookAt(0, 1, 5, 0, 0, 0, 0, 1, 0);
 	glutSolidTeapot(1);
 }
@@ -550,6 +593,7 @@ void Draw2D()
 			break;
 		case 'H':
 			ButtonDraw(&CancelHighscore);
+			drawHighscores();
 			break;
 	}
 }
