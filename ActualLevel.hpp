@@ -1,5 +1,5 @@
 #pragma once
-#ifndef ActualLevel_Header
+
 #define ActualLevel_Header
 
 #include <string>
@@ -14,6 +14,7 @@ private:
 	int width;
 	int height;
 public:
+	ActualLevel();
 	ActualLevel(vector<vector<char>> lvl);
 	string toString();
 	vector<vector<char>> getLevel();
@@ -21,4 +22,3 @@ public:
 	int getLevelWidth();
 };
 
-#endif

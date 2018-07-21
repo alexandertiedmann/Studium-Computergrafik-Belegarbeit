@@ -4,6 +4,9 @@
 *	\brief	sets the level from teh given array
 *	\param	2D Array with level
 */
+ActualLevel::ActualLevel()
+{
+}
 ActualLevel::ActualLevel(vector<vector<char>> lvl){
 	level = lvl;
 	height = level.size();

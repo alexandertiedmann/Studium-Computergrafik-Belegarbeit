@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -129,6 +129,7 @@ xcopy $(SolutionDir)Dependencies\freeglut\*.dll $(OutputPath) /y</Command>
     <ClCompile Include="ActualGame.cpp" />
     <ClCompile Include="ActualLevel.cpp" />
     <ClCompile Include="DateTime.cpp" />
+    <ClCompile Include="dummy.cpp" />
     <ClCompile Include="File.cpp" />
     <ClCompile Include="Labyrinth.cpp" />
     <ClCompile Include="main.cpp" />
@@ -166,6 +167,7 @@ xcopy $(SolutionDir)Dependencies\freeglut\*.dll $(OutputPath) /y</Command>
     <ClInclude Include="ActualGame.hpp" />
     <ClInclude Include="ActualLevel.hpp" />
     <ClInclude Include="DateTime.hpp" />
+    <ClInclude Include="dummy.hpp" />
     <ClInclude Include="File.hpp" />
     <ClInclude Include="glm.hpp" />
     <ClInclude Include="Labyrinth.hpp" />
