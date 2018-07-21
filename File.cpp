@@ -155,7 +155,85 @@ ActualLevel readLevel(int levelnum) {
 *	\param	game		-	The Object of the actualGame
 */
 void writeGame(int levelnum, ActualGame game) {
-	//check if file exists --> new if not
-	//new
-	//write
+	string num = to_string(levelnum);
+	string savefile = "level\\00" + num + ".lvl";
+	ifstream infile(savefile);
+
+	//new and overwrite
+	std::ofstream outfile(savefile);
+
+	outfile << game.level << "\n";
+	outfile << game.xCoord << "\n";
+	outfile << game.yCoord << "\n";
+	outfile << game.view << "\n";
+	outfile << game.playtime << "\n";
+	outfile << game.savedate.toString() << "\n";
+	outfile << game.startdate.toString() << endl;
+
+	outfile.close();
+}
+
+/*
+*	\brief	writes a new highscore to the highscore file
+*	\param	highscore	-	new highscore to write
+*/
+void addHighscore(int highscore) {
+	string scorefile = "saves\highscores.scores";
+	ifstream file(scorefile);
+
+	//Failure
+	if (!file) {
+		cout << "File not found." << endl;
+		ofstream outfile(scorefile);
+		outfile << highscore << std::endl;
+		outfile.close();
+	}
+
+	ofstream outfile(scorefile, ios::app);
+	outfile << highscore << endl;
+	outfile.close();
+}
+
+/*
+*	\brief	reads and returns the hihscore from the file
+*	\param	numScores	-	number of highscores to return
+*/
+vector<const char*> readScores(int numScores) {
+	vector<int> scores;
+
+	string scorefile = "saves\highscores.scores";
+	ifstream infile(scorefile);
+
+	//Failure
+	if (!infile) {
+		cout << "File not found." << endl;
+		std::ofstream outfile(scorefile);
+
+		outfile << "" << std::endl;
+
+		outfile.close();
+	}
+
+	//Datei auslesen
+	string line;
+	while (getline(infile, line))
+	{
+		if (line.length != 1) {
+			int score = int(line.c_str);
+			scores.push_back(score);
+		}
+	}
+	infile.close();
+	
+	//sort vec
+	sort(scores.begin(), scores.end());
+
+	vector<const char*> highscores(numScores);
+
+	for (int i = 0; i <= highscores.size; i++) {
+		stringstream str;
+		str << scores[i];
+		highscores[i] = str.str().c_str();
+	}
+	return highscores;
 }

@@ -11,7 +11,6 @@ ActualLevel::ActualLevel(vector<vector<char>> lvl){
 	level = lvl;
 	height = level.size();
 	width = level[0].size();
-	//cout << height << " " << width << endl;
 }
 
 /*
