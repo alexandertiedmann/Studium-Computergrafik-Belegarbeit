@@ -1,5 +1,8 @@
 #include "Labyrinth.hpp"
 #include "dummy.hpp"
+#include <math.h>
+#include <stdlib.h>
+
 Labyrinth::Labyrinth(ActualLevel al, ActualGame ag) : level(al), game(ag)
 {
 	level = al;
@@ -96,6 +99,15 @@ void Labyrinth::loadLabyrinth()
 // Leons Teil
 void Labyrinth::movePlayer(ActualLevel al, char keyPressed) {
 
+	// Drehmatrizen jeweils für Drehung um 1 Grad
+	transformMatrixLeft = glm::mat3{ glm::vec3(0.9998476952f, 0.0f, 0.01745240644f),
+									glm::vec3(0.0f, 1.0f, 0.0f),
+									glm::vec3(-0.01745240644f, 0.0f, 0.9998476952f) };
+
+	transformMatrixRight = glm::mat3{ glm::vec3(0.9998476952f, 0.0f, -0.01745240644f),
+									glm::vec3(0.0f, 1.0f, 0.0f),
+									glm::vec3(0.01745240644f, 0.0f, 0.9998476952f) };
+
 	// Nach vorne laufen ("w")
 	if (keyPressed == (char)"w") {
 		if (al.getLevel()[cameraFront[2]][cameraFront[0]] == '0') {
@@ -106,12 +118,22 @@ void Labyrinth::movePlayer(ActualLevel al, char keyPressed) {
 
 	// Nach links drehen ("a")
 	if (keyPressed == (char)"a") {
-		//nach links drehen
+		for (int i = 0; i<90; i++)
+		{
+			cameraFront = cameraFront * transformMatrixLeft;
+			View = glm::lookAt(cameraPos, cameraFront, cameraUp);
+			_sleep(10);
+		}		
 	}
 
 	// Nach rechts drehen ("d")
-	if (keyPressed == (char)"a") {
-		//nach rechts drehen
+	if (keyPressed == (char)"d") {
+		for (int i = 0; i < 90; i++)
+		{
+			cameraFront = cameraFront * transformMatrixRight;
+			View = glm::lookAt(cameraPos, cameraFront, cameraUp);
+			_sleep(10);
+		}
 	}
 }
 /*
