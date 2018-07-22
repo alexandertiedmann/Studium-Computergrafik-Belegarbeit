@@ -163,7 +163,7 @@ void Labyrinth::movePlayer(ActualLevel al, char keyPressed) {
 		{
 			cameraFront = cameraFront * transformMatrixLeft;
 			View = glm::lookAt(cameraPos, cameraFront, cameraUp);
-			_sleep(10);
+			Sleep(10);
 		}		
 	}
 
@@ -173,7 +173,7 @@ void Labyrinth::movePlayer(ActualLevel al, char keyPressed) {
 		{
 			cameraFront = cameraFront * transformMatrixRight;
 			View = glm::lookAt(cameraPos, cameraFront, cameraUp);
-			_sleep(10);
+			Sleep(10);
 		}
 	}
 }

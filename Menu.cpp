@@ -46,7 +46,7 @@ typedef void(*ButtonCallback)();
 typedef struct Button Button;
 
 ActualGame getActualGameFromLabyrinth() {
-	labyrinth.getActualGame();
+	return labyrinth.getActualGame();
 }
 
 /*----------------------------------------------------------------------------------------

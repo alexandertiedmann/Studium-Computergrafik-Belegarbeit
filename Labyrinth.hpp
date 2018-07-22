@@ -22,6 +22,9 @@ private:
 	glm::mat4 Projection;
 	glm::vec3 cameraPos; // Camera Position
 	glm::vec3 cameraFront; // Camera Direction
+
+	glm::mat3 transformMatrixLeft; // Transformationsmatrix Drehung links
+	glm::mat3 transformMatrixRight; // Transformmatrionsmatrix Drehung rechts
 	glm::vec3 cameraUp;
 	GLuint programID;
 	ActualLevel level;
