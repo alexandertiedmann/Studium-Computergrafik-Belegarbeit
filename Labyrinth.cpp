@@ -47,6 +47,9 @@ void Labyrinth::loadLabyrinth()
 				cameraFront = glm::vec3(i, 0, j - 1);
 				cameraUp = glm::vec3(0, 1, 0);
 				cout << "Spieler bei " << j << " " << i << endl;
+				game.xCoord = i;
+				game.yCoord = j;
+				game.view = 1;
 				
 			}
 			i++;
@@ -155,29 +158,82 @@ void Labyrinth::movePlayer(ActualLevel al, char keyPressed) {
 
 	// Nach vorne laufen ("w")
 	if (keyPressed == (char)"w") {
-		if (al.getLevel()[cameraFront[2]][cameraFront[0]] == '0') {
-			cameraPos = cameraPos + cameraFront;
-			View = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+		if (game.view == 1) {
+			if (level.getLevel()[game.yCoord-1][game.xCoord] == '0') {
+				cameraPos = cameraFront;
+				cameraFront = glm::vec3(cameraPos[0], 0, cameraPos[2] - 1);
+				View = glm::lookAt(cameraPos, cameraFront, cameraUp);
+				game.xCoord = cameraPos[0];
+				game.yCoord = cameraPos[2];
+			}
 		}
+		else if (game.view == 2) {
+			if (level.getLevel()[game.yCoord][game.xCoord + 1] == '0') {
+				cameraPos = cameraFront;
+				cameraFront = glm::vec3(cameraPos[0] + 1, 0, cameraPos[2]);
+				View = glm::lookAt(cameraPos, cameraFront, cameraUp);
+				game.xCoord = cameraPos[0];
+				game.yCoord = cameraPos[2];
+			}
+		}
+		else if (game.view == 3) {
+			if (level.getLevel()[game.yCoord + 1][game.xCoord] == '0') {
+				cameraPos = cameraFront;
+				cameraFront = glm::vec3(cameraPos[0], 0, cameraPos[2] + 1);
+				View = glm::lookAt(cameraPos, cameraFront, cameraUp);
+				game.xCoord = cameraPos[0];
+				game.yCoord = cameraPos[2];
+			}
+		}
+		else if (game.view == 4) {
+			if (level.getLevel()[game.yCoord][game.xCoord - 1] == '0') {
+				cameraPos = cameraFront;
+				cameraFront = glm::vec3(cameraPos[0] - 1, 0, cameraPos[2]);
+				View = glm::lookAt(cameraPos, cameraFront, cameraUp);
+				game.xCoord = cameraPos[0];
+				game.yCoord = cameraPos[2];
+			}
+		}
+		
 	}
 
 	// Nach links drehen ("a")
 	if (keyPressed == (char)"a") {
-		for (int i = 0; i<90; i++)
-		{
-			cameraFront = cameraFront * transformMatrixLeft;
-			View = glm::lookAt(cameraPos, cameraFront, cameraUp);
-			Sleep(10);
-		}		
+		if (game.view == 1) {
+			cameraFront += glm::vec3(1, 0, 1);
+			game.view = 2;
+		}
+		else if (game.view == 2) {
+			cameraFront += glm::vec3(-1, 0, 1);
+			game.view = 3;
+		} 
+		else if (game.view == 3) {
+			cameraFront += glm::vec3(-1, 0, -1);
+			game.view = 4;
+		}
+		else if (game.view == 4) {
+			cameraFront += glm::vec3(1, 0, -1);
+			game.view = 1;
+		}
 	}
 
 	// Nach rechts drehen ("d")
 	if (keyPressed == (char)"d") {
-		for (int i = 0; i < 90; i++)
-		{
-			cameraFront = cameraFront * transformMatrixRight;
-			View = glm::lookAt(cameraPos, cameraFront, cameraUp);
-			Sleep(10);
+		if (game.view == 1) {
+			cameraFront += glm::vec3(-1, 0, 1);
+			game.view = 4;
+		}
+		else if (game.view == 4) {
+			cameraFront += glm::vec3(1, 0, 1);
+			game.view = 3;
+		}
+		else if (game.view == 3) {
+			cameraFront += glm::vec3(1, 0, -1);
+			game.view = 2;
+		}
+		else if (game.view == 2) {
+			cameraFront += glm::vec3(-1, 0, -1);
+			game.view = 1;
 		}
 	}
 }
@@ -187,6 +243,15 @@ void Labyrinth::movePlayer(ActualLevel al, char keyPressed) {
 ActualGame Labyrinth::getActualGame() {
 	return game;
 }
+
+/*
+*	\brief return the ActualLevel
+*/
+ActualLevel Labyrinth::getActualLevel() {
+	return level;
+}
+
+
 //Experiment
 bool Labyrinth::isPlayerFinished()
 {

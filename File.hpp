@@ -19,6 +19,6 @@ ActualGame readSave(int savenum);
 ActualLevel readLevel(int levelnum);
 void writeGame(int levelnum, ActualGame game);
 void addHighscore(int);
-vector<const char*> readScores(int numScores);
+vector<int> readScores(int numScores);
 
 #endif

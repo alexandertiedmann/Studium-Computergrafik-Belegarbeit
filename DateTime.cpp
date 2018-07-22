@@ -159,3 +159,41 @@ DateTime getYoungest(DateTime one, DateTime two) {
 		}
 	}
 }
+
+
+int getHours(int seconds) {
+	return seconds / 3600;
+}
+
+int getMinutes(int seconds, int hours) {
+	return (seconds - hours * 3600) / 60;
+}
+
+int getSeconds(int seconds, int hours, int minutes) {
+	return seconds - hours * 3600 - minutes * 60;
+}
+
+string getTimeFromSec(int seconds) {
+	ostringstream time;
+	//hours
+	int hours = getHours(seconds);
+	string hour = to_string(hours);
+	if (hour.length() < 2) {
+		hour = "0" + to_string(hours);
+	}
+	//minutes
+	int minutes = getMinutes(seconds, hours);
+	string minute = to_string(minutes);
+	if (minute.length() < 2) {
+		minute = "0" + to_string(minutes);
+	}
+	//seconds
+	int sec = getSeconds(seconds, hours, minutes);
+	string second = to_string(sec);
+	if (second.length() < 2) {
+		second = "0" + to_string(sec);
+	}
+	//to string
+	time << hour << ":" << minute << ":" << second;
+	return time.str();
+}

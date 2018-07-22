@@ -78,11 +78,18 @@ void renderScene(void);
 bool closeMainMenu();
 void callMenu();
 ActualGame getActualGameFromLabyrinth();
+ActualLevel getActualLevelFromLabyrinth();
 void closeSubMenu();
 bool callMainMenu();
 void callLoadMenu();
 void callSaveMenu();
 void callHighscores();
+void callFin();
 void drawHighscores();
+void drawFinish();
+bool getLabbyOpen();
+void loadLab(Labyrinth* labyrinth);
+Labyrinth getLabyrinth();
+
 
 #endif

@@ -1,11 +1,5 @@
 #include "Menu.hpp"
 
-/*----------------------------------------------------------------------------------------
-*	Global Variables
-*/
-
-Labyrinth labyrinth;
-
 /*
 *	rename the structure from "struct Mouse" to just "Mouse"
 */
@@ -17,8 +11,13 @@ typedef struct Mouse Mouse;
 *	L = Load-Menu
 *	S = Save-Menu
 *	H = Highscore
+*	F = Finish
 */
 char loadedMenu = 'N';
+
+bool labbyOpen = false;
+
+Labyrinth labyrinth;
 
 /*
 *	Create a global mouse structure to hold the mouse information.
@@ -45,8 +44,25 @@ int winh = ::GetSystemMetrics(SM_CYSCREEN);
 typedef void(*ButtonCallback)();
 typedef struct Button Button;
 
+Labyrinth getLabyrinth() {
+	return labyrinth;
+}
+
+bool getLabbyOpen() {
+	return labbyOpen;
+}
+
 ActualGame getActualGameFromLabyrinth() {
 	return labyrinth.getActualGame();
+}
+
+ActualLevel getActualLevelFromLabyrinth() {
+	return labyrinth.getActualLevel();
+}
+
+void loadLab() {
+	labyrinth.loadLabyrinth();
+	labbyOpen = true;
 }
 
 /*----------------------------------------------------------------------------------------
@@ -77,7 +93,7 @@ void ContinueMainMenu(){
 	Labyrinth labby(level, game);
 	labyrinth = labby;
 
-	labyrinth.loadLabyrinth();
+	loadLab();
 }
 
 /*----------------------------------------------------------------------------------------
@@ -102,7 +118,7 @@ void NewMainMenu(){
 	Labyrinth labby(level, game);
 	labyrinth = labby;
 
-	labyrinth.loadLabyrinth();
+	loadLab();
 }
 
 /*----------------------------------------------------------------------------------------
@@ -213,7 +229,7 @@ void load(int saveslot) {
 	Labyrinth labby(level, game);
 	labyrinth = labby;
 
-	labyrinth.loadLabyrinth();
+	loadLab();
 }
 
 /*
@@ -267,6 +283,11 @@ Button CancelLoad = { calcX(), (winh - ((winw / 100) * 10)), calcW(), calcH(), 0
 *	Buttons for the Highscore-Menu
 */
 Button CancelHighscore = { calcX(), (winh - ((winw / 100) * 10)), calcW(), calcH(), 0,0, (char*)"Back", BackToMainMenu };
+
+/*----------------------------------------------------------------------------------------
+*	Buttons for the Finish-Menu
+*/
+Button CancelFin = { calcX(), (winh - ((winw / 100) * 10)), calcW(), calcH(), 0,0, (char*)"Finish", HighMainMenu };
 
 
 /*----------------------------------------------------------------------------------------
@@ -512,25 +533,40 @@ void ButtonDraw(Button *b)
 	}
 }
 
-
 /*----------------------------------------------------------------------------------------
 *	Draws the Highscores in the Highscores-Screen
 */
 void drawHighscores() {
-	vector<const char*> scores(10);
-
-	scores = readScores(scores.size());
+	int highscoreslistnum = 10;
+	vector<string> scores;
+	vector<int> highscores;
+	
+	//get Highscores from File
+	highscores = readScores(highscoreslistnum);
+	//seconds from file in hh:mm:mm
+	if (highscores.size() > 1) {
+		for (int i = 0; i < highscoreslistnum; i++) {
+			string time = getTimeFromSec(highscores[i]);
+			scores.push_back(time.c_str());
+			cout << "score " << i << " " << scores[i] << " size: " << scores.size() << endl;
+		}
+	}
 
 	int fontx;
 	int fonty;
 
 	/*
+	*	color for field
+	*/
+	glColor3f(0.6f, 0.6f, 0.6f);
+
+	/*
 	*	draw background for the field.
 	*/
-	int x = 50;
-	int y = 500;
-	int h = 80;
-	int w = 70;
+	int h = (winh * 75) / 100;
+	int w = (winw * 50) / 100;
+	int x = (winw / 2) - ((winw * 25) / 100);
+	int y = (winh / 2) - ((winh * 45) / 100);
 	glBegin(GL_QUADS);
 	glVertex2i(x, y); //top left
 	glVertex2i(x, y + h); //bottom left
@@ -543,18 +579,124 @@ void drawHighscores() {
 	glLineWidth(3);
 
 	/*
+	*	The colours for the outline are reversed when the button.
+	*/
+	glColor3f(0.8f, 0.8f, 0.8f);
+
+	glBegin(GL_LINE_STRIP);
+	glVertex2i(x + w, y);
+	glVertex2i(x, y);
+	glVertex2i(x, y + h);
+	glEnd();
+
+	glColor3f(0.4f, 0.4f, 0.4f);
+
+	glBegin(GL_LINE_STRIP);
+	glVertex2i(x, y + h);
+	glVertex2i(x + w, y + h);
+	glVertex2i(x + w, y);
+	glEnd();
+
+	glLineWidth(1);
+
+	/*
 	*	Calculate the x and y coords for the text string in order to center it.
 	*/
-	for (int i = 0; i <= scores.size(); i++) {
-		x = x + (i*h);
-		fontx = x + (w - glutBitmapLength(GLUT_BITMAP_HELVETICA_12, (const unsigned char *)scores[i])) / 2;
+	if (highscores.size() > 1) {
+		for (int i = 0; i < scores.size(); i++) {
+			cout << "scores " << i << ": " << scores[i] << " size: " << scores.size() << endl;
+			fontx = x + (w - glutBitmapLength(GLUT_BITMAP_HELVETICA_12, (const unsigned char *)scores[i].c_str())) / 2;
+			fonty = (y + (((h * 10) / 100)*i) + ((y * 50) / 100));
+
+			glColor3f(1, 1, 1);
+			Font(GLUT_BITMAP_HELVETICA_12, (char *)scores[i].c_str(), fontx, fonty);
+		}
+	}
+	else {
+		fontx = x + (w - glutBitmapLength(GLUT_BITMAP_HELVETICA_12, (const unsigned char *)"no Highscores")) / 2;
 		fonty = y + (h + 10) / 2;
 
 		glColor3f(1, 1, 1);
-		Font(GLUT_BITMAP_HELVETICA_12, (char *)scores[i], fontx, fonty);
+		Font(GLUT_BITMAP_HELVETICA_12, (char *)"no Highscores", fontx, fonty);
 	}
 }
 
+
+/*----------------------------------------------------------------------------------------
+*	Draws the Finish-Screen
+*/
+void drawFinish() {
+
+	int fontx;
+	int fonty;
+
+	/*
+	*	color for field
+	*/
+	glColor3f(0.6f, 0.6f, 0.6f);
+
+	/*
+	*	draw background for the field.
+	*/
+	int h = (winh * 10) / 100;
+	int w = (winw * 30) / 100;
+	int x = (winw / 2) - ((winw * 15) / 100);
+	int y = (winh / 2) - ((winh * 5) / 100);
+	glBegin(GL_QUADS);
+	glVertex2i(x, y); //top left
+	glVertex2i(x, y + h); //bottom left
+	glVertex2i(x + w, y + h); //top right
+	glVertex2i(x + w, y); //bottom right
+	glEnd();
+	/*
+	*	Draw an outline around the field with width 3
+	*/
+	glLineWidth(3);
+
+	/*
+	*	The colours for the outline are reversed when the button.
+	*/
+	glColor3f(0.8f, 0.8f, 0.8f);
+
+	glBegin(GL_LINE_STRIP);
+	glVertex2i(x + w, y);
+	glVertex2i(x, y);
+	glVertex2i(x, y + h);
+	glEnd();
+
+	glColor3f(0.4f, 0.4f, 0.4f);
+
+	glBegin(GL_LINE_STRIP);
+	glVertex2i(x, y + h);
+	glVertex2i(x + w, y + h);
+	glVertex2i(x + w, y);
+	glEnd();
+
+	glLineWidth(1);
+
+	/*
+	*	Calculate the x and y coords for the text string in order to center it.
+	*/
+
+	string congraz = "Congratulation you made the game";
+	fontx = x + (w - glutBitmapLength(GLUT_BITMAP_HELVETICA_12, (const unsigned char *)congraz.c_str())) / 2;
+	fonty = (y + (h/2 + 10) / 2);
+	glColor3f(1, 1, 1);
+	Font(GLUT_BITMAP_HELVETICA_12, (char *)congraz.c_str(), fontx, fonty);
+
+
+	string times = "Your Time is: \n";
+	fontx = x + (w - glutBitmapLength(GLUT_BITMAP_HELVETICA_12, (const unsigned char *)times.c_str())) / 2;
+	fonty = (fonty + (h/2 + 10) / 2);
+	glColor3f(1, 1, 1);
+	Font(GLUT_BITMAP_HELVETICA_12, (char *)times.c_str(), fontx, fonty);
+
+	string time = getTimeFromSec(getActualGameFromLabyrinth().playtime);
+	fontx = x + (w - glutBitmapLength(GLUT_BITMAP_HELVETICA_12, (const unsigned char *)time.c_str())) / 2;
+	fonty = (fonty + (h/2 + 10) / 2);
+	glColor3f(1, 1, 1);
+	Font(GLUT_BITMAP_HELVETICA_12, (char *)time.c_str(), fontx, fonty);
+}
 
 /*----------------------------------------------------------------------------------------
 *	This function will be used to draw the 3D scene
@@ -594,6 +736,10 @@ void Draw2D()
 		case 'H':
 			ButtonDraw(&CancelHighscore);
 			drawHighscores();
+			break;
+		case 'F':
+			ButtonDraw(&CancelFin);
+			drawFinish(); //--------------------------------------ToDO: Draw Fin Screen
 			break;
 	}
 }
@@ -718,6 +864,9 @@ void MouseButton(int button, int state, int x, int y)
 					case 'H':
 						ButtonPress(&CancelHighscore, x, y);
 						break;
+					case 'F':
+						ButtonPress(&CancelFin, x, y);
+						break;
 				}
 			case GLUT_MIDDLE_BUTTON:
 				TheMouse.mmb = 1;
@@ -759,6 +908,9 @@ void MouseButton(int button, int state, int x, int y)
 						break;
 					case 'H':
 						ButtonRelease(&CancelHighscore, x, y);
+						break;
+					case 'F':
+						ButtonRelease(&CancelFin, x, y);
 						break;
 				}
 				break;
@@ -827,6 +979,9 @@ void MouseMotion(int x, int y)
 		case 'H':
 			ButtonPassive(&CancelHighscore, x, y);
 			break;
+		case 'F':
+			ButtonPassive(&CancelFin, x, y);
+			break;
 		}
 
 		/*
@@ -883,6 +1038,9 @@ void MousePassiveMotion(int x, int y)
 		case 'H':
 			ButtonPassive(&CancelHighscore, x, y);
 			break;
+		case 'F':
+			ButtonPassive(&CancelFin, x, y);
+			break;
 		}
 
 		/*
@@ -906,9 +1064,7 @@ void renderScene(void) {
 bool closeMainMenu() {
 	if (loadedMenu == 'M'){
 		loadedMenu = 'N';
-		glewInit();
-		glutDisplayFunc(renderScene);
-		glutPostRedisplay();
+		labyrinth.loadLabyrinth();
 		return false;
 	}
 	else {
@@ -918,6 +1074,7 @@ bool closeMainMenu() {
 
 void callMenu() {
 	if (loadedMenu != 'N') {
+		labbyOpen = false;
 		glutDisplayFunc(Draw);
 		glutMouseFunc(MouseButton);
 		glutMotionFunc(MouseMotion);
@@ -959,5 +1116,10 @@ void callSaveMenu() {
 
 void callHighscores() {
 	loadedMenu = 'H';
+	callMenu();
+}
+
+void callFin() {
+	loadedMenu = 'F';
 	callMenu();
 }
