@@ -94,6 +94,6 @@ void setMenuOpen(bool openMain);
 void loadLab(Labyrinth* labyrinth);
 Labyrinth getLabyrinth();
 void setLabyrinth(Labyrinth labby);
-
-
+bool getFirstStart();
+void setFirstStart(bool start);
 #endif

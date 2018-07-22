@@ -18,6 +18,7 @@ char loadedMenu = 'N';
 bool labbyOpen = false;
 
 Labyrinth labyrinth;
+bool firstStart = true;
 
 /*
 *	Create a global mouse structure to hold the mouse information.
@@ -43,6 +44,14 @@ int winh = ::GetSystemMetrics(SM_CYSCREEN);
 */
 typedef void(*ButtonCallback)();
 typedef struct Button Button;
+
+bool getFirstStart() {
+	return firstStart;
+}
+
+void setFirstStart(bool start) {
+	firstStart = start;
+}
 
 Labyrinth getLabyrinth() {
 	return labyrinth;
@@ -90,6 +99,8 @@ void loadLab() {
 	//unload menues
 	loadedMenu = 'N';
 	labbyOpen = true;
+	//set firstStart false
+	setFirstStart(false);
 	//start timer
 	ActualGame g = labyrinth.getActualGame();
 	g.startTimer();
@@ -188,6 +199,13 @@ void drawLabyrinth() {
 
 	glutSwapBuffers();
 	glutPostRedisplay();
+}
+
+/*----------------------------------------------------------------------------------------
+*	Calls the continue-method to load the played game
+*/
+void ContinueTheGame() {
+	loadLab();
 }
 
 
@@ -1197,6 +1215,10 @@ bool closeMainMenu() {
 		glutMouseFunc(MouseFunc);
 		glutMotionFunc(MouseMotionFunc);
 		glutPassiveMotionFunc(MousePassiveMotionFunc);
+		//stop timer
+		ActualGame g = labyrinth.getActualGame();
+		g.startTimer();
+		labyrinth.setActualGame(g);
 		loadLab();
 		return false;
 	}
@@ -1262,5 +1284,10 @@ void callHighscores() {
 
 void callFin() {
 	loadedMenu = 'F';
+	//stop timer
+	ActualGame g = labyrinth.getActualGame();
+	g.stopTimer();
+	labyrinth.setActualGame(g);
+	addHighscore(g.playtime);
 	callMenu();
 }

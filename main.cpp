@@ -4,6 +4,7 @@
 const long nScreenWidth = ::GetSystemMetrics(SM_CXSCREEN);
 const long nScreenHeight = ::GetSystemMetrics(SM_CYSCREEN);
 
+bool menuOpen = getMenuOpen();
 bool labyOpen = false;
 
 /*----------------------------------------------------------------------------------------
@@ -46,6 +47,17 @@ void keys(unsigned char key, int xmouse, int ymouse) {
 			break;
 		}
 	}	
+	else {
+		if (!getFirstStart()) {
+			switch (key) {
+			case 27:
+				setMenuOpen(closeMainMenu());
+				break;
+			default:
+				break;
+			}
+		}
+	}
 }
  
 int main(int argc, char **argv){
@@ -63,6 +75,7 @@ int main(int argc, char **argv){
 
 	glutKeyboardFunc(keys);
 
+	menuOpen = true;
 	setMenuOpen(callMainMenu());
 
 	glutMainLoop();
