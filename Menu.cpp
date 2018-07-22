@@ -519,7 +519,7 @@ void ButtonDraw(Button *b)
 void drawHighscores() {
 	vector<const char*> scores(10);
 
-	scores = readScores(scores.size);
+	scores = readScores(scores.size());
 
 	int fontx;
 	int fonty;
@@ -545,7 +545,7 @@ void drawHighscores() {
 	/*
 	*	Calculate the x and y coords for the text string in order to center it.
 	*/
-	for (int i = 0; i <= scores.size; i++) {
+	for (int i = 0; i <= scores.size(); i++) {
 		x = x + (i*h);
 		fontx = x + (w - glutBitmapLength(GLUT_BITMAP_HELVETICA_12, (const unsigned char *)scores[i])) / 2;
 		fonty = y + (h + 10) / 2;

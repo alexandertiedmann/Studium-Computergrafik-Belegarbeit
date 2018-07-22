@@ -218,8 +218,8 @@ vector<const char*> readScores(int numScores) {
 	string line;
 	while (getline(infile, line))
 	{
-		if (line.length != 1) {
-			int score = int(line.c_str);
+		if (line.length() >= 1) {
+			int score = int(line.c_str());
 			scores.push_back(score);
 		}
 	}
@@ -230,7 +230,7 @@ vector<const char*> readScores(int numScores) {
 
 	vector<const char*> highscores(numScores);
 
-	for (int i = 0; i <= highscores.size; i++) {
+	for (int i = 0; i <= highscores.size(); i++) {
 		stringstream str;
 		str << scores[i];
 		highscores[i] = str.str().c_str();
