@@ -20,6 +20,7 @@ void getOpenLabyrinth() {
 
 void keys(unsigned char key, int xmouse, int ymouse) {
 	getOpenLabyrinth();
+	Labyrinth lab = getLabyrinth();
 
 	if (labyOpen) {
 		switch (key) {
@@ -34,15 +35,18 @@ void keys(unsigned char key, int xmouse, int ymouse) {
 			break;
 		case 'w':
 			cout << "w Key was pressed" << endl;
-			getLabyrinth().movePlayer('w');
+			lab.movePlayer('w');
+			setLabyrinth(lab);
 			break;
 		case 'a':
 			cout << "a Key was pressed" << endl;
-			getLabyrinth().movePlayer('a');
+			lab.movePlayer('a');
+			setLabyrinth(lab);
 			break;
 		case 'd':
 			cout << "d Key was pressed" << endl;
-			getLabyrinth().movePlayer('d');
+			lab.movePlayer('d');
+			setLabyrinth(lab);
 			break;
 		default:
 			break;

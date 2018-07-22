@@ -93,6 +93,7 @@ void drawLabyrinth();
 void setMenuOpen(bool openMain);
 void loadLab(Labyrinth* labyrinth);
 Labyrinth getLabyrinth();
+void setLabyrinth(Labyrinth labby);
 
 
 #endif

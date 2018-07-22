@@ -48,6 +48,10 @@ Labyrinth getLabyrinth() {
 	return labyrinth;
 }
 
+void setLabyrinth(Labyrinth labby) {
+	labyrinth = labby;
+}
+
 bool getLabbyOpen() {
 	return labbyOpen;
 }
