@@ -12,8 +12,7 @@ void Init(){
 	glEnable(GL_LIGHT0);
 }
 
-void keys(unsigned char key, int xmouse, int ymouse)
-{
+void keys(unsigned char key, int xmouse, int ymouse){
 	switch (key) {
 	case 27:
 		if (menuOpen) {

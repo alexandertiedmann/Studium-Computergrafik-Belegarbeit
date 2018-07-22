@@ -30,4 +30,9 @@ public:
 
 DateTime getYoungest(DateTime one, DateTime two);
 
+int getHours(int seconds);
+int getMinutes(int seconds, int hours);
+int getSeconds(int seconds, int hours, int minutes);
+string getTimeFromSec(int seconds);
+
 #endif

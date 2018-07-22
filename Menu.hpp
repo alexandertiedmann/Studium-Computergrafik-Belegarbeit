@@ -83,6 +83,8 @@ bool callMainMenu();
 void callLoadMenu();
 void callSaveMenu();
 void callHighscores();
+void callFin();
 void drawHighscores();
+void drawFinish();
 
 #endif

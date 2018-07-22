@@ -135,8 +135,7 @@ ActualLevel readLevel(int levelnum) {
 	line = "";
 	ifstream file(savefile);
 	int countline = 0;
-	while (getline(file, line))
-	{
+	while (getline(file, line)){
 		for (int w = 0; w < levelVec[0].size(); w++) {
 			levelVec[countline][w] = line[w];
 		}
@@ -178,7 +177,7 @@ void writeGame(int levelnum, ActualGame game) {
 *	\param	highscore	-	new highscore to write
 */
 void addHighscore(int highscore) {
-	string scorefile = "saves\highscores.scores";
+	string scorefile = "saves\\highscores.scores";
 	ifstream file(scorefile);
 
 	//Failure
@@ -188,6 +187,7 @@ void addHighscore(int highscore) {
 		outfile << highscore << std::endl;
 		outfile.close();
 	}
+	file.close();
 
 	ofstream outfile(scorefile, ios::app);
 	outfile << highscore << endl;
@@ -198,42 +198,45 @@ void addHighscore(int highscore) {
 *	\brief	reads and returns the hihscore from the file
 *	\param	numScores	-	number of highscores to return
 */
-vector<const char*> readScores(int numScores) {
+vector<int> readScores(int numScores) {
 	vector<int> scores;
 
-	string scorefile = "saves\highscores.scores";
+	string scorefile = "saves\\highscores.scores";
 	ifstream infile(scorefile);
 
 	//Failure
 	if (!infile) {
 		cout << "File not found." << endl;
 		std::ofstream outfile(scorefile);
-
 		outfile << "" << std::endl;
-
 		outfile.close();
-	}
-
-	//Datei auslesen
-	string line;
-	while (getline(infile, line))
-	{
-		if (line.length() >= 1) {
-			int score = int(line.c_str());
-			scores.push_back(score);
-		}
 	}
 	infile.close();
 	
-	//sort vec
-	sort(scores.begin(), scores.end());
-
-	vector<const char*> highscores(numScores);
-
-	for (int i = 0; i <= highscores.size(); i++) {
-		stringstream str;
-		str << scores[i];
-		highscores[i] = str.str().c_str();
+	//Datei auslesen
+	string line;
+	ifstream readfile(scorefile);
+	while (getline(readfile, line)){
+		if (line.length() > 1) {
+			int score = atoi(line.c_str());
+			scores.push_back(score);
+		}
 	}
-	return highscores;
+	readfile.close();
+
+	//sort vec
+	if (scores.size() > 1) {
+		sort(scores.begin(), scores.end());
+
+		vector<int> highscores(numScores);
+		for (int i = 0; i < highscores.size(); i++) {
+			highscores[i] = scores[i];
+		}
+
+		return highscores;
+	}
+	else {
+		vector<int> highscores(1);
+		return highscores;
+	}
 }
