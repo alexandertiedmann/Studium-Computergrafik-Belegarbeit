@@ -108,7 +108,13 @@ ActualLevel readLevel(int levelnum) {
 	//get height and width
 		//read file
 	string num = to_string(levelnum);
-	string savefile = "level\\00" + num + ".lvl";
+	string savefile;
+	if (levelnum < 10) {
+		savefile = "level\\00" + num + ".lvl";
+	}
+	else {
+		savefile = "level\\0" + num + ".lvl";
+	}
 	int height = 0;
 	int width = 0;
 	ifstream infile(savefile);
@@ -153,9 +159,9 @@ ActualLevel readLevel(int levelnum) {
 *	\param	levelnum	-	number of the savefile
 *	\param	game		-	The Object of the actualGame
 */
-void writeGame(int levelnum, ActualGame game) {
-	string num = to_string(levelnum);
-	string savefile = "level\\00" + num + ".lvl";
+void writeGame(int savenum, ActualGame game) {
+	string num = to_string(savenum);
+	string savefile = "save\\00" + num + ".sav";
 	ifstream infile(savefile);
 
 	//new and overwrite
@@ -184,13 +190,14 @@ void addHighscore(int highscore) {
 	if (!file) {
 		cout << "File not found." << endl;
 		ofstream outfile(scorefile);
-		outfile << highscore << std::endl;
+		outfile << highscore << endl;
 		outfile.close();
 	}
 	file.close();
 
 	ofstream outfile(scorefile, ios::app);
-	outfile << highscore << endl;
+	outfile << endl;
+	outfile << highscore;
 	outfile.close();
 }
 

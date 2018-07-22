@@ -43,7 +43,7 @@ void ActualGame::startTimer() {
 *	\brief	adds the played seconds to playtime
 */
 void ActualGame::stopTimer() {
-	playtime = playtime + difftime(starttime, time(nullptr));
+	playtime = playtime + difftime(time(nullptr), starttime);
 }
 
 /*

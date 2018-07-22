@@ -365,10 +365,10 @@ void save3() {
 void load(int saveslot) {
 	//game
 	ActualGame game = readSave(saveslot);
-	//cout << "Game: \n" << game.toString() << endl;
+	cout << "Game: \n" << game.toString() << endl;
 	//level
 	ActualLevel level = readLevel(game.level);
-	//cout << level.toString();
+	cout << level.toString();
 
 	Labyrinth labby(level, game);
 	labyrinth = labby;
