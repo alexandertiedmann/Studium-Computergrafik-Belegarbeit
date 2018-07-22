@@ -44,7 +44,9 @@ public:
 	void movePlayer(char keyPressed);
 	bool isPlayerFinished();
 	ActualGame getActualGame();
+	void setActualGame(ActualGame g);
 	ActualLevel getActualLevel();
+	void setActualLevel(ActualLevel l);
 };
 
 

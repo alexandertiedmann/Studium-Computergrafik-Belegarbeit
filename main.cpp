@@ -4,7 +4,6 @@
 const long nScreenWidth = ::GetSystemMetrics(SM_CXSCREEN);
 const long nScreenHeight = ::GetSystemMetrics(SM_CYSCREEN);
 
-bool menuOpen = getMenuOpen();
 bool labyOpen = false;
 
 /*----------------------------------------------------------------------------------------
@@ -26,12 +25,7 @@ void keys(unsigned char key, int xmouse, int ymouse) {
 		switch (key) {
 		case 27:
 			cout << "esc Key was pressed" << endl;
-			if (menuOpen) {
-				setMenuOpen(closeMainMenu());
-			}
-			else {
-				setMenuOpen(callMainMenu());
-			}
+			setMenuOpen(callMainMenu());
 			break;
 		case 'w':
 			cout << "w Key was pressed" << endl;
@@ -61,7 +55,7 @@ int main(int argc, char **argv){
 
 	glutInitWindowPosition(0, 0);
 	glutInitWindowSize(nScreenWidth, nScreenHeight);
-	glutCreateWindow("OpenGL Test Window");
+	glutCreateWindow("CG-Labyrinth");
 
 	glewInit();
 	glEnable(GL_DEPTH_TEST);

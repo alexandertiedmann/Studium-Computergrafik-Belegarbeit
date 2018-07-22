@@ -82,24 +82,39 @@ void setMenuOpen(bool openMain) {
 	}
 }
 
-void checkFinish() {
-	if (labyrinth.playerFinished) {
-		callFin();
-	}
-}
-
 void loadLab() {
-
+	//disable mouse-functions
 	glutMouseFunc(MouseFunc);
 	glutMotionFunc(MouseMotionFunc);
 	glutPassiveMotionFunc(MousePassiveMotionFunc);
-
+	//unload menues
 	loadedMenu = 'N';
 	labbyOpen = true;
-
+	//start timer
+	ActualGame g = labyrinth.getActualGame();
+	g.startTimer();
+	labyrinth.setActualGame(g);
+	//load labyrinth
 	labyrinth.loadLabyrinth();
 	glutDisplayFunc(drawLabyrinth);
-	checkFinish();
+}
+
+
+void checkFinish() {
+	if (labyrinth.playerFinished) {
+		if (labyrinth.getActualGame().level == 20) {
+			callFin();
+		}
+		else {
+			ActualGame g = labyrinth.getActualGame();
+			g.level = labyrinth.getActualGame().level + 1;
+			ActualLevel l = readLevel(g.level);
+			labyrinth.setActualGame(g);
+			labyrinth.setActualLevel(l);
+			labyrinth.playerFinished = false;
+			loadLab();
+		}
+	}
 }
 
 /*----------------------------------------------------------------------------------------
@@ -168,7 +183,8 @@ void drawLabyrinth() {
 		xpos = 0;
 	}
 
-	labyrinth.playerFinished = labyrinth.isPlayerFinished();
+	//labyrinth.playerFinished = labyrinth.isPlayerFinished();
+	checkFinish();
 
 	glutSwapBuffers();
 	glutPostRedisplay();
@@ -339,8 +355,6 @@ void load(int saveslot) {
 	Labyrinth labby(level, game);
 	labyrinth = labby;
 
-	loadedMenu = 'N';
-
 	loadLab();
 }
 
@@ -421,8 +435,7 @@ void Font(void *font, char *text, int x, int y)
 {
 	glRasterPos2i(x, y);
 
-	while (*text != '\0')
-	{
+	while (*text != '\0')	{
 		glutBitmapCharacter(font, *text);
 		++text;
 	}
@@ -1184,7 +1197,7 @@ bool closeMainMenu() {
 		glutMouseFunc(MouseFunc);
 		glutMotionFunc(MouseMotionFunc);
 		glutPassiveMotionFunc(MousePassiveMotionFunc);
-		labyrinth.loadLabyrinth();
+		loadLab();
 		return false;
 	}
 	else {
@@ -1193,10 +1206,17 @@ bool closeMainMenu() {
 }
 
 void callMenu() {
+	//unload Labyrinth
+	labbyOpen = false;
 	if (loadedMenu != 'N') {
-		labbyOpen = false;
+		//stop timer
+		ActualGame g = labyrinth.getActualGame();
+		g.stopTimer();
+		labyrinth.setActualGame(g);
+		
+		//load Menu
 		glutDisplayFunc(Draw);
-
+		//load Mouse Functions
 		glutMouseFunc(MouseButton);
 		glutMotionFunc(MouseMotion);
 		glutPassiveMotionFunc(MousePassiveMotion);

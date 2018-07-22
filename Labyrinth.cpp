@@ -180,6 +180,9 @@ void Labyrinth::movePlayer(char keyPressed) {
 ActualGame Labyrinth::getActualGame() {
 	return game;
 }
+void Labyrinth::setActualGame(ActualGame g) {
+	game = g;
+}
 
 /*
 *	\brief return the ActualLevel
@@ -187,12 +190,15 @@ ActualGame Labyrinth::getActualGame() {
 ActualLevel Labyrinth::getActualLevel() {
 	return level;
 }
+void Labyrinth::setActualLevel(ActualLevel l) {
+	level = l;
+}
 
 
 //Experiment
 bool Labyrinth::isPlayerFinished()
 {
-	if (level.getLevel()[cameraPos.x][cameraPos.z] == 'z') {
+	if (level.getLevel()[cameraPos.z][cameraPos.x] == 'z') {
 		return true;
 	}
 	else return false;
