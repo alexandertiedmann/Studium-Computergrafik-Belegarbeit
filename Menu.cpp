@@ -1283,6 +1283,7 @@ void callHighscores() {
 }
 
 void callFin() {
+	cout << "Finished the Game" << endl;
 	loadedMenu = 'F';
 	//stop timer
 	ActualGame g = labyrinth.getActualGame();

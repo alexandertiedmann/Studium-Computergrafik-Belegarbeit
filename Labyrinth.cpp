@@ -47,6 +47,7 @@ void Labyrinth::loadLabyrinth(){
 				cameraFront = glm::vec3(i, 0, j - 1);
 				cameraUp = glm::vec3(0, 1, 0);
 				cout << "Spieler bei " << j << " " << i << endl;
+				cout << "Level: " << game.level << endl;
 				game.xCoord = i;
 				game.yCoord = j;
 				game.view = 1;
