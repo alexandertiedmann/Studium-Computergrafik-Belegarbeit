@@ -3,8 +3,13 @@
 #include <Windows.h>
 #include <math.h>
 #include <stdlib.h>
-Labyrinth::Labyrinth(ActualLevel al, ActualGame ag) : level(al), game(ag)
-{
+
+
+ActualLevel level;
+ActualGame game;
+Labyrinth* lab;
+
+Labyrinth::Labyrinth(ActualLevel al, ActualGame ag) {
 	level = al;
 	game = ag;
 }
@@ -70,74 +75,9 @@ void Labyrinth::loadLabyrinth()
     // Shader benutzen
 	glUseProgram(programID);
 
-	while (!isGameFinished) // ToDo: Variable noch aendern, wenn Ziel erreicht
-	{
-		// Diese Schleife wird jetzt solange ausgefuehrt, bis der Spieler das Ziel erreicht hat
-		// In der Schleife muessen immer und immer wieder alle Objekte im Labyrinth erstellt und texturiert werden
-		// Auch muss die Bewegung des Spielers hier durchgefuehrt werden
-		glewExperimental = true;
-		if (glewInit() != GLEW_OK) {
-			cout << "Fehler" << endl;
-		}
+	lab = this;
 
-		glutMotionFunc(MouseMotionFunc);
-		glutPassiveMotionFunc(MousePassiveMotionFunc);
-
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		Projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f); // Nicht aendern
-
-		View = glm::lookAt(cameraPos, // Spieler steht da, wo das "S" auch ist
-			cameraFront, // Blickrichtung abhängig vom Standort
-			cameraUp);
-										  // View eventuell aendern, um zu testen, um das Labyrinth anzuschauen
-		Model = glm::mat4(1.0f);
-
-		drawCube();
-		sendMVP();
-
-		//Boden
-		glm::mat4 DefaultModel = Model;
-
-		if (level.getLevelHeight() % 2 == 0) // gerade Laenge
-		{
-			Model = glm::translate(Model, glm::vec3(level.getLevelWidth() / 2 + 0.5, -0.6, level.getLevelHeight() / 2 + 0.5)); // Auf die Mitte des Labyrinths setzen und knapp drunter, y-Wert eventuell anpassen
-		}
-		else Model = glm::translate(Model, glm::vec3(level.getLevelWidth() / 2, -0.6, level.getLevelHeight() / 2)); // Ungerade Laenge
-
-		Model = glm::scale(Model, glm::vec3(level.getLevelWidth(), 0.1, level.getLevelHeight())); // skalieren, um genauso groß wie das Labyrinth zu sein	
-		sendMVP();
-		drawCube(); // erst sendMVP, dann drawCube
-
-		// Default zuruecksetzen
-		Model = DefaultModel;
-		double xpos = 0.0;
-		double zpos = 0.0;
-
-		for (const auto& inner : level.getLevel()) {
-			for (const auto& position : inner) {
-
-				if (position == 'X') { // Wand zeichnen
-					//cout << "Wand wird gezeichnet bei " << xpos << " " << zpos << endl;
-					Model = glm::translate(Model, glm::vec3(xpos, 0.0, zpos)); // translate Koordinaten sind abhaengig von den Koordinaten des Models, es findet eine Addition statt...
-					Model = glm::scale(Model, glm::vec3(0.5, 0.5, 0.5));
-					sendMVP();
-					drawCube();
-					//... Daher muss wieder auf das Default-Model gesetzt, damit Model wieder auf dem Ursprung sitzt
-					Model = DefaultModel;
-				}
-				
-				xpos++;
-			}
-			zpos++;
-			xpos = 0;
-		}
-
-		glutSwapBuffers();
-		glutPostRedisplay();
-	}
-
-
+	glutDisplayFunc(drawLabyrinth);
 
 }
 // Leons Teil
@@ -259,6 +199,77 @@ bool Labyrinth::isPlayerFinished()
 }
 
 
+/*----------------------------------------------------------------------------------------
+*	This is the main display callback function. It sets up the drawing for
+*	The labyrinth 
+*/
+void drawLabyrinth() {
+	// Diese Schleife wird jetzt solange ausgefuehrt, bis der Spieler das Ziel erreicht hat
+	// In der Schleife muessen immer und immer wieder alle Objekte im Labyrinth erstellt und texturiert werden
+	// Auch muss die Bewegung des Spielers hier durchgefuehrt werden
+	glewExperimental = true;
+	if (glewInit() != GLEW_OK) {
+		cout << "Fehler" << endl;
+	}
+
+	glutMotionFunc(MouseMotionFunc);
+	glutPassiveMotionFunc(MousePassiveMotionFunc);
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	lab->Projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f); // Nicht aendern
+
+	lab->View = glm::lookAt(lab->cameraPos, // Spieler steht da, wo das "S" auch ist
+		lab->cameraFront, // Blickrichtung abhängig vom Standort
+		lab->cameraUp);
+	// View eventuell aendern, um zu testen, um das Labyrinth anzuschauen
+	lab->Model = glm::mat4(1.0f);
+
+	drawCube();
+	lab->sendMVP();
+
+	//Boden
+	glm::mat4 DefaultModel = lab->Model;
+
+	if (level.getLevelHeight() % 2 == 0) // gerade Laenge
+	{
+		lab->Model = glm::translate(lab->Model, glm::vec3(level.getLevelWidth() / 2 + 0.5, -0.6, level.getLevelHeight() / 2 + 0.5)); // Auf die Mitte des Labyrinths setzen und knapp drunter, y-Wert eventuell anpassen
+	}
+	else lab->Model = glm::translate(lab->Model, glm::vec3(level.getLevelWidth() / 2, -0.6, level.getLevelHeight() / 2)); // Ungerade Laenge
+
+	lab->Model = glm::scale(lab->Model, glm::vec3(level.getLevelWidth(), 0.1, level.getLevelHeight())); // skalieren, um genauso groß wie das Labyrinth zu sein	
+	lab->sendMVP();
+	drawCube(); // erst sendMVP, dann drawCube
+
+				// Default zuruecksetzen
+	lab->Model = DefaultModel;
+	double xpos = 0.0;
+	double zpos = 0.0;
+
+	for (const auto& inner : level.getLevel()) {
+		for (const auto& position : inner) {
+
+			if (position == 'X') { // Wand zeichnen
+								   //cout << "Wand wird gezeichnet bei " << xpos << " " << zpos << endl;
+				lab->Model = glm::translate(lab->Model, glm::vec3(xpos, 0.0, zpos)); // translate Koordinaten sind abhaengig von den Koordinaten des Models, es findet eine Addition statt...
+				lab->Model = glm::scale(lab->Model, glm::vec3(0.5, 0.5, 0.5));
+				lab->sendMVP();
+				drawCube();
+				//... Daher muss wieder auf das Default-Model gesetzt, damit Model wieder auf dem Ursprung sitzt
+				lab->Model = DefaultModel;
+			}
+
+			xpos++;
+		}
+		zpos++;
+		xpos = 0;
+	}
+
+	lab->playerFinished = lab->isPlayerFinished();
+
+	glutSwapBuffers();
+	glutPostRedisplay();
+}
 
 
 

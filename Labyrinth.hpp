@@ -20,9 +20,8 @@ using namespace glm;
 
 class Labyrinth {
 private:
-	ActualLevel level;
-	ActualGame game;
 
+public:
 	glm::mat4 Model; // Walls
 	glm::mat4 View; // Camera
 	glm::mat4 Projection;
@@ -34,7 +33,8 @@ private:
 	glm::vec3 cameraUp;
 	GLuint programID;
 
-public:
+	bool playerFinished = false;
+
 	Labyrinth();
 	Labyrinth(ActualLevel al, ActualGame ag);
 	
@@ -45,5 +45,8 @@ public:
 	ActualGame getActualGame();
 	ActualLevel getActualLevel();
 };
+
+
+void drawLabyrinth();
 
 #endif

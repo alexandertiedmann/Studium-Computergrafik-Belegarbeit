@@ -60,9 +60,41 @@ ActualLevel getActualLevelFromLabyrinth() {
 	return labyrinth.getActualLevel();
 }
 
+bool getMenuOpen() {
+	if (loadedMenu != 'N') {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+void setMenuOpen(bool openMain) {
+	if (openMain) {
+		loadedMenu = 'M';
+	}
+	else {
+		loadedMenu = 'N';
+	}
+}
+
+void checkFinish() {
+	if (labyrinth.playerFinished) {
+		callFin();
+	}
+}
+
 void loadLab() {
-	labyrinth.loadLabyrinth();
+
+	glutMouseFunc(MouseFunc);
+	glutMotionFunc(MouseMotionFunc);
+	glutPassiveMotionFunc(MousePassiveMotionFunc);
+
+	loadedMenu = 'N';
 	labbyOpen = true;
+
+	labyrinth.loadLabyrinth();
+	checkFinish();
 }
 
 /*----------------------------------------------------------------------------------------
@@ -228,6 +260,8 @@ void load(int saveslot) {
 
 	Labyrinth labby(level, game);
 	labyrinth = labby;
+
+	loadedMenu = 'N';
 
 	loadLab();
 }
@@ -712,6 +746,7 @@ void Draw3D(){
 */
 void Draw2D()
 {
+	cout << loadedMenu << endl;
 	switch (loadedMenu) {
 		case 'M':
 			ButtonDraw(&ContinueBtn);
@@ -750,6 +785,11 @@ void Draw2D()
 *	an orthographic projection and calls Draw2D().
 */
 void Draw(){
+	glewExperimental = true;
+	if (glewInit() != GLEW_OK) {
+		cout << "Fehler" << endl;
+	}
+	
 	/*
 	*	Clear the background
 	*/
@@ -1064,6 +1104,9 @@ void renderScene(void) {
 bool closeMainMenu() {
 	if (loadedMenu == 'M'){
 		loadedMenu = 'N';
+		glutMouseFunc(MouseFunc);
+		glutMotionFunc(MouseMotionFunc);
+		glutPassiveMotionFunc(MousePassiveMotionFunc);
 		labyrinth.loadLabyrinth();
 		return false;
 	}
@@ -1076,6 +1119,7 @@ void callMenu() {
 	if (loadedMenu != 'N') {
 		labbyOpen = false;
 		glutDisplayFunc(Draw);
+
 		glutMouseFunc(MouseButton);
 		glutMotionFunc(MouseMotion);
 		glutPassiveMotionFunc(MousePassiveMotion);
@@ -1095,6 +1139,7 @@ void closeSubMenu() {
 bool callMainMenu() {
 	if (loadedMenu != 'M') {
 		loadedMenu = 'M';
+		cout << loadedMenu << endl;
 		callMenu();
 		return true;
 	}

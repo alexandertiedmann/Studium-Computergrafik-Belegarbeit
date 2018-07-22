@@ -4,7 +4,7 @@
 const long nScreenWidth = ::GetSystemMetrics(SM_CXSCREEN);
 const long nScreenHeight = ::GetSystemMetrics(SM_CYSCREEN);
 
-bool menuOpen = false;
+bool menuOpen = getMenuOpen();
 bool labyOpen = false;
 
 /*----------------------------------------------------------------------------------------
@@ -20,28 +20,30 @@ void getOpenLabyrinth() {
 
 void keys(unsigned char key, int xmouse, int ymouse) {
 	getOpenLabyrinth();
-	cout << key << endl;
 
 	if (labyOpen) {
 		switch (key) {
 		case 27:
 			cout << "esc Key was pressed" << endl;
 			if (menuOpen) {
-				menuOpen = closeMainMenu();
+				setMenuOpen(closeMainMenu());
 			}
 			else {
-				menuOpen = callMainMenu();
+				setMenuOpen(callMainMenu());
 			}
 			break;
 		case 'w':
 			cout << "w Key was pressed" << endl;
 			getLabyrinth().movePlayer(getActualLevelFromLabyrinth(), 'w');
+			break;
 		case 'a':
 			cout << "a Key was pressed" << endl;
-			 getLabyrinth().movePlayer(getActualLevelFromLabyrinth(), 'a');
+			getLabyrinth().movePlayer(getActualLevelFromLabyrinth(), 'a');
+			break;
 		case 'd':
 			cout << "d Key was pressed" << endl;
 			getLabyrinth().movePlayer(getActualLevelFromLabyrinth(), 'd');
+			break;
 		default:
 			break;
 		}
@@ -63,7 +65,7 @@ int main(int argc, char **argv){
 
 	glutKeyboardFunc(keys);
 
-	bool tmp = callMainMenu();
+	setMenuOpen(callMainMenu());
 
 	glutMainLoop();
 	
