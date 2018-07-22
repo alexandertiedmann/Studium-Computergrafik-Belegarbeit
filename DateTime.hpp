@@ -8,9 +8,7 @@
 #include <fstream>
 #include <string> 
 #include <sstream>
-//#include <ctime>
-#include <time.h>  //for time(NULL)
-#include <conio.h>   //for getch()
+#include <time.h>
 #include <string>
 
 using namespace std;
