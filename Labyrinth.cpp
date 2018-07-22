@@ -91,10 +91,10 @@ void Labyrinth::movePlayer(char keyPressed) {
 
 	if (keyPressed == 'w') {
 		if (game.view == 1) {
-			if (level.getLevel()[game.yCoord-1][game.xCoord] == '0') {
+			if (level.getLevel()[game.yCoord-1][game.xCoord] == '0' | level.getLevel()[game.yCoord - 1][game.xCoord] == 's' | level.getLevel()[game.yCoord - 1][game.xCoord] == 'z') {
 				cameraPos = cameraFront;
 				cameraFront = glm::vec3(cameraPos[0], 0, cameraPos[2] - 1);
-				View = glm::lookAt(cameraPos, cameraFront, cameraUp);
+				View = glm::lookAt(cameraPos, cameraFront, cameraUp);			
 				game.xCoord = cameraPos[0];
 				game.yCoord = cameraPos[2];
 			}
@@ -126,10 +126,14 @@ void Labyrinth::movePlayer(char keyPressed) {
 				game.yCoord = cameraPos[2];
 			}
 		}
+
+		if (level.getLevel()[game.yCoord][game.xCoord] == 'z') {
+			playerFinished = true;
+		}
 	}
 
-	// Nach links drehen ("a")
-	if (keyPressed == 'a') {
+	// Nach rechts drehen ("d")
+	if (keyPressed == 'd') {
 		if (game.view == 1) {
 			cameraFront += glm::vec3(1, 0, 1);
 			game.view = 2;
@@ -148,8 +152,8 @@ void Labyrinth::movePlayer(char keyPressed) {
 		}
 	}
 
-	// Nach rechts drehen ("d")
-	if (keyPressed == 'd') {
+	// Nach links drehen ("a")
+	if (keyPressed == 'a') {
 		if (game.view == 1) {
 			cameraFront += glm::vec3(-1, 0, 1);
 			game.view = 4;
