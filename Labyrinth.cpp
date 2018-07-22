@@ -24,13 +24,17 @@ void Labyrinth::sendMVP()
 	glUniformMatrix4fv(glGetUniformLocation(programID, "V"), 1, GL_FALSE, &View[0][0]);
 	glUniformMatrix4fv(glGetUniformLocation(programID, "P"), 1, GL_FALSE, &Projection[0][0]);//Ergaenzt den oberen Befehl
 }
-
-
+void keycallback(unsigned char key, int xmouse, int ymouse) {
+	cout << "es wurde gedrückt " << key << endl;
+	
+}
 /*
 Erstellt das Labyrinth abhaengig von dem uebergebenen Array
 */
 void Labyrinth::loadLabyrinth()
 {
+
+	glutKeyboardFunc(keycallback);
 	// Hier werden die Indizes gesucht, auf denen sich das "s" im Vektor befindet, damit die Kamera-Variablen gesetzt werden koennen.
 	// Die Kamera-Variablen werden dann der View uebergeben und so laesst sich die View dynamisch aendern
 	int i = 0;

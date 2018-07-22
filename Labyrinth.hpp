@@ -29,6 +29,7 @@ private:
 	GLuint programID;
 	ActualLevel level;
 	ActualGame game;
+	//void keys(unsigned char key, int xmouse, int ymouse);
 
 public:
 	Labyrinth();
