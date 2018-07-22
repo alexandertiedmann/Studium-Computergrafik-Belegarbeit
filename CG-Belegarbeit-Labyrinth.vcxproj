@@ -162,6 +162,7 @@ xcopy $(SolutionDir)Dependencies\freeglut\*.dll $(OutputPath) /y</Command>
     <None Include="saves\001.sav" />
     <None Include="saves\002.sav" />
     <None Include="saves\003.sav" />
+    <None Include="saves\highscores.scores" />
     <None Include="saves\save.info" />
   </ItemGroup>
   <ItemGroup>

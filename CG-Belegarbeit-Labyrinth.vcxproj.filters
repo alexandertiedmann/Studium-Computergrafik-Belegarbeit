@@ -70,6 +70,7 @@
     <None Include="matrix_transform.inl">
       <Filter>Headerdateien</Filter>
     </None>
+    <None Include="saves\highscores.scores" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Menu.hpp">
