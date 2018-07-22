@@ -1064,9 +1064,7 @@ void renderScene(void) {
 bool closeMainMenu() {
 	if (loadedMenu == 'M'){
 		loadedMenu = 'N';
-		glewInit();
-		glutDisplayFunc(renderScene);
-		glutPostRedisplay();
+		labyrinth.loadLabyrinth();
 		return false;
 	}
 	else {
