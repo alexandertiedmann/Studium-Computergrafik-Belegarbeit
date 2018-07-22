@@ -30,7 +30,7 @@ void Labyrinth::sendMVP()
 	glUniformMatrix4fv(glGetUniformLocation(programID, "P"), 1, GL_FALSE, &Projection[0][0]);//Ergaenzt den oberen Befehl
 }
 void keycallback(unsigned char key, int xmouse, int ymouse) {
-	cout << "es wurde gedrückt " << key << endl;
+	cout << "Taste wurde gedrückt " << key << endl;
 	
 }
 /*
