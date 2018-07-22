@@ -1,8 +1,8 @@
 #include "Labyrinth.hpp"
 #include "dummy.hpp"
+#include <Windows.h>
 #include <math.h>
 #include <stdlib.h>
-
 Labyrinth::Labyrinth(ActualLevel al, ActualGame ag) : level(al), game(ag)
 {
 	level = al;
@@ -10,7 +10,7 @@ Labyrinth::Labyrinth(ActualLevel al, ActualGame ag) : level(al), game(ag)
 }
 
 
-Labyrinth::Labyrinth(){ }
+Labyrinth::Labyrinth() { }
 
 void Labyrinth::sendMVP()
 {
@@ -31,70 +31,111 @@ Erstellt das Labyrinth abhaengig von dem uebergebenen Array
 */
 void Labyrinth::loadLabyrinth()
 {
-
-	Projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f); // Nicht aendern
-	View = glm::lookAt(glm::vec3(0.0f, 0.0f, -5.0f), // wo der Spieler steht    
-		glm::vec3(0.0f, 0.0f, 0.0f),  // Wo der Spieler hinguckt
-		glm::vec3(0.0f, 1.0f, 0.0f)); // so lassen
-	// View eventuell aendern, um zu testen, um das Labyrinth anzuschauen
-	Model = glm::mat4(1.0f);
-
-	sendMVP();
-	glewInit();
-	glutMouseFunc(MouseFunc);
-	glutMotionFunc(MouseMotionFunc);
-	glutPassiveMotionFunc(MousePassiveMotionFunc);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_LIGHTING);
-	glutSwapBuffers();
-
-
-	cout << "Labby" << endl;
-	double xpos = 0.0;
-	double zpos = 0.0;
-
-
-	//Boden
-	glm::mat4 DefaultModel = Model;
-
-	if (level.getLevelHeight() % 2 == 0) // gerade Laenge
-	{
-		Model = glm::translate(Model, glm::vec3(level.getLevelWidth() / 2 + 0.5, -0.6, level.getLevelHeight() / 2 + 0.5)); // Auf die Mitte des Labyrinths setzen und knapp drunter, y-Wert eventuell anpassen
-	}
-	else Model = glm::translate(Model, glm::vec3(level.getLevelWidth() / 2, -0.6, level.getLevelHeight() / 2)); // Ungerade Laenge
-
-	Model = glm::scale(Model, glm::vec3(level.getLevelWidth(), 0.1, level.getLevelHeight())); // skalieren, um genauso groß wie das Labyrinth zu sein	
-	sendMVP();
-	drawCube(); // erst sendMVP, dann drawCube
-
-	// Default zuruecksetzen
-	Model = DefaultModel;
-
-
+	// Hier werden die Indizes gesucht, auf denen sich das "s" im Vektor befindet, damit die Kamera-Variablen gesetzt werden koennen.
+	// Die Kamera-Variablen werden dann der View uebergeben und so laesst sich die View dynamisch aendern
+	int i = 0;
+	int j = 0;
 	for (const auto& inner : level.getLevel()) {
 		for (const auto& position : inner) {
-			if (position == 'X') { // Wand zeichnen
-				Model = glm::translate(Model, glm::vec3(xpos, 0.0, zpos)); // translate Koordinaten sind abhaengig von den Koordinaten des Models, es findet eine Addition statt...
-				sendMVP();
-				drawCube();
-				//... Daher muss wieder auf das Default-Model gesetzt, damit Model wieder auf dem Ursprung sitzt
-				Model = DefaultModel;
-			}
-			if (position == 'S') {
-				// Spieler platzieren
-				cameraPos = glm::vec3(xpos, 0, zpos);
-				cameraFront = glm::vec3(xpos, 0, zpos - 1);
+			
+			if (position == 's') {
+				cameraPos = glm::vec3(i, 0, j);
+				cameraFront = glm::vec3(i, 0, j - 1);
 				cameraUp = glm::vec3(0, 1, 0);
-				View = glm::lookAt(cameraPos, // Spieler steht da, wo das "S" auch ist
-					cameraFront, // Blickrichtung abhängig vom Standort
-					cameraUp);
+				cout << "Spieler bei " << j << " " << i << endl;
+				
 			}
-			xpos++;
+			i++;
 		}
-		zpos++;
-		xpos = 0;
+		j++;
+		i = 0;
 	}
+	
+
+
+		cout << "Labby" << endl;
+	double xpos = 0.0;
+	double zpos = 0.0;
+	bool isGameFinished = false;
+
+
+	glEnable(GL_DEPTH_TEST);
+
+	glDepthFunc(GL_LESS);
+	// Shader laden
+	programID = LoadShaders("TransformVertexShader.vertexshader", "ColorFragmentShader.fragmentshader");
+    // Shader benutzen
+	glUseProgram(programID);
+
+	while (!isGameFinished) // ToDo: Variable noch aendern, wenn Ziel erreicht
+	{
+		// Diese Schleife wird jetzt solange ausgefuehrt, bis der Spieler das Ziel erreicht hat
+		// In der Schleife muessen immer und immer wieder alle Objekte im Labyrinth erstellt und texturiert werden
+		// Auch muss die Bewegung des Spielers hier durchgefuehrt werden
+		glewExperimental = true;
+		if (glewInit() != GLEW_OK) {
+			cout << "Fehler" << endl;
+		}
+
+		glutMotionFunc(MouseMotionFunc);
+		glutPassiveMotionFunc(MousePassiveMotionFunc);
+
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		Projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f); // Nicht aendern
+
+		View = glm::lookAt(cameraPos, // Spieler steht da, wo das "S" auch ist
+			cameraFront, // Blickrichtung abhängig vom Standort
+			cameraUp);
+										  // View eventuell aendern, um zu testen, um das Labyrinth anzuschauen
+		Model = glm::mat4(1.0f);
+
+		drawCube();
+		sendMVP();
+
+		//Boden
+		glm::mat4 DefaultModel = Model;
+
+		if (level.getLevelHeight() % 2 == 0) // gerade Laenge
+		{
+			Model = glm::translate(Model, glm::vec3(level.getLevelWidth() / 2 + 0.5, -0.6, level.getLevelHeight() / 2 + 0.5)); // Auf die Mitte des Labyrinths setzen und knapp drunter, y-Wert eventuell anpassen
+		}
+		else Model = glm::translate(Model, glm::vec3(level.getLevelWidth() / 2, -0.6, level.getLevelHeight() / 2)); // Ungerade Laenge
+
+		Model = glm::scale(Model, glm::vec3(level.getLevelWidth(), 0.1, level.getLevelHeight())); // skalieren, um genauso groß wie das Labyrinth zu sein	
+		sendMVP();
+		drawCube(); // erst sendMVP, dann drawCube
+
+		// Default zuruecksetzen
+		Model = DefaultModel;
+		double xpos = 0.0;
+		double zpos = 0.0;
+
+		for (const auto& inner : level.getLevel()) {
+			for (const auto& position : inner) {
+
+				if (position == 'X') { // Wand zeichnen
+					//cout << "Wand wird gezeichnet bei " << xpos << " " << zpos << endl;
+					Model = glm::translate(Model, glm::vec3(xpos, 0.0, zpos)); // translate Koordinaten sind abhaengig von den Koordinaten des Models, es findet eine Addition statt...
+					Model = glm::scale(Model, glm::vec3(0.5, 0.5, 0.5));
+					sendMVP();
+					drawCube();
+					//... Daher muss wieder auf das Default-Model gesetzt, damit Model wieder auf dem Ursprung sitzt
+					Model = DefaultModel;
+				}
+				
+				xpos++;
+			}
+			zpos++;
+			xpos = 0;
+		}
+
+		glutSwapBuffers();
+		glutPostRedisplay();
+	}
+
+
+
 }
 // Leons Teil
 void Labyrinth::movePlayer(ActualLevel al, char keyPressed) {
@@ -145,7 +186,7 @@ ActualGame Labyrinth::getActualGame() {
 //Experiment
 bool Labyrinth::isPlayerFinished()
 {
-	if (level.getLevel()[cameraPos.x][cameraPos.z] == 'Z') {
+	if (level.getLevel()[cameraPos.x][cameraPos.z] == 'z') {
 		return true;
 	}
 	else return false;

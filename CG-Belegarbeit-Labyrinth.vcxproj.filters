@@ -42,6 +42,9 @@
     <ClCompile Include="dummy.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="shader.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Level\001.lvl" />
@@ -89,6 +92,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="dummy.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="shader.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

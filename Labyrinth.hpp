@@ -8,6 +8,7 @@
 #include "Dependencies\glew\glew.h"
 #include "Dependencies\freeglut\freeglut.h"
 #include "objects.hpp"
+#include "shader.hpp"
 
 #include "ActualLevel.hpp"
 #include "ActualGame.hpp"
@@ -22,8 +23,6 @@ private:
 	glm::vec3 cameraPos; // Camera Position
 	glm::vec3 cameraFront; // Camera Direction
 	glm::vec3 cameraUp;
-	glm::mat3 transformMatrixLeft; // Transformationsmatrix Drehung links
-	glm::mat3 transformMatrixRight; // Transformmatrionsmatrix Drehung rechts
 	GLuint programID;
 	ActualLevel level;
 	ActualGame game;
