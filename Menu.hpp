@@ -89,6 +89,7 @@ void drawHighscores();
 void drawFinish();
 bool getLabbyOpen();
 bool getMenuOpen();
+void drawLabyrinth();
 void setMenuOpen(bool openMain);
 void loadLab(Labyrinth* labyrinth);
 Labyrinth getLabyrinth();

@@ -20,7 +20,8 @@ using namespace glm;
 
 class Labyrinth {
 private:
-
+	ActualLevel level;
+	ActualGame game;
 public:
 	glm::mat4 Model; // Walls
 	glm::mat4 View; // Camera
@@ -40,7 +41,7 @@ public:
 	
 	void sendMVP();
 	void loadLabyrinth();
-	void movePlayer(ActualLevel al, char keyPressed);
+	void movePlayer(char keyPressed);
 	bool isPlayerFinished();
 	ActualGame getActualGame();
 	ActualLevel getActualLevel();

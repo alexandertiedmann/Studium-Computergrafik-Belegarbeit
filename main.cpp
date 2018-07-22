@@ -34,15 +34,15 @@ void keys(unsigned char key, int xmouse, int ymouse) {
 			break;
 		case 'w':
 			cout << "w Key was pressed" << endl;
-			getLabyrinth().movePlayer(getActualLevelFromLabyrinth(), 'w');
+			getLabyrinth().movePlayer('w');
 			break;
 		case 'a':
 			cout << "a Key was pressed" << endl;
-			getLabyrinth().movePlayer(getActualLevelFromLabyrinth(), 'a');
+			getLabyrinth().movePlayer('a');
 			break;
 		case 'd':
 			cout << "d Key was pressed" << endl;
-			getLabyrinth().movePlayer(getActualLevelFromLabyrinth(), 'd');
+			getLabyrinth().movePlayer('d');
 			break;
 		default:
 			break;

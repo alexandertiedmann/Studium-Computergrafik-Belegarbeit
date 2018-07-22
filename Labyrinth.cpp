@@ -5,8 +5,7 @@
 #include <stdlib.h>
 
 
-ActualLevel level;
-ActualGame game;
+
 Labyrinth* lab;
 
 Labyrinth::Labyrinth(ActualLevel al, ActualGame ag) {
@@ -29,17 +28,13 @@ void Labyrinth::sendMVP()
 	glUniformMatrix4fv(glGetUniformLocation(programID, "V"), 1, GL_FALSE, &View[0][0]);
 	glUniformMatrix4fv(glGetUniformLocation(programID, "P"), 1, GL_FALSE, &Projection[0][0]);//Ergaenzt den oberen Befehl
 }
-void keycallback(unsigned char key, int xmouse, int ymouse) {
-	cout << "Taste wurde gedrückt " << key << endl;
-	
-}
+
+
 /*
 Erstellt das Labyrinth abhaengig von dem uebergebenen Array
 */
-void Labyrinth::loadLabyrinth()
-{
+void Labyrinth::loadLabyrinth(){
 
-	glutKeyboardFunc(keycallback);
 	// Hier werden die Indizes gesucht, auf denen sich das "s" im Vektor befindet, damit die Kamera-Variablen gesetzt werden koennen.
 	// Die Kamera-Variablen werden dann der View uebergeben und so laesst sich die View dynamisch aendern
 	int i = 0;
@@ -62,10 +57,8 @@ void Labyrinth::loadLabyrinth()
 		j++;
 		i = 0;
 	}
-	
 
-
-		cout << "Labby" << endl;
+	cout << "Labby" << endl;
 	double xpos = 0.0;
 	double zpos = 0.0;
 	bool isGameFinished = false;
@@ -79,14 +72,10 @@ void Labyrinth::loadLabyrinth()
     // Shader benutzen
 	glUseProgram(programID);
 
-	lab = this;
-
-	glutDisplayFunc(drawLabyrinth);
-
 }
 // Leons Teil
-void Labyrinth::movePlayer(ActualLevel al, char keyPressed) {
-
+void Labyrinth::movePlayer(char keyPressed) {
+	//cout << "Pos.: " << cameraPos.x << " " << cameraPos.z << "Cam.:" << cameraFront.y << " " << cameraFront.z << endl;
 	// Drehmatrizen jeweils für Drehung um 1 Grad
 	transformMatrixLeft = glm::mat3{ glm::vec3(0.9998476952f, 0.0f, 0.01745240644f),
 									glm::vec3(0.0f, 1.0f, 0.0f),
@@ -97,7 +86,10 @@ void Labyrinth::movePlayer(ActualLevel al, char keyPressed) {
 									glm::vec3(0.01745240644f, 0.0f, 0.9998476952f) };
 
 	// Nach vorne laufen ("w")
-	if (keyPressed == (char)"w") {
+
+	
+
+	if (keyPressed == 'w') {
 		if (game.view == 1) {
 			if (level.getLevel()[game.yCoord-1][game.xCoord] == '0') {
 				cameraPos = cameraFront;
@@ -134,11 +126,10 @@ void Labyrinth::movePlayer(ActualLevel al, char keyPressed) {
 				game.yCoord = cameraPos[2];
 			}
 		}
-		
 	}
 
 	// Nach links drehen ("a")
-	if (keyPressed == (char)"a") {
+	if (keyPressed == 'a') {
 		if (game.view == 1) {
 			cameraFront += glm::vec3(1, 0, 1);
 			game.view = 2;
@@ -158,7 +149,7 @@ void Labyrinth::movePlayer(ActualLevel al, char keyPressed) {
 	}
 
 	// Nach rechts drehen ("d")
-	if (keyPressed == (char)"d") {
+	if (keyPressed == 'd') {
 		if (game.view == 1) {
 			cameraFront += glm::vec3(-1, 0, 1);
 			game.view = 4;
@@ -176,6 +167,8 @@ void Labyrinth::movePlayer(ActualLevel al, char keyPressed) {
 			game.view = 1;
 		}
 	}
+
+	//cout << "Pos.: " << cameraPos.x << " " << cameraPos.z << "Cam.:" << cameraFront.y << " " << cameraFront.z << endl;
 }
 /*
 *	\brief return the ActualGame
@@ -201,79 +194,4 @@ bool Labyrinth::isPlayerFinished()
 	else return false;
 
 }
-
-
-/*----------------------------------------------------------------------------------------
-*	This is the main display callback function. It sets up the drawing for
-*	The labyrinth 
-*/
-void drawLabyrinth() {
-	// Diese Schleife wird jetzt solange ausgefuehrt, bis der Spieler das Ziel erreicht hat
-	// In der Schleife muessen immer und immer wieder alle Objekte im Labyrinth erstellt und texturiert werden
-	// Auch muss die Bewegung des Spielers hier durchgefuehrt werden
-	glewExperimental = true;
-	if (glewInit() != GLEW_OK) {
-		cout << "Fehler" << endl;
-	}
-
-	glutMotionFunc(MouseMotionFunc);
-	glutPassiveMotionFunc(MousePassiveMotionFunc);
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	lab->Projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f); // Nicht aendern
-
-	lab->View = glm::lookAt(lab->cameraPos, // Spieler steht da, wo das "S" auch ist
-		lab->cameraFront, // Blickrichtung abhängig vom Standort
-		lab->cameraUp);
-	// View eventuell aendern, um zu testen, um das Labyrinth anzuschauen
-	lab->Model = glm::mat4(1.0f);
-
-	drawCube();
-	lab->sendMVP();
-
-	//Boden
-	glm::mat4 DefaultModel = lab->Model;
-
-	if (level.getLevelHeight() % 2 == 0) // gerade Laenge
-	{
-		lab->Model = glm::translate(lab->Model, glm::vec3(level.getLevelWidth() / 2 + 0.5, -0.6, level.getLevelHeight() / 2 + 0.5)); // Auf die Mitte des Labyrinths setzen und knapp drunter, y-Wert eventuell anpassen
-	}
-	else lab->Model = glm::translate(lab->Model, glm::vec3(level.getLevelWidth() / 2, -0.6, level.getLevelHeight() / 2)); // Ungerade Laenge
-
-	lab->Model = glm::scale(lab->Model, glm::vec3(level.getLevelWidth(), 0.1, level.getLevelHeight())); // skalieren, um genauso groß wie das Labyrinth zu sein	
-	lab->sendMVP();
-	drawCube(); // erst sendMVP, dann drawCube
-
-				// Default zuruecksetzen
-	lab->Model = DefaultModel;
-	double xpos = 0.0;
-	double zpos = 0.0;
-
-	for (const auto& inner : level.getLevel()) {
-		for (const auto& position : inner) {
-
-			if (position == 'X') { // Wand zeichnen
-								   //cout << "Wand wird gezeichnet bei " << xpos << " " << zpos << endl;
-				lab->Model = glm::translate(lab->Model, glm::vec3(xpos, 0.0, zpos)); // translate Koordinaten sind abhaengig von den Koordinaten des Models, es findet eine Addition statt...
-				lab->Model = glm::scale(lab->Model, glm::vec3(0.5, 0.5, 0.5));
-				lab->sendMVP();
-				drawCube();
-				//... Daher muss wieder auf das Default-Model gesetzt, damit Model wieder auf dem Ursprung sitzt
-				lab->Model = DefaultModel;
-			}
-
-			xpos++;
-		}
-		zpos++;
-		xpos = 0;
-	}
-
-	lab->playerFinished = lab->isPlayerFinished();
-
-	glutSwapBuffers();
-	glutPostRedisplay();
-}
-
-
 

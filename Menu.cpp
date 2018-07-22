@@ -94,8 +94,82 @@ void loadLab() {
 	labbyOpen = true;
 
 	labyrinth.loadLabyrinth();
+	glutDisplayFunc(drawLabyrinth);
 	checkFinish();
 }
+
+/*----------------------------------------------------------------------------------------
+*	This is the main display callback function. It sets up the drawing for
+*	The labyrinth
+*/
+void drawLabyrinth() {
+	// Diese Schleife wird jetzt solange ausgefuehrt, bis der Spieler das Ziel erreicht hat
+	// In der Schleife muessen immer und immer wieder alle Objekte im Labyrinth erstellt und texturiert werden
+	// Auch muss die Bewegung des Spielers hier durchgefuehrt werden
+	glewExperimental = true;
+	if (glewInit() != GLEW_OK) {
+		cout << "Fehler" << endl;
+	}
+
+	glutMotionFunc(MouseMotionFunc);
+	glutPassiveMotionFunc(MousePassiveMotionFunc);
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	labyrinth.Projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f); // Nicht aendern
+
+	labyrinth.View = glm::lookAt(labyrinth.cameraPos, // Spieler steht da, wo das "S" auch ist
+		labyrinth.cameraFront, // Blickrichtung abhängig vom Standort
+		labyrinth.cameraUp);
+	// View eventuell aendern, um zu testen, um das Labyrinth anzuschauen
+	labyrinth.Model = glm::mat4(1.0f);
+
+	drawCube();
+	labyrinth.sendMVP();
+
+	//Boden
+	glm::mat4 DefaultModel = labyrinth.Model;
+
+	if (labyrinth.getActualLevel().getLevelHeight() % 2 == 0) // gerade Laenge
+	{
+		labyrinth.Model = glm::translate(labyrinth.Model, glm::vec3(labyrinth.getActualLevel().getLevelWidth() / 2 + 0.5, -0.6, labyrinth.getActualLevel().getLevelHeight() / 2 + 0.5)); // Auf die Mitte des Labyrinths setzen und knapp drunter, y-Wert eventuell anpassen
+	}
+	else labyrinth.Model = glm::translate(labyrinth.Model, glm::vec3(labyrinth.getActualLevel().getLevelWidth() / 2, -0.6, labyrinth.getActualLevel().getLevelHeight() / 2)); // Ungerade Laenge
+
+	labyrinth.Model = glm::scale(labyrinth.Model, glm::vec3(labyrinth.getActualLevel().getLevelWidth(), 0.1, labyrinth.getActualLevel().getLevelHeight())); // skalieren, um genauso groß wie das Labyrinth zu sein	
+	labyrinth.sendMVP();
+	drawCube(); // erst sendMVP, dann drawCube
+
+				// Default zuruecksetzen
+	labyrinth.Model = DefaultModel;
+	double xpos = 0.0;
+	double zpos = 0.0;
+
+	for (const auto& inner : labyrinth.getActualLevel().getLevel()) {
+		for (const auto& position : inner) {
+
+			if (position == 'X') { // Wand zeichnen
+								   //cout << "Wand wird gezeichnet bei " << xpos << " " << zpos << endl;
+				labyrinth.Model = glm::translate(labyrinth.Model, glm::vec3(xpos, 0.0, zpos)); // translate Koordinaten sind abhaengig von den Koordinaten des Models, es findet eine Addition statt...
+				labyrinth.Model = glm::scale(labyrinth.Model, glm::vec3(0.5, 0.5, 0.5));
+				labyrinth.sendMVP();
+				drawCube();
+				//... Daher muss wieder auf das Default-Model gesetzt, damit Model wieder auf dem Ursprung sitzt
+				labyrinth.Model = DefaultModel;
+			}
+
+			xpos++;
+		}
+		zpos++;
+		xpos = 0;
+	}
+
+	labyrinth.playerFinished = labyrinth.isPlayerFinished();
+
+	glutSwapBuffers();
+	glutPostRedisplay();
+}
+
 
 /*----------------------------------------------------------------------------------------
 *	Calls the continue-method to load the last played game
@@ -482,8 +556,8 @@ void ButtonDraw(Button *b)
 	int fontx;
 	int fonty;
 
-	if (b)
-	{
+	if (b){
+
 		/*
 		*	We will indicate that the mouse cursor is over the button by changing its
 		*	colour.
@@ -534,7 +608,6 @@ void ButtonDraw(Button *b)
 		glEnd();
 
 		glLineWidth(1);
-
 
 		/*
 		*	Calculate the x and y coords for the text string in order to center it.
@@ -746,7 +819,7 @@ void Draw3D(){
 */
 void Draw2D()
 {
-	cout << loadedMenu << endl;
+	
 	switch (loadedMenu) {
 		case 'M':
 			ButtonDraw(&ContinueBtn);
@@ -774,7 +847,7 @@ void Draw2D()
 			break;
 		case 'F':
 			ButtonDraw(&CancelFin);
-			drawFinish(); //--------------------------------------ToDO: Draw Fin Screen
+			drawFinish();
 			break;
 	}
 }
@@ -1139,7 +1212,6 @@ void closeSubMenu() {
 bool callMainMenu() {
 	if (loadedMenu != 'M') {
 		loadedMenu = 'M';
-		cout << loadedMenu << endl;
 		callMenu();
 		return true;
 	}
