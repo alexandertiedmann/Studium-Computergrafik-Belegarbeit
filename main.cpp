@@ -3,7 +3,9 @@
 //get Screen Resolution
 const long nScreenWidth = ::GetSystemMetrics(SM_CXSCREEN);
 const long nScreenHeight = ::GetSystemMetrics(SM_CYSCREEN);
+
 bool menuOpen = false;
+bool labyOpen = false;
 
 /*----------------------------------------------------------------------------------------
 *	\brief	This function is called to initialise opengl.
@@ -12,20 +14,38 @@ void Init(){
 	glEnable(GL_LIGHT0);
 }
 
-void keys(unsigned char key, int xmouse, int ymouse){
-	switch (key) {
-	case 27:
-		if (menuOpen) {
-			menuOpen = closeMainMenu();
-		}
-		else {
-			menuOpen = callMainMenu();
-		}
-		break;
+void getOpenLabyrinth() {
+	labyOpen = getLabbyOpen();
+}
 
-	default:
-		break;
-	}
+void keys(unsigned char key, int xmouse, int ymouse) {
+	getOpenLabyrinth();
+	cout << key << endl;
+
+	if (labyOpen) {
+		switch (key) {
+		case 27:
+			cout << "esc Key was pressed" << endl;
+			if (menuOpen) {
+				menuOpen = closeMainMenu();
+			}
+			else {
+				menuOpen = callMainMenu();
+			}
+			break;
+		case 'w':
+			cout << "w Key was pressed" << endl;
+			getLabyrinth().movePlayer(getActualLevelFromLabyrinth(), 'w');
+		case 'a':
+			cout << "a Key was pressed" << endl;
+			 getLabyrinth().movePlayer(getActualLevelFromLabyrinth(), 'a');
+		case 'd':
+			cout << "d Key was pressed" << endl;
+			getLabyrinth().movePlayer(getActualLevelFromLabyrinth(), 'd');
+		default:
+			break;
+		}
+	}	
 }
  
 int main(int argc, char **argv){
@@ -36,13 +56,14 @@ int main(int argc, char **argv){
 	glutInitWindowPosition(0, 0);
 	glutInitWindowSize(nScreenWidth, nScreenHeight);
 	glutCreateWindow("OpenGL Test Window");
-	glutKeyboardFunc(keys);
 
 	glewInit();
 	glEnable(GL_DEPTH_TEST);
 	glutDisplayFunc(renderScene);
 
-	menuOpen = callMainMenu();
+	glutKeyboardFunc(keys);
+
+	bool tmp = callMainMenu();
 
 	glutMainLoop();
 	

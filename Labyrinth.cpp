@@ -239,6 +239,15 @@ void Labyrinth::movePlayer(ActualLevel al, char keyPressed) {
 ActualGame Labyrinth::getActualGame() {
 	return game;
 }
+
+/*
+*	\brief return the ActualLevel
+*/
+ActualLevel Labyrinth::getActualLevel() {
+	return level;
+}
+
+
 //Experiment
 bool Labyrinth::isPlayerFinished()
 {

@@ -1,11 +1,5 @@
 #include "Menu.hpp"
 
-/*----------------------------------------------------------------------------------------
-*	Global Variables
-*/
-
-Labyrinth labyrinth;
-
 /*
 *	rename the structure from "struct Mouse" to just "Mouse"
 */
@@ -20,6 +14,10 @@ typedef struct Mouse Mouse;
 *	F = Finish
 */
 char loadedMenu = 'N';
+
+bool labbyOpen = false;
+
+Labyrinth labyrinth;
 
 /*
 *	Create a global mouse structure to hold the mouse information.
@@ -46,8 +44,25 @@ int winh = ::GetSystemMetrics(SM_CYSCREEN);
 typedef void(*ButtonCallback)();
 typedef struct Button Button;
 
+Labyrinth getLabyrinth() {
+	return labyrinth;
+}
+
+bool getLabbyOpen() {
+	return labbyOpen;
+}
+
 ActualGame getActualGameFromLabyrinth() {
 	return labyrinth.getActualGame();
+}
+
+ActualLevel getActualLevelFromLabyrinth() {
+	return labyrinth.getActualLevel();
+}
+
+void loadLab() {
+	labyrinth.loadLabyrinth();
+	labbyOpen = true;
 }
 
 /*----------------------------------------------------------------------------------------
@@ -78,7 +93,7 @@ void ContinueMainMenu(){
 	Labyrinth labby(level, game);
 	labyrinth = labby;
 
-	labyrinth.loadLabyrinth();
+	loadLab();
 }
 
 /*----------------------------------------------------------------------------------------
@@ -103,7 +118,7 @@ void NewMainMenu(){
 	Labyrinth labby(level, game);
 	labyrinth = labby;
 
-	labyrinth.loadLabyrinth();
+	loadLab();
 }
 
 /*----------------------------------------------------------------------------------------
@@ -214,7 +229,7 @@ void load(int saveslot) {
 	Labyrinth labby(level, game);
 	labyrinth = labby;
 
-	labyrinth.loadLabyrinth();
+	loadLab();
 }
 
 /*
@@ -1061,6 +1076,7 @@ bool closeMainMenu() {
 
 void callMenu() {
 	if (loadedMenu != 'N') {
+		labbyOpen = false;
 		glutDisplayFunc(Draw);
 		glutMouseFunc(MouseButton);
 		glutMotionFunc(MouseMotion);

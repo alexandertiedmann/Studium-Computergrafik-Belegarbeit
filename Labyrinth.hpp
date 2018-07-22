@@ -9,7 +9,10 @@
 #include "Dependencies\freeglut\freeglut.h"
 #include "objects.hpp"
 #include "shader.hpp"
-
+#include "dummy.hpp"
+#include <Windows.h>
+#include <math.h>
+#include <stdlib.h>
 #include "ActualLevel.hpp"
 #include "ActualGame.hpp"
 using namespace std;
@@ -17,6 +20,9 @@ using namespace glm;
 
 class Labyrinth {
 private:
+	ActualLevel level;
+	ActualGame game;
+
 	glm::mat4 Model; // Walls
 	glm::mat4 View; // Camera
 	glm::mat4 Projection;
@@ -27,8 +33,6 @@ private:
 	glm::mat3 transformMatrixRight; // Transformmatrionsmatrix Drehung rechts
 	glm::vec3 cameraUp;
 	GLuint programID;
-	ActualLevel level;
-	ActualGame game;
 
 public:
 	Labyrinth();
@@ -39,6 +43,7 @@ public:
 	void movePlayer(ActualLevel al, char keyPressed);
 	bool isPlayerFinished();
 	ActualGame getActualGame();
+	ActualLevel getActualLevel();
 };
 
 #endif
