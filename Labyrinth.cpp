@@ -91,7 +91,7 @@ void Labyrinth::movePlayer(char keyPressed) {
 
 	if (keyPressed == 'w') {
 		if (game.view == 1) {
-			if (level.getLevel()[game.yCoord-1][game.xCoord] == '0' | level.getLevel()[game.yCoord - 1][game.xCoord] == 's' | level.getLevel()[game.yCoord - 1][game.xCoord] == 'z') {
+			if (level.getLevel()[game.yCoord-1][game.xCoord] == '0' || level.getLevel()[game.yCoord - 1][game.xCoord] == 's' || level.getLevel()[game.yCoord - 1][game.xCoord] == 'z') {
 				cameraPos = cameraFront;
 				cameraFront = glm::vec3(cameraPos[0], 0, cameraPos[2] - 1);
 				View = glm::lookAt(cameraPos, cameraFront, cameraUp);			
@@ -100,7 +100,7 @@ void Labyrinth::movePlayer(char keyPressed) {
 			}
 		}
 		else if (game.view == 2) {
-			if (level.getLevel()[game.yCoord][game.xCoord + 1] == '0') {
+			if (level.getLevel()[game.yCoord][game.xCoord + 1] == '0' || level.getLevel()[game.yCoord][game.xCoord + 1] == 's' || level.getLevel()[game.yCoord][game.xCoord + 1] == 'z') {
 				cameraPos = cameraFront;
 				cameraFront = glm::vec3(cameraPos[0] + 1, 0, cameraPos[2]);
 				View = glm::lookAt(cameraPos, cameraFront, cameraUp);
@@ -109,7 +109,7 @@ void Labyrinth::movePlayer(char keyPressed) {
 			}
 		}
 		else if (game.view == 3) {
-			if (level.getLevel()[game.yCoord + 1][game.xCoord] == '0') {
+			if (level.getLevel()[game.yCoord + 1][game.xCoord] == '0' || level.getLevel()[game.yCoord][game.xCoord + 1] == 's' || level.getLevel()[game.yCoord][game.xCoord + 1] == 'z') {
 				cameraPos = cameraFront;
 				cameraFront = glm::vec3(cameraPos[0], 0, cameraPos[2] + 1);
 				View = glm::lookAt(cameraPos, cameraFront, cameraUp);
@@ -118,7 +118,7 @@ void Labyrinth::movePlayer(char keyPressed) {
 			}
 		}
 		else if (game.view == 4) {
-			if (level.getLevel()[game.yCoord][game.xCoord - 1] == '0') {
+			if (level.getLevel()[game.yCoord][game.xCoord - 1] == '0' || level.getLevel()[game.yCoord][game.xCoord - 1] == 's' || level.getLevel()[game.yCoord][game.xCoord - 1] == 'z') {
 				cameraPos = cameraFront;
 				cameraFront = glm::vec3(cameraPos[0] - 1, 0, cameraPos[2]);
 				View = glm::lookAt(cameraPos, cameraFront, cameraUp);
