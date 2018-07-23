@@ -37,48 +37,65 @@ void Labyrinth::loadLabyrinth(){
 
 	// Hier werden die Indizes gesucht, auf denen sich das "s" im Vektor befindet, damit die Kamera-Variablen gesetzt werden koennen.
 	// Die Kamera-Variablen werden dann der View uebergeben und so laesst sich die View dynamisch aendern
-	int i = 0;
-	int j = 0;
-	for (const auto& inner : level.getLevel()) {
-		for (const auto& position : inner) {
-			
-			if (position == 's') {
-				cameraPos = glm::vec3(i, 0, j);
-				cameraFront = glm::vec3(i, 0, j - 1);
-				cameraUp = glm::vec3(0, 1, 0);
-				cout << "Spieler bei " << j << " " << i << endl;
-				cout << "Level: " << game.level << endl;
-				game.xCoord = i;
-				game.yCoord = j;
-				game.level;
-				// View setzen je nach Startposition
-				// View setzen je nach Startposition
-				if (level.getLevel()[game.yCoord - 1][game.xCoord] == '0') {
-					game.view = 1;
+	if (level.getLevel()[game.yCoord][game.xCoord] == 'X') {
+		int i = 0;
+		int j = 0;
+		for (const auto& inner : level.getLevel()) {
+			for (const auto& position : inner) {
+
+				if (position == 's') {
+					cameraPos = glm::vec3(i, 0, j);
+					cameraFront = glm::vec3(i, 0, j - 1);
+					cameraUp = glm::vec3(0, 1, 0);
+					cout << "Spieler bei " << j << " " << i << endl; // Spieler bei 4 1
+					cout << "Level: " << game.level << endl;
+					game.xCoord = i;
+					game.yCoord = j;
+					game.level;
+					// View setzen je nach Startposition
+					// View setzen je nach Startposition
+					if (level.getLevel()[game.yCoord - 1][game.xCoord] == '0') {
+						game.view = 1;
+					}
+					else if (level.getLevel()[game.yCoord][game.xCoord + 1] == '0') {
+						game.view = 2;
+						cameraFront += glm::vec3(1, 0, 1);
+					}
+					else if (level.getLevel()[game.yCoord + 1][game.xCoord] == '0') {
+						game.view = 3;
+						cameraFront += glm::vec3(0, 0, 2);
+					}
+					else if (level.getLevel()[game.yCoord][game.xCoord - 1] == '0') {
+						game.view = 4;
+						cameraFront += glm::vec3(-1, 0, 1);
+					}
+
 				}
-				else if (level.getLevel()[game.yCoord][game.xCoord + 1] == '0') {
-					game.view = 2;
-					cameraFront += glm::vec3(1, 0, 1);
-				}
-				else if (level.getLevel()[game.yCoord + 1][game.xCoord] == '0') {
-					game.view = 3;
-					cameraFront += glm::vec3(0, 0, 2);
-				}
-				else if (level.getLevel()[game.yCoord][game.xCoord - 1] == '0') {
-					game.view = 4;
-					cameraFront += glm::vec3(-1, 0, 1);
-				}
-				
+				i++;
 			}
-			i++;
+			j++;
+			i = 0;
 		}
-		j++;
-		i = 0;
 	}
+	else { // save wird geladen
+
+		cout << "xcoord: " << game.xCoord << endl;
+		cout << "ycoord: " << game.yCoord << endl;
+		cameraPos.x = game.xCoord;
+		cameraPos.z = game.yCoord;
+		cameraUp = glm::vec3(0, 1, 0);
+		cameraFront = glm::vec3(game.xCoord, 0, game.yCoord - 1);
+		switch (game.view) {
+			//case 1: cameraFront = glm::vec3(game.xCoord, 0, game.yCoord - 1);
+			case 2: cameraFront += glm::vec3(1, 0, 1);
+			case 3: cameraFront += glm::vec3(0, 0, 2);
+			case 4: cameraFront += glm::vec3(-1, 0, 1);
+		}
+	}
+	
 
 	cout << "Labby" << endl;
-	double xpos = 0.0;
-	double zpos = 0.0; 
+ 
 	bool isGameFinished = false;
 
 
