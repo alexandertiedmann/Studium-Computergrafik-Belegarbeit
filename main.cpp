@@ -47,17 +47,6 @@ void keys(unsigned char key, int xmouse, int ymouse) {
 			break;
 		}
 	}	
-	else {
-		if (!getFirstStart()) {
-			switch (key) {
-			case 27:
-				setMenuOpen(closeMainMenu());
-				break;
-			default:
-				break;
-			}
-		}
-	}
 }
  
 int main(int argc, char **argv){

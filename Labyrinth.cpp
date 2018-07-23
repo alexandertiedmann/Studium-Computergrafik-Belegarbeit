@@ -50,7 +50,24 @@ void Labyrinth::loadLabyrinth(){
 				cout << "Level: " << game.level << endl;
 				game.xCoord = i;
 				game.yCoord = j;
-				game.view = 1;
+				game.level;
+				// View setzen je nach Startposition
+				// View setzen je nach Startposition
+				if (level.getLevel()[game.yCoord - 1][game.xCoord] == '0') {
+					game.view = 1;
+				}
+				else if (level.getLevel()[game.yCoord][game.xCoord + 1] == '0') {
+					game.view = 2;
+					cameraFront += glm::vec3(1, 0, 1);
+				}
+				else if (level.getLevel()[game.yCoord + 1][game.xCoord] == '0') {
+					game.view = 3;
+					cameraFront += glm::vec3(0, 0, 2);
+				}
+				else if (level.getLevel()[game.yCoord][game.xCoord - 1] == '0') {
+					game.view = 4;
+					cameraFront += glm::vec3(-1, 0, 1);
+				}
 				
 			}
 			i++;
@@ -61,7 +78,7 @@ void Labyrinth::loadLabyrinth(){
 
 	cout << "Labby" << endl;
 	double xpos = 0.0;
-	double zpos = 0.0;
+	double zpos = 0.0; 
 	bool isGameFinished = false;
 
 
@@ -74,7 +91,7 @@ void Labyrinth::loadLabyrinth(){
 	glUseProgram(programID);
 
 }
-// Leons Teil
+
 void Labyrinth::movePlayer(char keyPressed) {
 	//cout << "Pos.: " << cameraPos.x << " " << cameraPos.z << "Cam.:" << cameraFront.y << " " << cameraFront.z << endl;
 	// Drehmatrizen jeweils für Drehung um 1 Grad
