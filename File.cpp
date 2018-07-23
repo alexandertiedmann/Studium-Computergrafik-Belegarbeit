@@ -211,13 +211,13 @@ void writeGame(int savenum, ActualGame game) {
 	//new and overwrite
 	std::ofstream outfile(savefile);
 
-	outfile << game.level << "\n";
-	outfile << game.yCoord << "\n";
-	outfile << game.xCoord << "\n";
-	outfile << game.view << "\n";
-	outfile << game.playtime << "\n";
-	outfile << game.savedate.toString() << "\n";
-	outfile << game.startdate.toString() << endl;
+	outfile << game.level << endl;
+	outfile << game.yCoord << endl;
+	outfile << game.xCoord << endl;
+	outfile << game.view << endl;
+	outfile << game.playtime << endl;
+	outfile << game.savedate.toString() << endl;
+	outfile << game.startdate.toString();
 
 	outfile.close();
 }
@@ -237,7 +237,7 @@ void addHighscore(int highscore) {
 	if (!file) {
 		cout << "File not found." << endl;
 		ofstream outfile(scorefile);
-		outfile << highscore << endl;
+		outfile << highscore;
 		outfile.close();
 	}
 	file.close();
