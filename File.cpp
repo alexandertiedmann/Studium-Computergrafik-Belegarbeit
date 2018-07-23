@@ -103,11 +103,11 @@ ActualGame readSave(int savenum) {
 			case 1: //level
 				level = stoi(line);
 				break;
-			case 2: //xCoord
-				xCoord = stoi(line);
-				break;
-			case 3: //yCoord
+			case 2: //yCoord
 				yCoord = stoi(line);
+				break;
+			case 3: //xCoord
+				xCoord = stoi(line);
 				break;
 			case 4: //view
 				view = stoi(line);
@@ -212,8 +212,8 @@ void writeGame(int savenum, ActualGame game) {
 	std::ofstream outfile(savefile);
 
 	outfile << game.level << "\n";
-	outfile << game.xCoord << "\n";
 	outfile << game.yCoord << "\n";
+	outfile << game.xCoord << "\n";
 	outfile << game.view << "\n";
 	outfile << game.playtime << "\n";
 	outfile << game.savedate.toString() << "\n";
