@@ -218,17 +218,26 @@ void ContinueMainMenu(){
 	DateTime save3date = readSavedate(3);
 	DateTime younger = getYoungest(save1date, save2date);
 	DateTime youngest = getYoungest(save3date, younger);
+
+
 	//game
 	ActualGame game;
-	if (save1date.toString() == youngest.toString()) {
-		game = readSave(1);
+	if (youngest.toString() == "0000-00-00 00-00") {
+		game = game;
 	}
-	if (save2date.toString() == youngest.toString()) {
-		game = readSave(2);
+	else {
+		
+		if (save1date.toString() == youngest.toString()) {
+			game = readSave(1);
+		}
+		if (save2date.toString() == youngest.toString()) {
+			game = readSave(2);
+		}
+		if (save3date.toString() == youngest.toString()) {
+			game = readSave(3);
+		}
 	}
-	if (save3date.toString() == youngest.toString()) {
-		game = readSave(3);
-	}
+
 	//cout << "Game: \n" << game.toString() << endl;
 	//level
 	ActualLevel level = readLevel(game.level);

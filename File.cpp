@@ -1,13 +1,46 @@
 #include "File.hpp"
 
 /*
+*	\brief checks if a path is a directory
+*	returns 0 if somithing is wrong
+*	returns 1 if it is a directory
+*	returns 2 if it is no directory but exists
+*/
+int dirExists(const string& dirName) {
+	DWORD ftyp = GetFileAttributesA(dirName.c_str());
+	if (ftyp == INVALID_FILE_ATTRIBUTES)
+		return 0;  //something is wrong with your path!
+
+	if (ftyp & FILE_ATTRIBUTE_DIRECTORY)
+		return 1;   // this is a directory!
+
+	return 2;    // this is not a directory!
+}
+
+/*
+*	\brief checks if a directory exists and create it if not
+*	\param path of directory
+*/
+void checkDirectory(string directory) {
+	int check = dirExists(directory);
+	const char * dir = directory.c_str();
+	cout << "Check: " << check << endl;
+
+	if (check == 1 || check == 0) {
+		CreateDirectory(dir, NULL);
+	}
+}
+
+/*
 *	\brief	reads the given savefile and returns the savedate
 *	\param	savenum	-	number of the savefile
 */
 DateTime readSavedate(int savenum) {
 	//Savefile suchen
 	string num = to_string(savenum);
-	string savefile = "saves\\00" + num + ".sav";
+	string dir = "saves";
+	checkDirectory(dir);
+	string savefile = dir + "\\00" + num + ".sav";
 	//cout << savefile << endl;
 	string savedate;
 	int count = 0;
@@ -44,7 +77,9 @@ ActualGame readSave(int savenum) {
 	
 	//Savefile suchen
 	string num = to_string(savenum);
-	string savefile = "saves\\00" + num + ".sav";
+	string dir = "saves";
+	checkDirectory(dir);
+	string savefile = dir + "\\00" + num + ".sav";
 	int count = 0;
 	ifstream infile(savefile);
 
@@ -102,27 +137,34 @@ ActualGame readSave(int savenum) {
 *	\param	levelnum	-	number of the levelfile
 */
 ActualLevel readLevel(int levelnum) {
-	if (levelnum < 1) {
-		cout << "Levelnum can not be < 1 !" << endl;
-	}
 	//get height and width
-		//read file
+	//read file
 	string num = to_string(levelnum);
-	string savefile;
+	string levelfile;
+
+	string dir = "level";
+	checkDirectory(dir);
+
 	if (levelnum < 10) {
-		savefile = "level\\00" + num + ".lvl";
+		levelfile = dir + "\\00" + num + ".lvl";
 	}
 	else {
-		savefile = "level\\0" + num + ".lvl";
+		levelfile = dir + "\\0" + num + ".lvl";
 	}
 	int height = 0;
 	int width = 0;
-	ifstream infile(savefile);
+	ifstream infile(levelfile);
 
 	//Failure
 	if (!infile) {
-		cout << "File not found." << endl;
-		return readLevel(levelnum-1);
+		cout << "Level-File not found." << endl;
+		if (levelnum == 1) {
+			cout << "No Level found" << endl;
+			exit(-1);
+		}
+		else {
+			return readLevel(levelnum - 1);
+		}
 	}
 
 	//Datei auslesen
@@ -139,7 +181,7 @@ ActualLevel readLevel(int levelnum) {
 
 	//fill Vector
 	line = "";
-	ifstream file(savefile);
+	ifstream file(levelfile);
 	int countline = 0;
 	while (getline(file, line)){
 		for (int w = 0; w < levelVec[0].size(); w++) {
@@ -161,7 +203,9 @@ ActualLevel readLevel(int levelnum) {
 */
 void writeGame(int savenum, ActualGame game) {
 	string num = to_string(savenum);
-	string savefile = "save\\00" + num + ".sav";
+	string dir = "saves";
+	checkDirectory(dir);
+	string savefile = dir + "\\00" + num + ".sav";
 	ifstream infile(savefile);
 
 	//new and overwrite
@@ -183,7 +227,10 @@ void writeGame(int savenum, ActualGame game) {
 *	\param	highscore	-	new highscore to write
 */
 void addHighscore(int highscore) {
-	string scorefile = "saves\\highscores.scores";
+	string dir = "saves";
+	checkDirectory(dir);
+	string scorefile = dir + "\\highscores.scores";
+
 	ifstream file(scorefile);
 
 	//Failure
@@ -207,15 +254,16 @@ void addHighscore(int highscore) {
 */
 vector<int> readScores(int numScores) {
 	vector<int> scores;
-
-	string scorefile = "saves\\highscores.scores";
+	string dir = "saves";
+	checkDirectory(dir);
+	string scorefile = dir + "\\highscores.scores";
 	ifstream infile(scorefile);
 
 	//Failure
 	if (!infile) {
 		cout << "File not found." << endl;
 		std::ofstream outfile(scorefile);
-		outfile << "" << std::endl;
+		outfile << "";
 		outfile.close();
 	}
 	infile.close();
