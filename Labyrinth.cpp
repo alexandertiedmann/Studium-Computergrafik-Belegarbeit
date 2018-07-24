@@ -79,14 +79,14 @@ void Labyrinth::loadLabyrinth(){
 			i = 0;
 		}
 	}
-	else{ // save wird geladen
+	else { // save wird geladen
 
 		cout << "xcoord: " << game.xCoord << endl;
 		cout << "ycoord: " << game.yCoord << endl;
 		cameraPos.x = game.xCoord; 
 		cameraPos.z = game.yCoord; 
 		cameraUp = glm::vec3(0, 1, 0);
-		cameraFront = glm::vec3(game.yCoord-1, 0, game.xCoord);
+		cameraFront = glm::vec3(game.xCoord, 0, game.yCoord-1);
 		switch (game.view) {
 			//case 1: cameraFront = glm::vec3(game.xCoord, 0, game.yCoord - 1);
 			case 2: cameraFront += glm::vec3(1, 0, 1);
