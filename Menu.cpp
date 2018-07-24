@@ -103,6 +103,7 @@ void loadLab() {
 	setFirstStart(false);
 	//start timer
 	ActualGame g = labyrinth.getActualGame();
+	g.stopTimer();
 	g.startTimer();
 	labyrinth.setActualGame(g);
 	//load labyrinth
@@ -204,6 +205,7 @@ void drawLabyrinth() {
 		zpos++;
 		xpos = 0;
 	}
+	ActualGame g = labyrinth.getActualGame();
 
 	glutSwapBuffers();
 	glutPostRedisplay();
