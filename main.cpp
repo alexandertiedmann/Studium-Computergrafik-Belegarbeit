@@ -25,21 +25,17 @@ void keys(unsigned char key, int xmouse, int ymouse) {
 	if (labyOpen) {
 		switch (key) {
 		case 27:
-			cout << "esc Key was pressed" << endl;
 			setMenuOpen(callMainMenu());
 			break;
 		case 'w':
-			cout << "w Key was pressed" << endl;
 			lab.movePlayer('w');
 			setLabyrinth(lab);
 			break;
 		case 'a':
-			cout << "a Key was pressed" << endl;
 			lab.movePlayer('a');
 			setLabyrinth(lab);
 			break;
 		case 'd':
-			cout << "d Key was pressed" << endl;
 			lab.movePlayer('d');
 			setLabyrinth(lab);
 			break;

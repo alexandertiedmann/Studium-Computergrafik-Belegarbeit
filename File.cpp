@@ -24,7 +24,6 @@ int dirExists(const string& dirName) {
 void checkDirectory(string directory) {
 	int check = dirExists(directory);
 	const char * dir = directory.c_str();
-	cout << "Check: " << check << endl;
 
 	if (check == 1 || check == 0) {
 		CreateDirectory(dir, NULL);
@@ -249,19 +248,26 @@ void addHighscore(int highscore) {
 
 	ifstream file(scorefile);
 
-	//Failure
-	if (!file) {
-		cout << "File not found." << endl;
-		ofstream outfile(scorefile);
+	string highscorestring(to_string(highscore));
+
+	if (highscorestring.length() < 2) {
+		cout << "You damn Cheater" << endl;
+	}
+	else {
+		//Failure
+		if (!file) {
+			cout << "File not found." << endl;
+			ofstream outfile(scorefile);
+			outfile << highscore;
+			outfile.close();
+		}
+		file.close();
+
+		ofstream outfile(scorefile, ios::app);
+		outfile << endl;
 		outfile << highscore;
 		outfile.close();
-	}
-	file.close();
-
-	ofstream outfile(scorefile, ios::app);
-	outfile << endl;
-	outfile << highscore;
-	outfile.close();
+	}	
 }
 
 /*

@@ -94,7 +94,7 @@ void Labyrinth::loadLabyrinth(){
 	}
 	
 
-	cout << "Labby" << endl;
+	//cout << "Labby" << endl;
  
 	bool isGameFinished = false;
 
