@@ -119,6 +119,8 @@ void checkFinish() {
 		else {
 			ActualGame g = labyrinth.getActualGame();
 			g.level = labyrinth.getActualGame().level + 1;
+			g.xCoord = 0;
+			g.yCoord = 0;
 			ActualLevel l = readLevel(g.level);
 			labyrinth.setActualGame(g);
 			labyrinth.setActualLevel(l);
