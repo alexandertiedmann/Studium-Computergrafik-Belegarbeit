@@ -119,6 +119,8 @@ void checkFinish() {
 		else {
 			ActualGame g = labyrinth.getActualGame();
 			g.level = labyrinth.getActualGame().level + 1;
+			g.xCoord = 0;
+			g.yCoord = 0;
 			ActualLevel l = readLevel(g.level);
 			labyrinth.setActualGame(g);
 			labyrinth.setActualLevel(l);
@@ -196,11 +198,11 @@ void drawLabyrinth() {
 		xpos = 0;
 	}
 
-	//labyrinth.playerFinished = labyrinth.isPlayerFinished();
-	checkFinish();
-
 	glutSwapBuffers();
 	glutPostRedisplay();
+
+	//labyrinth.playerFinished = labyrinth.isPlayerFinished();
+	checkFinish();
 }
 
 /*----------------------------------------------------------------------------------------
@@ -1201,7 +1203,6 @@ void MousePassiveMotion(int x, int y)
 			ButtonPassive(&CancelFin, x, y);
 			break;
 		}
-
 		/*
 		*	Note that I'm not using a glutPostRedisplay() call here. The passive motion function
 		*	is called at a very high frequency. We really don't want much processing to occur here.
@@ -1215,21 +1216,24 @@ void MousePassiveMotion(int x, int y)
 *
 */
 void renderScene(void) {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//glClearColor(1.0, 0.0, 0.0, 1.0);//clear red
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_DEPTH_BUFFER);
+	glClearColor(1.0, 0.0, 0.0, 1.0);//clear red
 	glutSwapBuffers();
 }
 
 bool closeMainMenu() {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glutSwapBuffers();
 	if (loadedMenu == 'M'){
 		loadedMenu = 'N';
 		glutMouseFunc(MouseFunc);
 		glutMotionFunc(MouseMotionFunc);
 		glutPassiveMotionFunc(MousePassiveMotionFunc);
-		//stop timer
+		//start timer
 		ActualGame g = labyrinth.getActualGame();
 		g.startTimer();
 		labyrinth.setActualGame(g);
+		//glDeleteProgram(0);
 		loadLab();
 		return false;
 	}
@@ -1239,6 +1243,8 @@ bool closeMainMenu() {
 }
 
 void callMenu() {
+	labyrinth.programID = 0;
+	glUseProgram(labyrinth.programID);
 	//unload Labyrinth
 	labbyOpen = false;
 	if (loadedMenu != 'N') {

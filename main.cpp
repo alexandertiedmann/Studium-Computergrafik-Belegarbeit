@@ -70,7 +70,6 @@ int main(int argc, char **argv){
 	glutInitWindowPosition(0, 0);
 	glutInitWindowSize(nScreenWidth, nScreenHeight);
 	glutCreateWindow("CG-Labyrinth");
-
 	glewInit();
 	glEnable(GL_DEPTH_TEST);
 	glutDisplayFunc(renderScene);

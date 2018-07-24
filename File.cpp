@@ -96,33 +96,42 @@ ActualGame readSave(int savenum) {
 
 	//Datei auslesen
 	string line;
+	cout << "Read Save: ";
 	while (getline(infile, line))
 	{
 		count++;
 		switch (count) {
 			case 1: //level
 				level = stoi(line);
+				cout << "Level: " << level << " | ";
 				break;
-			case 2: //xCoord
-				xCoord = stoi(line);
-				break;
-			case 3: //yCoord
+			case 2: //yCoord
 				yCoord = stoi(line);
+				cout << "yCoord: " << yCoord << " | ";
+				break;
+			case 3: //xCoord
+				xCoord = stoi(line);
+				cout << "xCoord: " << xCoord << " | ";
 				break;
 			case 4: //view
 				view = stoi(line);
+				cout << "view: " << view << " | ";
 				break;
 			case 5: //playtime
 				playtime = stoi(line);
+				cout << "playtime: " << playtime << " | ";
 				break;
 			case 6: //savedate
 				datesa = line;
+				cout << "savedate: " << datesa << " | ";
 				break;
 			case 7: //startdate
 				datest = line;
+				cout << "startdate: " << datest << " | ";
 				break;
 		}
 	}
+	cout << endl;
 	infile.close();
 
 	DateTime savedate(datesa);
@@ -210,15 +219,22 @@ void writeGame(int savenum, ActualGame game) {
 
 	//new and overwrite
 	std::ofstream outfile(savefile);
-
-	outfile << game.level << "\n";
-	outfile << game.xCoord << "\n";
-	outfile << game.yCoord << "\n";
-	outfile << game.view << "\n";
-	outfile << game.playtime << "\n";
-	outfile << game.savedate.toString() << "\n";
-	outfile << game.startdate.toString() << endl;
-
+	cout << "Write Save: ";
+	cout << "level: " << game.level << " | ";
+	outfile << game.level << endl;
+	cout << "yCoord: " << game.yCoord << " | ";
+	outfile << game.yCoord << endl;
+	cout << "xCoord: " << game.xCoord << " | ";
+	outfile << game.xCoord << endl;
+	cout << "view: " << game.view << " | ";
+	outfile << game.view << endl;
+	cout << "playtime: " << game.playtime << " | ";
+	outfile << game.playtime << endl;
+	cout << "savedate: " << game.savedate.toString() << " | ";
+	outfile << game.savedate.toString() << endl;
+	cout << "startdate: " << game.startdate.toString() << " | ";
+	outfile << game.startdate.toString();
+	cout << endl;
 	outfile.close();
 }
 
@@ -237,7 +253,7 @@ void addHighscore(int highscore) {
 	if (!file) {
 		cout << "File not found." << endl;
 		ofstream outfile(scorefile);
-		outfile << highscore << endl;
+		outfile << highscore;
 		outfile.close();
 	}
 	file.close();
