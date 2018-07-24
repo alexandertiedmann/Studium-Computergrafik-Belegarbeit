@@ -114,10 +114,6 @@ void loadLab() {
 void checkFinish() {
 	if (labyrinth.playerFinished) {
 		if (labyrinth.getActualGame().level == 20) {
-			//stop timer
-			ActualGame g = labyrinth.getActualGame();
-			g.stopTimer();
-			labyrinth.setActualGame(g);
 			callFin();
 		}
 		else {
@@ -160,7 +156,7 @@ void drawLabyrinth() {
 	// View eventuell aendern, um zu testen, um das Labyrinth anzuschauen
 	labyrinth.Model = glm::mat4(1.0f);
 
-	drawCube();
+	drawCube(true);
 	labyrinth.sendMVP();
 
 	//Boden
@@ -176,7 +172,7 @@ void drawLabyrinth() {
 	labyrinth.sendMVP();
 
 
-	drawCube(); // erst sendMVP, dann drawCube
+	drawCube(true); // erst sendMVP, dann drawCube
 
 				// Default zuruecksetzen
 	labyrinth.Model = DefaultModel;
@@ -191,7 +187,7 @@ void drawLabyrinth() {
 				labyrinth.Model = glm::translate(labyrinth.Model, glm::vec3(xpos, 0.0, zpos)); // translate Koordinaten sind abhaengig von den Koordinaten des Models, es findet eine Addition statt...
 				labyrinth.Model = glm::scale(labyrinth.Model, glm::vec3(0.5, 0.5, 0.5));
 				labyrinth.sendMVP();
-				drawCube();
+				drawCube(false);
 				//... Daher muss wieder auf das Default-Model gesetzt, damit Model wieder auf dem Ursprung sitzt
 				labyrinth.Model = DefaultModel;
 			}
@@ -271,7 +267,7 @@ void SaveMainMenu(){
 void NewMainMenu(){
 	//game
 	ActualGame game;
-	//cout << "Game: \n" << game.toString() << endl;
+	cout << "Game: \n" << game.toString() << endl;
 	//level
 	ActualLevel level = readLevel(game.level);
 	//cout << level.toString();
@@ -382,7 +378,7 @@ void save3() {
 void load(int saveslot) {
 	//game
 	ActualGame game = readSave(saveslot);
-	//cout << "Game: \n" << game.toString() << endl;
+	cout << "Game: \n" << game.toString() << endl;
 	//level
 	ActualLevel level = readLevel(game.level);
 	cout << level.toString();
@@ -707,7 +703,7 @@ void drawHighscores() {
 		for (int i = 0; i < highscoreslistnum; i++) {
 			string time = getTimeFromSec(highscores[i]);
 			scores.push_back(time.c_str());
-			//cout << "score " << i << " " << scores[i] << " size: " << scores.size() << endl;
+			cout << "score " << i << " " << scores[i] << " size: " << scores.size() << endl;
 		}
 	}
 
@@ -763,7 +759,7 @@ void drawHighscores() {
 	*/
 	if (highscores.size() > 1) {
 		for (int i = 0; i < scores.size(); i++) {
-			cout << "score " << i+1 << ": " << scores[i] << endl;
+			cout << "scores " << i << ": " << scores[i] << " size: " << scores.size() << endl;
 			fontx = x + (w - glutBitmapLength(GLUT_BITMAP_HELVETICA_12, (const unsigned char *)scores[i].c_str())) / 2;
 			fonty = (y + (((h * 10) / 100)*i) + ((y * 50) / 100));
 
@@ -836,16 +832,8 @@ void drawFinish() {
 	/*
 	*	Calculate the x and y coords for the text string in order to center it.
 	*/
-	string congraz;
 
-	cout << "Playtime Finsh: " << labyrinth.getActualGame().playtime << endl;
-
-	if (labyrinth.getActualGame().playtime < 20) {
-		congraz = "No congratulations you cheater!";
-	}
-	else {
-		congraz = "Congratulations you made the game";
-	}
+	string congraz = "Congratulation you made the game";
 	fontx = x + (w - glutBitmapLength(GLUT_BITMAP_HELVETICA_12, (const unsigned char *)congraz.c_str())) / 2;
 	fonty = (y + (h/2 + 10) / 2);
 	glColor3f(1, 1, 1);
@@ -858,7 +846,7 @@ void drawFinish() {
 	glColor3f(1, 1, 1);
 	Font(GLUT_BITMAP_HELVETICA_12, (char *)times.c_str(), fontx, fonty);
 
-	string time = getTimeFromSec(labyrinth.getActualGame().playtime);
+	string time = getTimeFromSec(getActualGameFromLabyrinth().playtime);
 	fontx = x + (w - glutBitmapLength(GLUT_BITMAP_HELVETICA_12, (const unsigned char *)time.c_str())) / 2;
 	fonty = (fonty + (h/2 + 10) / 2);
 	glColor3f(1, 1, 1);
@@ -1260,12 +1248,11 @@ void callMenu() {
 	//unload Labyrinth
 	labbyOpen = false;
 	if (loadedMenu != 'N') {
-		if (loadedMenu != 'F') {
-			//stop timer if not finish
-			ActualGame g = labyrinth.getActualGame();
-			g.stopTimer();
-			labyrinth.setActualGame(g);
-		}
+		//stop timer
+		ActualGame g = labyrinth.getActualGame();
+		g.stopTimer();
+		labyrinth.setActualGame(g);
+		
 		//load Menu
 		glutDisplayFunc(Draw);
 		//load Mouse Functions
@@ -1315,7 +1302,10 @@ void callHighscores() {
 void callFin() {
 	cout << "Finished the Game" << endl;
 	loadedMenu = 'F';
-	cout << "playtime add: " << labyrinth.getActualGame().playtime << endl;
-	addHighscore(labyrinth.getActualGame().playtime);
+	//stop timer
+	ActualGame g = labyrinth.getActualGame();
+	g.stopTimer();
+	labyrinth.setActualGame(g);
+	addHighscore(g.playtime);
 	callMenu();
 }
