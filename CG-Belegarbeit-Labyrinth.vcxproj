@@ -94,7 +94,10 @@
     </Link>
     <PostBuildEvent>
       <Command>xcopy $(SolutionDir)Dependencies\glew\*.dll $(OutputPath) /y
-xcopy $(SolutionDir)Dependencies\freeglut\*.dll $(OutputPath) /y</Command>
+xcopy $(SolutionDir)Dependencies\freeglut\*.dll $(OutputPath) /y
+xcopy $(SolutionDir)level\* $(OutputPath)\level\ /y
+xcopy $(SolutionDir)ColorFragmentShader.fragmentshader $(OutputPath) /y
+xcopy $(SolutionDir)TransformVertexShader.vertexshader $(OutputPath) /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
