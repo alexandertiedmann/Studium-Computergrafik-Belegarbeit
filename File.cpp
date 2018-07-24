@@ -48,7 +48,7 @@ DateTime readSavedate(int savenum) {
 	//Fehlermeldung bei nicht vorhandenem File
 	if (!infile) {
 		cout << "File not found." << endl;
-		DateTime fail("0000-00-00 00-00");
+		DateTime fail("0000-00-00 00:00");
 		return fail;
 	}
 
@@ -316,19 +316,24 @@ vector<int> readScores(int numScores) {
 	readfile.close();
 
 	//sort vec
-	if (scores.size() > 1) {
-		sort(scores.begin(), scores.end());
-
-		vector<int> highscores(numScores);
-		for (int i = 0; i < highscores.size(); i++) {
-			highscores[i] = scores[i];
+	if (scores.size() > 0) {
+		if (scores.size() > 1) {
+			sort(scores.begin(), scores.end());
 		}
-
+		vector<int> highscores;
+		for (int i = 0; i < scores.size(); i++) {
+			if (i > numScores) {
+				break;
+			}
+			highscores.push_back(scores[i]);
+		}
+		while (highscores.size() < numScores) {
+			highscores.push_back(0);
+		}
 		return highscores;
 	}
 	else {
-		vector<int> highscores(10);
-		highscores[0] = scores[0];
+		vector<int> highscores(0);
 		return highscores;
 	}
 }

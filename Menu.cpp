@@ -118,6 +118,11 @@ void loadLab() {
 void checkFinish() {
 	if (labyrinth.playerFinished) {
 		if (labyrinth.getActualGame().level == 20) {
+			//stop timer
+			ActualGame g = labyrinth.getActualGame();
+			g.stopTimer();
+			labyrinth.setActualGame(g);
+			addHighscore(g.playtime);
 			callFin();
 		}
 		else {
@@ -231,7 +236,8 @@ void ContinueMainMenu(){
 
 	//game
 	ActualGame game;
-	if (youngest.toString() == "0000-00-00 00-00") {
+	cout << youngest.toString() << endl;
+	if (youngest.toString() == "0000-00-00 00:00") {
 		game = game;
 	}
 	else {
@@ -763,7 +769,6 @@ void drawHighscores() {
 	*	Calculate the x and y coords for the text string in order to center it.
 	*/
 	if (highscores.size() > 0) {
-		cout << highscores.size() << endl;
 		for (int i = 0; i < scores.size(); i++) {
 			cout << "scores " << i << ": " << scores[i] << " size: " << scores.size() << endl;
 			fontx = x + (w - glutBitmapLength(GLUT_BITMAP_HELVETICA_12, (const unsigned char *)scores[i].c_str())) / 2;
@@ -1252,10 +1257,12 @@ void callMenu() {
 	//unload Labyrinth
 	labbyOpen = false;
 	if (loadedMenu != 'N') {
-		//stop timer
-		ActualGame g = labyrinth.getActualGame();
-		g.stopTimer();
-		labyrinth.setActualGame(g);
+		if (loadedMenu != 'F') {
+			//stop timer
+			ActualGame g = labyrinth.getActualGame();
+			g.stopTimer();
+			labyrinth.setActualGame(g);
+		}
 		
 		//load Menu
 		glutDisplayFunc(Draw);
@@ -1306,10 +1313,5 @@ void callHighscores() {
 void callFin() {
 	cout << "Finished the Game" << endl;
 	loadedMenu = 'F';
-	//stop timer
-	ActualGame g = labyrinth.getActualGame();
-	g.stopTimer();
-	labyrinth.setActualGame(g);
-	addHighscore(g.playtime);
 	callMenu();
 }
