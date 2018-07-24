@@ -114,6 +114,10 @@ void loadLab() {
 void checkFinish() {
 	if (labyrinth.playerFinished) {
 		if (labyrinth.getActualGame().level == 20) {
+			//stop timer
+			ActualGame g = labyrinth.getActualGame();
+			g.stopTimer();
+			labyrinth.setActualGame(g);
 			callFin();
 		}
 		else {
@@ -267,7 +271,7 @@ void SaveMainMenu(){
 void NewMainMenu(){
 	//game
 	ActualGame game;
-	cout << "Game: \n" << game.toString() << endl;
+	//cout << "Game: \n" << game.toString() << endl;
 	//level
 	ActualLevel level = readLevel(game.level);
 	//cout << level.toString();
@@ -378,7 +382,7 @@ void save3() {
 void load(int saveslot) {
 	//game
 	ActualGame game = readSave(saveslot);
-	cout << "Game: \n" << game.toString() << endl;
+	//cout << "Game: \n" << game.toString() << endl;
 	//level
 	ActualLevel level = readLevel(game.level);
 	cout << level.toString();
@@ -703,7 +707,7 @@ void drawHighscores() {
 		for (int i = 0; i < highscoreslistnum; i++) {
 			string time = getTimeFromSec(highscores[i]);
 			scores.push_back(time.c_str());
-			cout << "score " << i << " " << scores[i] << " size: " << scores.size() << endl;
+			//cout << "score " << i << " " << scores[i] << " size: " << scores.size() << endl;
 		}
 	}
 
@@ -759,7 +763,7 @@ void drawHighscores() {
 	*/
 	if (highscores.size() > 1) {
 		for (int i = 0; i < scores.size(); i++) {
-			cout << "scores " << i << ": " << scores[i] << " size: " << scores.size() << endl;
+			cout << "score " << i+1 << ": " << scores[i] << endl;
 			fontx = x + (w - glutBitmapLength(GLUT_BITMAP_HELVETICA_12, (const unsigned char *)scores[i].c_str())) / 2;
 			fonty = (y + (((h * 10) / 100)*i) + ((y * 50) / 100));
 
@@ -832,8 +836,16 @@ void drawFinish() {
 	/*
 	*	Calculate the x and y coords for the text string in order to center it.
 	*/
+	string congraz;
 
-	string congraz = "Congratulation you made the game";
+	cout << "Playtime Finsh: " << labyrinth.getActualGame().playtime << endl;
+
+	if (labyrinth.getActualGame().playtime < 20) {
+		congraz = "No congratulations you cheater!";
+	}
+	else {
+		congraz = "Congratulations you made the game";
+	}
 	fontx = x + (w - glutBitmapLength(GLUT_BITMAP_HELVETICA_12, (const unsigned char *)congraz.c_str())) / 2;
 	fonty = (y + (h/2 + 10) / 2);
 	glColor3f(1, 1, 1);
@@ -846,7 +858,7 @@ void drawFinish() {
 	glColor3f(1, 1, 1);
 	Font(GLUT_BITMAP_HELVETICA_12, (char *)times.c_str(), fontx, fonty);
 
-	string time = getTimeFromSec(getActualGameFromLabyrinth().playtime);
+	string time = getTimeFromSec(labyrinth.getActualGame().playtime);
 	fontx = x + (w - glutBitmapLength(GLUT_BITMAP_HELVETICA_12, (const unsigned char *)time.c_str())) / 2;
 	fonty = (fonty + (h/2 + 10) / 2);
 	glColor3f(1, 1, 1);
@@ -1248,11 +1260,12 @@ void callMenu() {
 	//unload Labyrinth
 	labbyOpen = false;
 	if (loadedMenu != 'N') {
-		//stop timer
-		ActualGame g = labyrinth.getActualGame();
-		g.stopTimer();
-		labyrinth.setActualGame(g);
-		
+		if (loadedMenu != 'F') {
+			//stop timer if not finish
+			ActualGame g = labyrinth.getActualGame();
+			g.stopTimer();
+			labyrinth.setActualGame(g);
+		}
 		//load Menu
 		glutDisplayFunc(Draw);
 		//load Mouse Functions
@@ -1302,10 +1315,7 @@ void callHighscores() {
 void callFin() {
 	cout << "Finished the Game" << endl;
 	loadedMenu = 'F';
-	//stop timer
-	ActualGame g = labyrinth.getActualGame();
-	g.stopTimer();
-	labyrinth.setActualGame(g);
-	addHighscore(g.playtime);
+	cout << "playtime add: " << labyrinth.getActualGame().playtime << endl;
+	addHighscore(labyrinth.getActualGame().playtime);
 	callMenu();
 }
