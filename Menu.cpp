@@ -762,7 +762,8 @@ void drawHighscores() {
 	/*
 	*	Calculate the x and y coords for the text string in order to center it.
 	*/
-	if (highscores.size() > 1) {
+	if (highscores.size() > 0) {
+		cout << highscores.size() << endl;
 		for (int i = 0; i < scores.size(); i++) {
 			cout << "scores " << i << ": " << scores[i] << " size: " << scores.size() << endl;
 			fontx = x + (w - glutBitmapLength(GLUT_BITMAP_HELVETICA_12, (const unsigned char *)scores[i].c_str())) / 2;
