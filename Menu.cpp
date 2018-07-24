@@ -1258,11 +1258,12 @@ void callMenu() {
 	//unload Labyrinth
 	labbyOpen = false;
 	if (loadedMenu != 'N') {
-		//stop timer
-		ActualGame g = labyrinth.getActualGame();
-		g.stopTimer();
-		labyrinth.setActualGame(g);
-		
+		if (loadedMenu != 'F') {
+			//stop timer if not finish
+			ActualGame g = labyrinth.getActualGame();
+			g.stopTimer();
+			labyrinth.setActualGame(g);
+		}
 		//load Menu
 		glutDisplayFunc(Draw);
 		//load Mouse Functions
