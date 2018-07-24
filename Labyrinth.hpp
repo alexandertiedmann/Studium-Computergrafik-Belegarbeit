@@ -47,6 +47,8 @@ public:
 	void setActualGame(ActualGame g);
 	ActualLevel getActualLevel();
 	void setActualLevel(ActualLevel l);
+
+
 };
 
 

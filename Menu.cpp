@@ -168,6 +168,8 @@ void drawLabyrinth() {
 
 	labyrinth.Model = glm::scale(labyrinth.Model, glm::vec3(labyrinth.getActualLevel().getLevelWidth(), 0.1, labyrinth.getActualLevel().getLevelHeight())); // skalieren, um genauso groﬂ wie das Labyrinth zu sein	
 	labyrinth.sendMVP();
+
+
 	drawCube(); // erst sendMVP, dann drawCube
 
 				// Default zuruecksetzen
