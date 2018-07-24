@@ -77,7 +77,7 @@ void Labyrinth::loadLabyrinth(){
 			i = 0;
 		}
 	}
-	else { // save wird geladen
+	else if (level.getLevel()[game.yCoord][game.xCoord] == '0'){ // save wird geladen
 
 		cout << "xcoord: " << game.xCoord << endl;
 		cout << "ycoord: " << game.yCoord << endl;
@@ -163,6 +163,8 @@ void Labyrinth::movePlayer(char keyPressed) {
 		}
 
 		if (level.getLevel()[game.yCoord][game.xCoord] == 'z') {
+			game.xCoord = 0;
+			game.yCoord = 0;
 			playerFinished = true;
 		}
 	}
