@@ -103,9 +103,13 @@ void loadLab() {
 	setFirstStart(false);
 	//start timer
 	ActualGame g = labyrinth.getActualGame();
+	g.stopTimer();
 	g.startTimer();
 	labyrinth.setActualGame(g);
 	//load labyrinth
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glutSwapBuffers();
+	glutPostRedisplay();
 	labyrinth.loadLabyrinth();
 	glutDisplayFunc(drawLabyrinth);
 }
@@ -197,6 +201,7 @@ void drawLabyrinth() {
 		zpos++;
 		xpos = 0;
 	}
+	ActualGame g = labyrinth.getActualGame();
 
 	glutSwapBuffers();
 	glutPostRedisplay();
@@ -1222,8 +1227,6 @@ void renderScene(void) {
 }
 
 bool closeMainMenu() {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glutSwapBuffers();
 	if (loadedMenu == 'M'){
 		loadedMenu = 'N';
 		glutMouseFunc(MouseFunc);

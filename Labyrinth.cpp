@@ -87,11 +87,14 @@ void Labyrinth::loadLabyrinth(){
 		cameraPos.z = game.yCoord; 
 		cameraUp = glm::vec3(0, 1, 0);
 		cameraFront = glm::vec3(game.xCoord, 0, game.yCoord-1);
-		switch (game.view) {
-			//case 1: cameraFront = glm::vec3(game.xCoord, 0, game.yCoord - 1);
-			case 2: cameraFront += glm::vec3(1, 0, 1);
-			case 3: cameraFront += glm::vec3(0, 0, 2);
-			case 4: cameraFront += glm::vec3(-1, 0, 1);
+		if (game.view == 2) {
+			cameraFront += glm::vec3(1, 0, 1);
+		}
+		else if (game.view == 3) {
+			cameraFront += glm::vec3(0, 0, 2);
+		}
+		else if (game.view == 4) {
+			cameraFront += glm::vec3(-1, 0, 1);
 		}
 	}
 	

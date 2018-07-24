@@ -93,7 +93,39 @@ int DateTime::getDate(char v) {
 */
 string DateTime::toString() {
 	ostringstream  date;
-	date << year << "-" << month << "-" << day << " " << hour << ":" << minute;
+	
+	string monthString;
+	if (to_string(month).length() < 2) {
+		monthString = "0" + to_string(month);
+	}
+	else {
+		monthString = to_string(month);
+	}
+
+	string dayString;
+	if (to_string(day).length() < 2) {
+		dayString = "0" + to_string(day);
+	}
+	else {
+		dayString = to_string(day);
+	}
+
+	string hourString;
+	if (to_string(hour).length() < 2) {
+		hourString = "0" + to_string(hour);
+	}
+	else {
+		hourString = to_string(hour);
+	}
+
+	string minuteString;
+	if (to_string(minute).length() < 2) {
+		minuteString = "0" + to_string(minute);
+	}
+	else {
+		minuteString = to_string(minute);
+	}
+	date << year << "-" << monthString << "-" << dayString << " " << hourString << ":" << minuteString;
 	return date.str();
 }
 
