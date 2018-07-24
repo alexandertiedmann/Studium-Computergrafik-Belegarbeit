@@ -132,11 +132,9 @@ static void createCube(bool isBoden)
 	glGenBuffers(1, &colorbuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
 	if (isBoden == 1) {
-		cout << "Boden" << test << endl;
 		glBufferData(GL_ARRAY_BUFFER, sizeof(g_color_buffer_data_TEST), g_color_buffer_data_TEST, GL_STATIC_DRAW);
 	}
 	else {
-		cout << "WAND" << test << endl;
 		glBufferData(GL_ARRAY_BUFFER, sizeof(g_color_buffer_data), g_color_buffer_data, GL_STATIC_DRAW);
 	}
 	
