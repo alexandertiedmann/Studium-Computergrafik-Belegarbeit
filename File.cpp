@@ -250,24 +250,38 @@ void addHighscore(int highscore) {
 
 	string highscorestring(to_string(highscore));
 
+	//check new file
+	string line;
+	ifstream readfile(scorefile);
+	int linecounter = 0;
+	int linelength = 0;
+	while (getline(readfile, line)) {
+		linecounter++;
+		if (linecounter == 1) {
+			if (line.length() > 1) {
+				linelength = line.length();
+			}
+		}
+	}
+	readfile.close();
+
 	if (highscorestring.length() < 2) {
 		cout << "You damn Cheater" << endl;
 	}
 	else {
-		//Failure
-		if (!file) {
-			cout << "File not found." << endl;
-			ofstream outfile(scorefile);
+		//check new file
+		if (linecounter != 1 && linelength < 2) {
+			ofstream outfile(scorefile, ios::app);
 			outfile << highscore;
 			outfile.close();
 		}
-		file.close();
-
-		ofstream outfile(scorefile, ios::app);
-		outfile << endl;
-		outfile << highscore;
-		outfile.close();
-	}	
+		else {
+			ofstream outfile(scorefile, ios::app);
+			outfile << endl;
+			outfile << highscore;
+			outfile.close();
+		}
+	}
 }
 
 /*
@@ -313,7 +327,8 @@ vector<int> readScores(int numScores) {
 		return highscores;
 	}
 	else {
-		vector<int> highscores(1);
+		vector<int> highscores(10);
+		highscores[0] = scores[0];
 		return highscores;
 	}
 }
